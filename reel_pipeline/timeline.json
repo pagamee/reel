@@ -1,0 +1,86 @@
+{
+  "total": 57.278,
+  "engine": "espeak",
+  "scenes": [
+    {
+      "id": "s1_hook",
+      "visual": "hook",
+      "narration": "Ti hanno pagato una parte dello stipendio in nero? Ecco cosa rischia davvero il tuo datore di lavoro.",
+      "start": 0.0,
+      "end": 6.878,
+      "dur": 6.878
+    },
+    {
+      "id": "s2_setup",
+      "visual": "payslip",
+      "narration": "Marco scopre che il suo TFR è stato calcolato solo sulla parte in busta paga. Ma per due anni ha preso seicento euro al mese in contanti.",
+      "start": 6.878,
+      "end": 16.476,
+      "dur": 9.597
+    },
+    {
+      "id": "s3_confront",
+      "visual": "confront",
+      "narration": "Così va dal suo capo e glielo dice chiaramente.",
+      "start": 16.476,
+      "end": 20.052,
+      "dur": 3.576
+    },
+    {
+      "id": "s4_deny",
+      "visual": "deny",
+      "narration": "Il datore nega tutto.",
+      "start": 20.052,
+      "end": 22.372,
+      "dur": 2.32
+    },
+    {
+      "id": "s5_proof",
+      "visual": "proof",
+      "narration": "Ma Marco ha le prove: messaggi, testimoni e i movimenti di cassa.",
+      "start": 22.372,
+      "end": 27.388,
+      "dur": 5.016
+    },
+    {
+      "id": "s6_threat",
+      "visual": "threat",
+      "narration": "E avverte: se non troviamo un accordo, mi rivolgo all'Ispettorato del Lavoro e all'INPS.",
+      "start": 27.388,
+      "end": 34.124,
+      "dur": 6.736
+    },
+    {
+      "id": "s7_risk",
+      "visual": "risk",
+      "narration": "A quel punto il datore rischia grosso: maxi sanzione per lavoro nero, contributi arretrati e interessi.",
+      "start": 34.124,
+      "end": 41.641,
+      "dur": 7.517
+    },
+    {
+      "id": "s8_cede",
+      "visual": "cede",
+      "narration": "E infatti cede subito.",
+      "start": 41.641,
+      "end": 44.246,
+      "dur": 2.605
+    },
+    {
+      "id": "s9_lesson",
+      "visual": "lawyer",
+      "narration": "Il lavoro in nero non fa risparmiare: espone il datore a rischi enormi. E il lavoratore può sempre far valere i suoi diritti.",
+      "start": 44.246,
+      "end": 52.985,
+      "dur": 8.739
+    },
+    {
+      "id": "s10_cta",
+      "visual": "cta",
+      "narration": "Hai vissuto una situazione simile? Parlane con noi.",
+      "start": 52.985,
+      "end": 57.278,
+      "dur": 4.293
+    }
+  ]
+}

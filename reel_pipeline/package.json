@@ -1,0 +1,13 @@
+{
+  "name": "pagamee-reel",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "preview": "node render.mjs preview",
+    "full": "node render.mjs full 30"
+  },
+  "dependencies": {
+    "playwright": "^1.49.0"
+  }
+}

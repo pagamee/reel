@@ -1,0 +1,6 @@
+node_modules/
+frames/
+preview_small/
+audio/*.wav
+audio/*.mp3
+audio/concat.txt

@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;padding:0;background:#ffffff;}
+  #stage{
+    width:1080px;height:1920px;position:relative;overflow:hidden;background:#ffffff;
+    font-family:'Humor Sans','Comic Neue',sans-serif;color:#141414;
+    -webkit-font-smoothing:antialiased;
+  }
+  .scene{position:absolute;inset:0;display:none;}
+  .scene svg.fig{position:absolute;inset:0;}
+  /* il simbolo € manca (è corrotto) in Humor Sans: lo prendiamo da Comic Neue */
+  .eur{font-family:'Comic Neue','DejaVu Sans',sans-serif;font-weight:700;}
+  .txt{position:absolute;left:0;right:0;text-align:center;padding:0 60px;box-sizing:border-box;}
+  .headline{font-size:82px;line-height:1.1;font-weight:700;}
+  .headline.small{font-size:64px;}
+  .caption{font-size:50px;line-height:1.24;color:#333;}
+  .red{color:#e5342b;} .green{color:#1a9e4b;} .blue{color:#2b5fb3;} .grey{color:#777;}
+
+  .bubble{
+    position:absolute;background:#fff;border:6px solid #141414;border-radius:38px;
+    padding:30px 38px;font-size:50px;line-height:1.22;font-weight:700;
+    text-align:center;box-sizing:border-box;
+    box-shadow:9px 11px 0 rgba(20,20,20,.10);
+  }
+  .tailsvg{position:absolute;overflow:visible;pointer-events:none;}
+  /* ogni riga è indivisibile: niente a-capo automatici sgraziati.
+     Se una riga è troppo larga, fitAll() rimpicciolisce il blocco. */
+  .ln{white-space:nowrap;display:inline-block;}
+
+  .stack{position:absolute;left:0;right:0;text-align:center;}
+  .stack .row{font-size:74px;font-weight:700;margin:10px 0;line-height:1.06;}
+  .wordmark{font-size:100px;font-weight:700;letter-spacing:2px;}
+  .prog{position:absolute;left:0;bottom:0;height:12px;background:#e5342b;width:0;}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+const TIMELINE = {"total": 57.278, "engine": "espeak", "scenes": [{"id": "s1_hook", "visual": "hook", "narration": "Ti hanno pagato una parte dello stipendio in nero? Ecco cosa rischia davvero il tuo datore di lavoro.", "start": 0.0, "end": 6.878, "dur": 6.878}, {"id": "s2_setup", "visual": "payslip", "narration": "Marco scopre che il suo TFR è stato calcolato solo sulla parte in busta paga. Ma per due anni ha preso seicento euro al mese in contanti.", "start": 6.878, "end": 16.476, "dur": 9.597}, {"id": "s3_confront", "visual": "confront", "narration": "Così va dal suo capo e glielo dice chiaramente.", "start": 16.476, "end": 20.052, "dur": 3.576}, {"id": "s4_deny", "visual": "deny", "narration": "Il datore nega tutto.", "start": 20.052, "end": 22.372, "dur": 2.32}, {"id": "s5_proof", "visual": "proof", "narration": "Ma Marco ha le prove: messaggi, testimoni e i movimenti di cassa.", "start": 22.372, "end": 27.388, "dur": 5.016}, {"id": "s6_threat", "visual": "threat", "narration": "E avverte: se non troviamo un accordo, mi rivolgo all'Ispettorato del Lavoro e all'INPS.", "start": 27.388, "end": 34.124, "dur": 6.736}, {"id": "s7_risk", "visual": "risk", "narration": "A quel punto il datore rischia grosso: maxi sanzione per lavoro nero, contributi arretrati e interessi.", "start": 34.124, "end": 41.641, "dur": 7.517}, {"id": "s8_cede", "visual": "cede", "narration": "E infatti cede subito.", "start": 41.641, "end": 44.246, "dur": 2.605}, {"id": "s9_lesson", "visual": "lawyer", "narration": "Il lavoro in nero non fa risparmiare: espone il datore a rischi enormi. E il lavoratore può sempre far valere i suoi diritti.", "start": 44.246, "end": 52.985, "dur": 8.739}, {"id": "s10_cta", "visual": "cta", "narration": "Hai vissuto una situazione simile? Parlane con noi.", "start": 52.985, "end": 57.278, "dur": 4.293}]};
+const W=1080,H=1920;
+const INK="#141414";
+
+/* ---------- easing ---------- */
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const easeOutCubic=x=>1-Math.pow(1-x,3);
+function easeOutBack(x){const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2);}
+const smoothIn=(lt,a,b)=>clamp((lt-a)/(b-a),0,1);
+
+/* ================= SVG figure builder =================
+   Stick figure "pulito". Coordinate locali: i piedi stanno a y=0,
+   x=0 è l'asse del corpo. person() restituisce un <g> già
+   traslato su cx e scalato di sc.
+   larm/rarm = posizione mano [x_dal_centro, y_verso_il_basso_dalla_spalla]
+   (stesso contratto del template di partenza, così le pose sono portabili).
+*/
+let UID=0;
+function person(o){
+  o=Object.assign({cx:540,sc:1,hair:'short',glasses:false,tie:null,
+    shirt:'white',face:'neutral',larm:[-118,215],rarm:[118,215],
+    lhand:'fist',rhand:'fist',hold:null,sweat:false,name:'fig'},o);
+
+  const HR=80, headCy=-560, neckTop=-478,
+        shTop=-455, shHW=76,          // spalle
+        sleeveY=-388, sleeveHW=104,   // fondo manica
+        hemY=-262, hemHW=92,          // orlo maglietta  (torso 193, gambe 262)
+        feetY=0;
+  const uid = ++UID;
+  const S=[];
+  const line=(x1,y1,x2,y2,w=9)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${INK}" stroke-width="${w}" stroke-linecap="round"/>`;
+  const circ=(x,y,r,fill="none",w=9,extra="")=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" stroke="${INK}" stroke-width="${w}" ${extra}/>`;
+  const path=(d,fill="none",w=9)=>`<path d="${d}" fill="${fill}" stroke="${INK}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+
+  /* ombra a terra */
+  S.push(`<ellipse cx="0" cy="16" rx="140" ry="24" fill="#000" opacity="0.08"/>`);
+
+  /* gambe: partono dall'orlo della maglietta */
+  S.push(line(-30,hemY-4,-62,feetY));
+  S.push(line( 30,hemY-4, 62,feetY));
+  S.push(line(-62,feetY,-96,feetY+2));   // piedi
+  S.push(line( 62,feetY, 96,feetY+2));
+
+  /* ---- maglietta / busto ---- */
+  const shirtD =
+    `M ${-shHW} ${shTop}`+
+    ` L ${-sleeveHW} ${sleeveY}`+          // spalla -> fondo manica sx
+    ` L ${-sleeveHW+30} ${sleeveY+22}`+    // risvolto manica
+    ` L ${-hemHW} ${hemY}`+                // fianco sx
+    ` L ${hemHW} ${hemY}`+                 // orlo
+    ` L ${sleeveHW-30} ${sleeveY+22}`+
+    ` L ${sleeveHW} ${sleeveY}`+
+    ` L ${shHW} ${shTop}`+
+    ` Q 0 ${shTop+44} ${-shHW} ${shTop} Z`; // scollo
+
+  const shirtFill = o.shirt==='blazer' ? "#dde5f0" : (o.shirt==='check' ? "#fdecea" : "#ffffff");
+  S.push(`<clipPath id="shirt${uid}"><path d="${shirtD}"/></clipPath>`);
+  S.push(path(shirtD, shirtFill));
+
+  if(o.shirt==='check'){
+    const g=[];
+    for(let gx=-100;gx<=100;gx+=34) g.push(`<line x1="${gx}" y1="${shTop-10}" x2="${gx}" y2="${hemY+4}" stroke="#e5342b" stroke-width="4" opacity="0.45"/>`);
+    for(let gy=shTop+6;gy<hemY;gy+=38)  g.push(`<line x1="-110" y1="${gy}" x2="110" y2="${gy}" stroke="#e5342b" stroke-width="4" opacity="0.45"/>`);
+    S.push(`<g clip-path="url(#shirt${uid})">${g.join("")}</g>`);
+  }
+  if(o.shirt==='blazer'){
+    // revers + camicia bianca a V
+    S.push(`<g clip-path="url(#shirt${uid})">
+      <path d="M ${-shHW+6} ${shTop+6} L -8 ${shTop+62} L 0 ${hemY} L ${-hemHW+18} ${hemY} Z" fill="#c3d0e2" stroke="none"/>
+      <path d="M ${shHW-6} ${shTop+6} L 8 ${shTop+62} L 0 ${hemY} L ${hemHW-18} ${hemY} Z" fill="#c3d0e2" stroke="none"/>
+      <path d="M -30 ${shTop+2} L 0 ${shTop+74} L 30 ${shTop+2}" fill="#ffffff" stroke="none"/>
+    </g>`);
+    S.push(path(`M -30 ${shTop+2} L 0 ${shTop+74} L 30 ${shTop+2}`,"none",6));
+    S.push(path(`M ${-shHW+10} ${shTop+14} L -6 ${shTop+70}`,"none",7));
+    S.push(path(`M ${shHW-10} ${shTop+14} L 6 ${shTop+70}`,"none",7));
+  }
+  S.push(path(shirtD,"none",9));          // contorno maglietta sopra i riempimenti
+
+  /* cravatta (corta, finisce a metà busto) */
+  if(o.tie){
+    const tieEnd = hemY-34;
+    S.push(`<path d="M 0 ${shTop+30} L -17 ${shTop+62} L 0 ${tieEnd} L 17 ${shTop+62} Z" fill="${o.tie}" stroke="${INK}" stroke-width="4"/>`);
+    S.push(`<path d="M -13 ${shTop+18} L 0 ${shTop+38} L 13 ${shTop+18}" fill="${o.tie}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>`);
+  }
+
+  /* ---- braccia ---- */
+  /* origine: fondo manica; mano: [x, y sotto la spalla] con riferimento sy */
+  const sy = shTop+18;
+  const armFrom = (sx,sy0,hx,hy,side)=>{
+    // leggera curva "a mano libera": il gomito si piega verso il basso/esterno
+    const mx=(sx+hx)/2 + side*10, my=(sy0+hy)/2 + 16;
+    return `<path d="M ${sx} ${sy0} Q ${mx} ${my} ${hx} ${hy}" fill="none" stroke="${INK}" stroke-width="9" stroke-linecap="round"/>`;
+  };
+  const laX=o.larm[0], laY=sy+o.larm[1];
+  const raX=o.rarm[0], raY=sy+o.rarm[1];
+  S.push(armFrom(-sleeveHW+20, sleeveY+14, laX, laY, -1));
+  S.push(armFrom( sleeveHW-20, sleeveY+14, raX, raY,  1));
+
+  /* mani: pugnetto tondo, oppure dito puntato, oppure palmo aperto */
+  const hand=(x,y,kind,side)=>{
+    if(kind==='point'){
+      return circ(x,y,14,"#fff",7)+line(x+side*12,y-4,x+side*46,y-14,8);
+    }
+    if(kind==='open'){   // palmo aperto: cerchio + 3 ditini
+      let d=circ(x,y,15,"#fff",7);
+      d+=line(x-10,y-14,x-12,y-34,7)+line(x+2,y-17,x+2,y-39,7)+line(x+13,y-13,x+18,y-33,7);
+      return d;
+    }
+    return circ(x,y,14,"#fff",7);
+  };
+
+  /* prop in mano destra */
+  if(o.hold==='phone'){
+    S.push(`<g transform="translate(${raX-34},${raY-92})"><rect x="0" y="0" width="74" height="126" rx="13" fill="#fff" stroke="${INK}" stroke-width="6"/><rect x="11" y="15" width="52" height="82" rx="4" fill="#dbe7ff"/><line x1="17" y1="32" x2="49" y2="32" stroke="#2b5fb3" stroke-width="5"/><line x1="17" y1="49" x2="56" y2="49" stroke="#9bb6e8" stroke-width="5"/><line x1="17" y1="64" x2="43" y2="64" stroke="#9bb6e8" stroke-width="5"/><circle cx="37" cy="110" r="6" fill="none" stroke="${INK}" stroke-width="4"/></g>`);
+  } else if(o.hold==='paper'){
+    S.push(`<g transform="translate(${raX-4},${raY-110})"><rect x="0" y="0" width="100" height="134" rx="6" fill="#fff" stroke="${INK}" stroke-width="5"/><line x1="15" y1="26" x2="85" y2="26" stroke="#2b5fb3" stroke-width="6"/><line x1="15" y1="50" x2="85" y2="50" stroke="#c7c7c7" stroke-width="5"/><line x1="15" y1="70" x2="70" y2="70" stroke="#c7c7c7" stroke-width="5"/><line x1="15" y1="90" x2="85" y2="90" stroke="#c7c7c7" stroke-width="5"/><line x1="15" y1="112" x2="60" y2="112" stroke="#e5342b" stroke-width="6"/></g>`);
+  } else if(o.hold==='cash'){
+    S.push(`<g transform="translate(${raX-46},${raY-60})">
+      <rect x="6" y="10" width="112" height="62" rx="6" fill="#eaf7ee" stroke="${INK}" stroke-width="5" transform="rotate(-7 62 41)"/>
+      <rect x="0" y="0" width="112" height="62" rx="6" fill="#eaf7ee" stroke="${INK}" stroke-width="5"/>
+      <circle cx="56" cy="31" r="17" fill="none" stroke="#1a9e4b" stroke-width="5"/>
+      <text x="56" y="45" font-family="Comic Neue, DejaVu Sans" font-weight="700" font-size="34" fill="#1a9e4b" text-anchor="middle">&#8364;</text></g>`);
+  }
+
+  S.push(hand(laX,laY,o.lhand,-1));
+  if(!o.hold) S.push(hand(raX,raY,o.rhand,1));
+  else S.push(circ(raX,raY,14,"#fff",7));
+
+  /* collo + testa */
+  S.push(line(0,neckTop,0,shTop+6,9));
+  S.push(circ(0,headCy,HR,"#fff",9,`data-head="1"`));
+
+  /* capelli */
+  if(o.hair==='grey'||o.hair==='short'){
+    const col = o.hair==='grey' ? "#9aa0a6" : INK;
+    S.push(`<path d="M ${-HR+6} ${headCy-22} Q 0 ${headCy-HR-26} ${HR-6} ${headCy-22}" fill="none" stroke="${col}" stroke-width="15" stroke-linecap="round"/>`);
+    if(o.hair==='grey'){
+      // stempiatura + basette
+      S.push(`<path d="M ${-HR+16} ${headCy-38} q 22 -20 44 -10" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round"/>`);
+      S.push(`<path d="M ${-HR+6} ${headCy-20} q -7 18 -1 30" fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round"/>`);
+      S.push(`<path d="M ${HR-6} ${headCy-20} q 7 18 1 30" fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round"/>`);
+    }
+  } else if(o.hair==='bob'){
+    // caschetto: due bande laterali fino alla mascella + frangia
+    const jaw=headCy+72, HAIR="#3b2b22";
+    S.push(`<path d="
+      M ${-HR-12} ${jaw}
+      L ${-HR-12} ${headCy-6}
+      Q ${-HR-12} ${headCy-HR-24} 0 ${headCy-HR-20}
+      Q ${HR+12} ${headCy-HR-24} ${HR+12} ${headCy-6}
+      L ${HR+12} ${jaw}
+      L ${HR-18} ${jaw}
+      L ${HR-18} ${headCy-16}
+      Q ${HR-34} ${headCy-58} 0 ${headCy-62}
+      Q ${-HR+34} ${headCy-58} ${-HR+18} ${headCy-16}
+      L ${-HR+18} ${jaw} Z" fill="${HAIR}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>`);
+  }
+
+  /* viso */
+  const ey=headCy-6, ex=30, my=headCy+42;
+  if(o.face==='angry'){
+    S.push(line(-ex-17,ey-26,-ex+13,ey-14,9));
+    S.push(line( ex-13,ey-14, ex+17,ey-26,9));
+  }
+  S.push(`<circle cx="${-ex}" cy="${ey}" r="7" fill="${INK}"/>`);
+  S.push(`<circle cx="${ex}" cy="${ey}" r="7" fill="${INK}"/>`);
+  if(o.glasses){
+    S.push(circ(-ex,ey,25,"none",6));
+    S.push(circ( ex,ey,25,"none",6));
+    S.push(line(-ex+25,ey,ex-25,ey,6));
+  }
+  if(o.face==='talk')        S.push(`<ellipse cx="0" cy="${my}" rx="23" ry="19" fill="#c0392b" stroke="${INK}" stroke-width="6"/>`);
+  else if(o.face==='worried')S.push(path(`M -27 ${my+9} Q 0 ${my-15} 27 ${my+9}`,"none",7));
+  else if(o.face==='angry')  S.push(path(`M -27 ${my+7} Q 0 ${my-11} 27 ${my+7}`,"none",7));
+  else if(o.face==='smile'||o.face==='calm') S.push(path(`M -31 ${my-7} Q 0 ${my+29} 31 ${my-7}`,"none",7));
+  else if(o.face==='flat')   S.push(line(-24,my+4,24,my+4,7));
+  else                       S.push(path(`M -22 ${my} Q 0 ${my+13} 22 ${my}`,"none",7));
+
+  if(o.face!=='angry'){
+    const by=ey-30, lift=(o.face==='worried')?-11:0, drop=(o.face==='worried')?9:0;
+    S.push(line(-ex-17,by+drop,-ex+14,by+lift,8));
+    S.push(line( ex-14,by+lift, ex+17,by+drop,8));
+  }
+  if(o.sweat){
+    S.push(`<path d="M ${HR+16} ${headCy-40} q 15 21 0 35 q -15 -14 0 -35 Z" fill="#7ec8f0" stroke="${INK}" stroke-width="3"/>`);
+    S.push(`<path d="M ${HR+34} ${headCy+18} q 11 15 0 25 q -11 -10 0 -25 Z" fill="#7ec8f0" stroke="${INK}" stroke-width="3"/>`);
+  }
+
+  return `<g transform="translate(${o.cx},0) scale(${o.sc})" data-fig="${o.name}">${S.join("")}</g>`;
+}
+
+/* i piedi stanno a y=0 in locale: wrappa traslando alla baseline voluta */
+function stageFig(inner, baseY){
+  return `<svg class="fig" viewBox="0 0 ${W} ${H}"><g transform="translate(0,${baseY})">${inner}</g></svg>`;
+}
+
+/* ---------- fumetto con codina puntata ----------
+   x,y,w = riquadro; tip = [x,y] punta della codina (verso chi parla);
+   lines = righe già decise a mano (mai a-capo automatici). */
+function bubble(opts){
+  const {x,y,w,tip,lines,fs=50,anim='pop',delay=0}=opts;
+  const PAD=38, BORD=6;
+  const inner = w - 2*PAD - 2*BORD;
+  const html = lines.map(l=>`<span class="ln">${l}</span>`).join('<br>');
+  // La codina non può essere disegnata qui: l'altezza del fumetto dipende dal
+  // testo (e dall'auto-fit). La costruisce buildTails() a layout finito.
+  return `<div class="bubble" data-anim="${anim}" data-delay="${delay}" data-bubble data-fit="${inner}"
+      style="left:${x}px;top:${y}px;width:${w}px;font-size:${fs}px">${html}
+      <svg class="tailsvg" data-tail data-tip="${tip[0]},${tip[1]}"></svg></div>`;
+}
+
+/* testo a righe fisse, con auto-restringimento se non ci sta */
+function T(lines, maxW=960){
+  return {html: lines.map(l=>`<span class="ln">${l}</span>`).join('<br>'), fit:maxW};
+}
+
+/* ---------- scene ---------- */
+function el(html){const d=document.createElement('div');d.innerHTML=html.trim();return d.firstChild;}
+
+/* pose riutilizzabili (mano = [x, y sotto la spalla]; y negativo = sopra la spalla) */
+const POSE={
+  down:     {larm:[-122,212], rarm:[122,212]},
+  shrug:    {larm:[-178,-16], rarm:[178,-16], lhand:'open', rhand:'open'},
+  handsUp:  {larm:[-152,-152], rarm:[152,-152], lhand:'open', rhand:'open'},
+  surrender:{larm:[-158,-126], rarm:[158,-126], lhand:'open', rhand:'open'},
+};
+
+/* riga di testo pronta all'uso: <span class="ln"> + data-fit */
+function txt(cls, style, lines, opts){
+  opts = opts||{};
+  const fit = opts.fit || 950;
+  const anim = opts.anim || 'rise';
+  const delay = opts.delay || 0;
+  const html = lines.map(l=>`<span class="ln">${l}</span>`).join('<br>');
+  return `<div class="${cls}" data-anim="${anim}" data-delay="${delay}" data-fit="${fit}" style="${style}">${html}</div>`;
+}
+
+function buildScenes(){
+  const stage=document.getElementById('stage');
+  const S={};
+
+  /* --- S1 hook: lavoratore che si stringe nelle spalle --- */
+  S.s1_hook=
+    txt('txt headline','top:132px',
+        ['Ti hanno pagato','una parte <span class="red">IN NERO</span>?'])+
+    txt('txt','top:398px;font-size:210px;line-height:1;color:#e5342b;font-weight:700',
+        ['?'],{anim:'pop',delay:0.30})+
+    stageFig(person(Object.assign({cx:540,sc:1.04,hair:'short',shirt:'check',face:'worried',name:'worker'},POSE.shrug)),1520)+
+    txt('txt caption','top:1608px',
+        ['Ecco cosa rischia <b>davvero</b>','il tuo datore di lavoro'],{delay:0.45});
+
+  /* --- S2 setup: busta paga in mano, il contante che manca --- */
+  S.s2_setup=
+    txt('txt headline small','top:126px',
+        ['TFR calcolato solo','sulla <span class="blue">busta paga</span>'])+
+    txt('txt','top:382px;font-size:94px;font-weight:700;line-height:1.14',
+        ['ma <span class="green">600<span class="eur">€</span>/mese</span> in contanti',
+         '<span style="font-size:0.66em">per <b>2 anni</b>, fuori busta</span>'],
+        {anim:'pop',delay:0.30})+
+    stageFig(person({cx:540,sc:1.08,hair:'short',shirt:'check',face:'flat',
+       larm:[-168,150],rarm:[168,132],hold:'paper',name:'worker'}),1575)+
+    txt('txt caption','top:1666px',
+        ['Il TFR va calcolato su <b>tutto</b>','quello che hai davvero preso'],{delay:0.6});
+
+  /* --- S3 confront: il lavoratore (sx) parla al datore (dx) --- */
+  S.s3_confront=
+    txt('txt headline small','top:112px',['Marco affronta il capo'])+
+    bubble({x:60,y:650,w:700,tip:[318,1056],fs:48,
+      lines:["«Il TFR l'hai calcolato","solo sulla parte ufficiale.»"]})+
+    stageFig(person({cx:318,sc:0.88,hair:'short',shirt:'check',face:'talk',
+       larm:[-124,205],rarm:[186,96],name:'worker'})+
+       person(Object.assign({cx:770,sc:0.88,hair:'grey',glasses:true,tie:'#5b2a86',
+       shirt:'white',face:'flat',name:'boss'},POSE.down)),1650);
+
+  /* --- S4 deny: il datore nega, mani alzate --- */
+  S.s4_deny=
+    txt('txt headline small','top:112px',['Il datore <span class="red">nega</span> tutto'])+
+    bubble({x:318,y:640,w:700,tip:[770,1054],fs:48,
+      lines:['«Non so di cosa parli,','ho sempre pagato tutto!»']})+
+    stageFig(person(Object.assign({cx:288,sc:0.88,hair:'short',shirt:'check',face:'flat',name:'worker'},POSE.down))+
+       person(Object.assign({cx:770,sc:0.88,hair:'grey',glasses:true,tie:'#5b2a86',
+       shirt:'white',face:'worried',name:'boss'},POSE.handsUp)),1650);
+
+  /* --- S5 proof: mostra il telefono, calmo --- */
+  S.s5_proof=
+    txt('txt','top:150px;font-size:128px;line-height:1.06;font-weight:700',
+        ['HO LE <span class="green">PROVE</span>'],{anim:'pop'})+
+    stageFig(person({cx:540,sc:1.08,hair:'short',shirt:'check',face:'calm',
+       larm:[-160,200],rarm:[164,120],hold:'phone',name:'worker'}),1545)+
+    txt('txt caption','top:1592px;font-size:54px',
+        ['messaggi · testimoni','movimenti di cassa'],{delay:0.35});
+
+  /* --- S6 threat: indica il datore, che suda --- */
+  S.s6_threat=
+    txt('txt headline small','top:104px',['«Altrimenti mi rivolgo a…»'])+
+    `<div class="stack" data-anim="pop" data-delay="0.25" style="top:378px">
+      <div class="row" data-fit="950" style="font-size:86px"><span class="ln"><span class="red">ISPETTORATO</span></span></div>
+      <div class="row" data-fit="950" style="font-size:86px"><span class="ln"><span class="red">DEL LAVORO</span></span></div>
+      <div class="row" data-fit="950" style="font-size:68px;margin-top:26px"><span class="ln">+ <span class="blue">INPS</span></span></div>
+    </div>`+
+    stageFig(person({cx:308,sc:0.92,hair:'short',shirt:'check',face:'angry',
+       larm:[-124,205],rarm:[196,64],rhand:'point',name:'worker'})+
+       person({cx:818,sc:0.76,hair:'grey',glasses:true,tie:'#5b2a86',shirt:'white',
+       face:'worried',sweat:true,larm:[-150,118],rarm:[150,118],name:'boss'}),1690);
+
+  /* --- S7 risk: il datore suda, elenco dei rischi --- */
+  S.s7_risk=
+    txt('txt headline small','top:110px',['Il datore <span class="red">rischia grosso</span>'])+
+    `<div class="stack" data-anim="pop" data-delay="0.25" style="top:356px">
+      <div class="row" data-fit="950" style="font-size:80px"><span class="ln"><span class="red">MAXI-SANZIONE</span></span></div>
+      <div class="row" data-fit="950" style="font-size:52px;color:#555;margin-top:2px"><span class="ln">per lavoro nero</span></div>
+      <div class="row" data-fit="950" style="font-size:62px;margin-top:30px"><span class="ln">contributi arretrati</span></div>
+      <div class="row" data-fit="950" style="font-size:62px"><span class="ln">+ interessi</span></div>
+    </div>`+
+    stageFig(person({cx:540,sc:0.92,hair:'grey',glasses:true,tie:'#5b2a86',shirt:'white',
+       face:'worried',sweat:true,larm:[-176,-40],rarm:[176,-40],lhand:'open',rhand:'open',name:'boss'}),1740);
+
+  /* --- S8 cede: il datore si arrende --- */
+  S.s8_cede=
+    txt('txt headline small','top:112px',['E <span class="green">cede</span> subito'])+
+    bubble({x:336,y:662,w:690,tip:[772,1066],fs:50,
+      lines:['«Aspetta…','troviamo un accordo.»']})+
+    stageFig(person({cx:288,sc:0.88,hair:'short',shirt:'check',face:'calm',
+       larm:[-124,205],rarm:[124,205],name:'worker'})+
+       // una sola mano avanti ("aspetta"), non due come nella scena del diniego
+       person({cx:772,sc:0.88,hair:'grey',glasses:true,tie:'#5b2a86',shirt:'white',
+       face:'worried',larm:[-118,206],rarm:[150,-104],rhand:'open',name:'boss'}),1660);
+
+  /* --- S9 lesson: l'avvocata parla allo spettatore --- */
+  S.s9_lesson=
+    txt('txt headline small','top:128px',['Il <span class="red">nero</span> non conviene'])+
+    txt('txt','top:330px;font-size:52px;line-height:1.28;color:#555',
+        ['Non fa risparmiare:','espone a rischi enormi'],{delay:0.30})+
+    stageFig(person({cx:540,sc:1.08,hair:'bob',shirt:'blazer',face:'calm',
+       larm:[-158,176],rarm:[168,142],name:'lawyer'}),1610)+
+    txt('txt','top:1658px;font-size:58px;line-height:1.26',
+        ['I tuoi diritti valgono.','<b>Sempre.</b>'],{delay:0.55});
+
+  /* --- S10 cta --- */
+  S.s10_cta=
+    txt('txt','top:298px;font-size:104px;line-height:1.12;font-weight:700',
+        ['Hai un caso','simile?'],{anim:'pop'})+
+    txt('txt','top:564px;font-size:60px;color:#333',['Parlane con noi'],{delay:0.35})+
+    stageFig(person({cx:540,sc:0.88,hair:'bob',shirt:'blazer',face:'smile',
+       larm:[-150,190],rarm:[178,-128],rhand:'open',name:'lawyer'}),1620)+
+    txt('txt wordmark','top:1672px;color:#e5342b',['Pagamee'],{delay:0.6});
+
+  const scenesWrap=[];
+  for(const sc of TIMELINE.scenes){
+    const div=document.createElement('div');
+    div.className='scene';
+    div.id='scene-'+sc.id;
+    div.innerHTML=(S[sc.id]||'')+`<div class="prog" data-prog></div>`;
+    stage.appendChild(div);
+    scenesWrap.push({...sc,dom:div});
+  }
+  return scenesWrap;
+}
+
+/* Se una riga non ci sta nella larghezza consentita, rimpicciolisce il blocco
+   finché non entra. Girato una sola volta, così cambiare copione non rompe il layout. */
+function fitAll(){
+  document.querySelectorAll('[data-fit]').forEach(el=>{
+    const maxW=parseFloat(el.getAttribute('data-fit'));
+    const lns=[...el.querySelectorAll('.ln')];
+    if(!lns.length) return;
+    const widest=()=>Math.max(...lns.map(n=>n.getBoundingClientRect().width));
+    let fs=parseFloat(getComputedStyle(el).fontSize), guard=0;
+    while(widest()>maxW && fs>20 && guard++<120){ fs-=2; el.style.fontSize=fs+'px'; }
+  });
+}
+
+/* Codina del fumetto: base sul bordo inferiore, punta sulla testa di chi parla.
+   Va costruita a layout finito perché l'altezza del fumetto dipende dal testo. */
+function buildTails(){
+  const BORD=6;
+  document.querySelectorAll('[data-bubble]').forEach(b=>{
+    const svg=b.querySelector('[data-tail]');
+    const [tipX,tipY]=svg.getAttribute('data-tip').split(',').map(Number);
+    const r=b.getBoundingClientRect();
+    const ox=r.left+BORD;                 // x=0 locale
+    const baseY=r.bottom-BORD;            // y=0 locale (bordo basso, interno)
+    const wpx=r.width-2*BORD;
+    const hpx=Math.max(24, tipY-baseY+12);
+    const cx=clamp(tipX, ox+86, ox+wpx-86);
+    const b1=cx-56-ox, b2=cx+44-ox;
+    const tx=tipX-ox, ty=tipY-baseY;
+    // il viewBox parte da -10 così la toppa bianca può coprire il bordo del fumetto
+    svg.setAttribute('viewBox',`0 -10 ${wpx} ${hpx+10}`);
+    svg.style.left='0px';
+    svg.style.top=(r.height-2*BORD-10)+'px';
+    svg.style.width=wpx+'px';
+    svg.style.height=(hpx+10)+'px';
+    // codina "a goccia": si assottiglia e si incurva verso chi parla
+    const d=`M ${b1} 0`+
+            ` C ${b1+(tx-b1)*0.20} ${ty*0.46}, ${tx-26} ${ty*0.78}, ${tx} ${ty}`+
+            ` C ${tx+10} ${ty*0.70}, ${b2+(tx-b2)*0.42} ${ty*0.40}, ${b2} 0 Z`;
+    svg.innerHTML=
+      `<path d="${d}" fill="#fff" stroke="#141414" stroke-width="6" stroke-linejoin="round"/>`+
+      `<rect x="${b1+7}" y="-9" width="${b2-b1-14}" height="15" fill="#fff"/>`;
+  });
+}
+
+let SCENES_DOM=null;
+function ready(){
+  if(SCENES_DOM) return;
+  SCENES_DOM=buildScenes();
+  // misura a scene visibili e senza trasformazioni, altrimenti i rettangoli
+  // risentono dell'animazione di entrata
+  const prev=[...document.querySelectorAll('.scene')].map(d=>d.style.display);
+  document.querySelectorAll('.scene').forEach(d=>d.style.display='block');
+  document.querySelectorAll('[data-anim]').forEach(n=>{n.style.transform='none';n.style.opacity='1';});
+  fitAll();
+  buildTails();
+  document.querySelectorAll('.scene').forEach((d,i)=>d.style.display=prev[i]||'none');
+}
+
+/* ---------- render di un singolo istante t ---------- */
+window.renderFrame=function(t){
+  ready();
+  let active=SCENES_DOM[0];
+  for(const s of SCENES_DOM){ if(t>=s.start && t<s.end){active=s;break;} if(t>=s.end)active=s; }
+  for(const s of SCENES_DOM){ s.dom.style.display=(s===active)?'block':'none'; }
+  const lt=t-active.start, dur=active.dur;
+  const fin=smoothIn(lt,0,0.26);
+  const fout=1-smoothIn(lt,dur-0.16,dur);
+  active.dom.style.opacity=(fin*fout).toFixed(3);
+
+  active.dom.querySelectorAll('[data-anim]').forEach(node=>{
+    const type=node.getAttribute('data-anim');
+    const delay=parseFloat(node.getAttribute('data-delay')||'0');
+    const AD=type==='pop'?0.52:0.48;
+    const p=clamp((lt-delay)/AD,0,1);
+    if(type==='pop'){
+      const e=easeOutBack(p);
+      node.style.opacity=clamp(p*1.8,0,1).toFixed(3);
+      node.style.transform=`translateY(${((1-e)*26).toFixed(2)}px) scale(${(0.66+0.34*e).toFixed(4)})`;
+      node.style.transformOrigin='center';
+    } else {
+      const e=easeOutCubic(p);
+      node.style.opacity=p.toFixed(3);
+      node.style.transform=`translateY(${((1-e)*52).toFixed(2)}px)`;
+    }
+  });
+
+  const pb=active.dom.querySelector('[data-prog]');
+  if(pb) pb.style.width=(100*t/TIMELINE.total).toFixed(2)+'%';
+};
+/* stato "a riposo" per il controllo layout: tutto a regime, nessuna animazione */
+window.settle=function(sceneId){
+  ready();
+  for(const s of SCENES_DOM){
+    const on = s.id===sceneId;
+    s.dom.style.display = on?'block':'none';
+    if(!on) continue;
+    s.dom.style.opacity='1';
+    s.dom.querySelectorAll('[data-anim]').forEach(n=>{ n.style.opacity='1'; n.style.transform='none'; });
+  }
+};
+window.__READY__=true;
+document.title='reel-ready';
+</script>
+</body>
+</html>
