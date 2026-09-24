@@ -1,0 +1,6 @@
+node_modules
+tts
+audio/
+out/still.png
+__pycache__/
+preview/[0-9]*.png

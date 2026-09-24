@@ -1,0 +1,248 @@
+{
+  "total": 71.72,
+  "engine": "kokoro-im_nicola-1.00",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.3,
+      "dur": 3.3,
+      "s0": 0.12,
+      "s1": 3.03
+    },
+    {
+      "id": "b02",
+      "visual": "resign",
+      "say": "Andrea si è dimesso: ha trovato un lavoro migliore.",
+      "text": "ANDREA SI È DIMESSO: HA TROVATO UN [g]LAVORO MIGLIORE[/g]",
+      "start": 3.3,
+      "end": 6.19,
+      "dur": 2.89,
+      "s0": 3.4,
+      "s1": 5.875
+    },
+    {
+      "id": "b03",
+      "visual": "bossno",
+      "say": "Il capo la prende male. «Il TFR? Te lo scordi.»",
+      "text": "IL CAPO LA PRENDE MALE. «IL TFR? [r]TE LO SCORDI[/r]»",
+      "start": 6.19,
+      "end": 9.5,
+      "dur": 3.31,
+      "s0": 6.29,
+      "s1": 9.36
+    },
+    {
+      "id": "b04",
+      "visual": "rate",
+      "say": "«Te lo do a rate: trecento euro al mese. Se mi va.»",
+      "text": "«TE LO DO [r]A RATE[/r]: 300 EURO AL MESE. SE MI VA»",
+      "start": 9.5,
+      "end": 12.19,
+      "dur": 2.69,
+      "s0": 9.6,
+      "s1": 12.03
+    },
+    {
+      "id": "b05",
+      "visual": "causa",
+      "say": "«Non ti sta bene? Fammi causa: ci vediamo tra cinque anni.»",
+      "text": "«NON TI STA BENE? [r]FAMMI CAUSA[/r]: CI VEDIAMO TRA 5 ANNI»",
+      "start": 12.19,
+      "end": 15.43,
+      "dur": 3.24,
+      "s0": 12.29,
+      "s1": 15.29
+    },
+    {
+      "id": "b06",
+      "visual": "wrong",
+      "say": "Peccato che abbia torto su tutto.",
+      "text": "PECCATO CHE ABBIA [g]TORTO SU TUTTO[/g]",
+      "start": 15.43,
+      "end": 17.29,
+      "dur": 1.86,
+      "s0": 15.53,
+      "s1": 17.08
+    },
+    {
+      "id": "b07",
+      "visual": "gift",
+      "say": "Il TFR non è un regalo, e nemmeno un premio fedeltà.",
+      "text": "IL TFR [r]NON È UN REGALO[/r], E NEMMENO UN PREMIO FEDELTÀ",
+      "start": 17.29,
+      "end": 20.38,
+      "dur": 3.09,
+      "s0": 17.39,
+      "s1": 20.25
+    },
+    {
+      "id": "b08",
+      "visual": "savings",
+      "say": "È stipendio che hai già guadagnato: l'azienda lo ha solo messo da parte, mese dopo mese.",
+      "text": "È [g]STIPENDIO GIÀ GUADAGNATO[/g]: L'AZIENDA LO HA SOLO MESSO DA PARTE",
+      "start": 20.38,
+      "end": 24.99,
+      "dur": 4.61,
+      "s0": 20.48,
+      "s1": 24.69
+    },
+    {
+      "id": "b09",
+      "visual": "law",
+      "say": "E per il Codice Civile spetta sempre, quando il rapporto finisce.",
+      "text": "PER IL CODICE CIVILE [g]SPETTA SEMPRE[/g], QUANDO IL RAPPORTO FINISCE",
+      "start": 24.99,
+      "end": 28.46,
+      "dur": 3.47,
+      "s0": 25.09,
+      "s1": 28.29
+    },
+    {
+      "id": "b10",
+      "visual": "law",
+      "say": "Anche se sei tu a dimetterti.",
+      "text": "[g]ANCHE SE SEI TU A DIMETTERTI[/g]",
+      "start": 28.46,
+      "end": 30.12,
+      "dur": 1.66,
+      "s0": 28.56,
+      "s1": 29.94
+    },
+    {
+      "id": "b11",
+      "visual": "payday",
+      "say": "Quando? Di solito con l'ultima busta paga, o nei tempi del tuo contratto collettivo.",
+      "text": "QUANDO? DI SOLITO CON L'[g]ULTIMA BUSTA PAGA[/g] O NEI TEMPI DEL TUO CCNL",
+      "start": 30.12,
+      "end": 34.55,
+      "dur": 4.43,
+      "s0": 30.22,
+      "s1": 34.25
+    },
+    {
+      "id": "b12",
+      "visual": "norate",
+      "say": "E le rate? Senza il tuo accordo, non può importele.",
+      "text": "E LE RATE? [r]SENZA IL TUO ACCORDO[/r] NON PUÒ IMPORTELE",
+      "start": 34.55,
+      "end": 37.51,
+      "dur": 2.96,
+      "s0": 34.65,
+      "s1": 37.39
+    },
+    {
+      "id": "b13",
+      "visual": "decree",
+      "say": "Se non paga, si chiede al giudice un decreto ingiuntivo.",
+      "text": "SE NON PAGA, SI CHIEDE AL GIUDICE UN [g]DECRETO INGIUNTIVO[/g]",
+      "start": 37.51,
+      "end": 40.51,
+      "dur": 3.0,
+      "s0": 37.61,
+      "s1": 40.24
+    },
+    {
+      "id": "b14",
+      "visual": "decree",
+      "say": "Con la busta paga come prova, i tempi sono brevi. Altro che cinque anni.",
+      "text": "CON LA BUSTA PAGA COME PROVA I TEMPI SONO BREVI. [r]ALTRO CHE 5 ANNI[/r]",
+      "start": 40.51,
+      "end": 44.66,
+      "dur": 4.15,
+      "s0": 40.61,
+      "s1": 44.42
+    },
+    {
+      "id": "b15",
+      "visual": "bank",
+      "say": "E se il decreto è esecutivo, si può pignorare il conto dell'azienda.",
+      "text": "E SE È ESECUTIVO, SI PUÒ [r]PIGNORARE IL CONTO[/r] DELL'AZIENDA",
+      "start": 44.66,
+      "end": 48.27,
+      "dur": 3.61,
+      "s0": 44.76,
+      "s1": 48.1
+    },
+    {
+      "id": "b16",
+      "visual": "costs",
+      "say": "Con interessi e, di solito, spese legali a carico suo.",
+      "text": "CON [g]INTERESSI[/g] E, DI SOLITO, [g]SPESE LEGALI[/g] A CARICO SUO",
+      "start": 48.27,
+      "end": 51.48,
+      "dur": 3.21,
+      "s0": 48.37,
+      "s1": 51.26
+    },
+    {
+      "id": "b17",
+      "visual": "fondo",
+      "say": "E se l'azienda fallisce? Il TFR lo paga il Fondo di garanzia dell'INPS.",
+      "text": "E SE L'AZIENDA FALLISCE? PAGA IL [g]FONDO DI GARANZIA INPS[/g]",
+      "start": 51.48,
+      "end": 55.38,
+      "dur": 3.9,
+      "s0": 51.58,
+      "s1": 55.26
+    },
+    {
+      "id": "b18",
+      "visual": "explain",
+      "say": "Andrea glielo spiega, con calma.",
+      "text": "ANDREA GLIELO SPIEGA, [g]CON CALMA[/g]",
+      "start": 55.38,
+      "end": 57.67,
+      "dur": 2.29,
+      "s0": 55.48,
+      "s1": 57.37
+    },
+    {
+      "id": "b19",
+      "visual": "paid",
+      "say": "E il TFR arriva con l'ultima busta paga. Tutto, e senza rate.",
+      "text": "E IL TFR ARRIVA CON L'ULTIMA BUSTA PAGA. [g]TUTTO, E SENZA RATE[/g]",
+      "start": 57.67,
+      "end": 61.86,
+      "dur": 4.19,
+      "s0": 57.77,
+      "s1": 61.71
+    },
+    {
+      "id": "b20",
+      "visual": "moral",
+      "say": "Il TFR è tuo. E nessuno può usarlo come ricatto.",
+      "text": "IL TFR È [g]TUO[/g]. E NESSUNO PUÒ USARLO [r]COME RICATTO[/r]",
+      "start": 61.86,
+      "end": 65.13,
+      "dur": 3.27,
+      "s0": 61.96,
+      "s1": 64.85
+    },
+    {
+      "id": "b21",
+      "visual": "cta",
+      "say": "Ti stanno facendo aspettare il TFR?",
+      "text": "TI STANNO FACENDO [r]ASPETTARE IL TFR[/r]?",
+      "start": 65.13,
+      "end": 67.55,
+      "dur": 2.42,
+      "s0": 65.23,
+      "s1": 67.3
+    },
+    {
+      "id": "b22",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 67.55,
+      "end": 71.72,
+      "dur": 4.17,
+      "s0": 67.65,
+      "s1": 70.96
+    }
+  ]
+}
