@@ -8,10 +8,18 @@ set -euo pipefail
 cd "$(dirname "$0")"
 ENGINE="${1:-kokoro}"
 
+for tool in ffmpeg ffprobe node; do
+  command -v "$tool" >/dev/null 2>&1 || {
+    echo "ERRORE: manca $tool. In una sessione nuova: apt-get install -y ffmpeg (node: npm install richiede Node 18+)" >&2
+    exit 1
+  }
+done
+[ -d node_modules/playwright ] || npm install --silent
+
 if [ "$ENGINE" = "kokoro" ] && { [ ! -x tts/venv/bin/python ] || [ ! -f tts/kokoro/kokoro-v1.0.onnx ]; }; then
   ./setup_tts.sh kokoro
 fi
-if [ "$ENGINE" = "piper" ] && [ ! -x tts/piper/piper ]; then
+if [ "$ENGINE" = "piper" ] && { [ ! -x tts/piper/piper ] || [ ! -f tts/it-riccardo_fasol-x-low.onnx ]; }; then
   ./setup_tts.sh piper
 fi
 

@@ -42,10 +42,17 @@ setup_kokoro() {
   echo "== Kokoro (voce predefinita)"
   local V=tts/venv
   if ! "$V/bin/python" -c "import kokoro_onnx, misaki.espeak, soundfile" >/dev/null 2>&1; then
-    [ -x "$V/bin/python" ] || "$PY" -m venv "$V"
-    "$V/bin/pip" install -q -U pip
+    # misaki-fork 0.9.6 richiede Python 3.10-3.12
+    local OKPY='import sys; sys.exit(not (3, 10) <= sys.version_info[:2] <= (3, 12))'
+    "$PY" -c "$OKPY" || { echo "ERRORE: serve Python 3.10-3.12 (es. PYTHON=python3.12 $0)" >&2; exit 1; }
+    # venv lasciato a metà da un tentativo precedente (senza pip o con un altro Python): si rifà
+    if ! "$V/bin/python" -c "$OKPY" 2>/dev/null || ! "$V/bin/python" -m pip --version >/dev/null 2>&1; then
+      rm -rf "$V"
+      "$PY" -m venv "$V"
+    fi
+    "$V/bin/python" -m pip install -q -U pip
     # misaki-fork senza extra: niente torch né spacy
-    "$V/bin/pip" install -q "kokoro-onnx==0.6.1" "misaki-fork==0.9.6" "soundfile>=0.12"
+    "$V/bin/python" -m pip install -q "kokoro-onnx==0.6.1" "misaki-fork==0.9.6" "soundfile>=0.12"
   fi
   mkdir -p tts/kokoro
   local REL=https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.1

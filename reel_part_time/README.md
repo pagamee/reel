@@ -11,6 +11,8 @@ Output: `out/reel.mp4` — 1080×1920, H.264 yuv420p, 30 fps, AAC stereo.
 
 ## Rigenerare
 
+Servono `ffmpeg`, Node 18+ e Python 3.10–3.12 (in una sessione nuova: `apt-get install -y ffmpeg`).
+
 ```bash
 npm install
 ./build.sh                    # voce Kokoro offline (al primo giro la installa con ./setup_tts.sh)
@@ -43,6 +45,9 @@ va nel repo. `gen_audio.py` si rilancia da solo dentro `tts/venv`.
   elaborazione leggera: passa-alto, +1,5 dB di presenza, compressione 2:1, limitatore
   a −1,5 dBFS), `timeline.json`, e `audio/voice_report.json` con pause, energia ai
   confini e loudness.
+- **Ripetibile**: la sintesi usa un seed fisso (`KOKORO_SEED`, predefinito 1234), quindi
+  la stessa build dà sempre lo stesso audio e la stessa timeline; cambiando seed si
+  ottiene un'altra "ripresa" della stessa lettura.
 - Altre voci/velocità: `KOKORO_VOICE=if_sara KOKORO_SPEED=0.9 ./build.sh`
   (oppure `python3 gen_audio.py --voice if_sara --speed 0.9`).
 

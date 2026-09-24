@@ -40,6 +40,7 @@ import array
 import base64
 import difflib
 import glob
+import http.client
 import json
 import math
 import operator
@@ -96,6 +97,9 @@ KOKORO_RESPELL = [
     (r"\bfai\b", "fài"),                     # fˈaːi -> dittongo
     (r"\bstipendio\b", "stipèndio"),         # e aperta
     (r"(?<![\w'])è\b", "èh"),                  # verbo "è": espeak lo fa atono (e), così è ˈɛ
+    (r"\bC'è\b", "Cè"),                      # le stesse, a inizio frase
+    (r"\bPiù\b", "Piú"),
+    (r"(?<![\w'])È\b", "Èh"),
 ]
 # Correzioni sui fonemi: con le ɪ finali di espeak "Scrivici" viene capito "scriveci"
 KOKORO_PHONFIX = {"skrˈiːvɪʧɪ": "skrˈiviʧi"}
@@ -178,6 +182,21 @@ def frame_rms(x, sr, frame=FRAME):
     return out or [0.0]
 
 
+def frame_dur(sr):
+    """Durata vera del frame usato da frame_rms (10 ms arrotondati a un numero intero di campioni)."""
+    return max(1, int(round(sr * FRAME))) / sr
+
+
+def hp_copy(x, sr):
+    """Copia solo per l'analisi, con lo stesso passa-alto della catena finale: il rombo sotto i
+    60 Hz dell'audio grezzo (~-40 dB) altrimenti allunga la voce dentro le pause."""
+    with tempfile.TemporaryDirectory() as d:
+        a, b = os.path.join(d, "a.wav"), os.path.join(d, "b.wav")
+        write_wav(a, x, sr)
+        run(["ffmpeg", "-y", "-v", "error", "-i", a, "-af", "highpass=f=60:p=2", "-c:a", "pcm_s16le", b])
+        return read_wav(b)[0]
+
+
 def runs_of(mask):
     """[(k0, k1)] delle sequenze True, k1 escluso."""
     out, start = [], None
@@ -253,6 +272,9 @@ def synth_kokoro(out_dir, voice, speed):
     for p in (KOKORO_MODEL, KOKORO_VOICES):
         if not os.path.exists(p):
             sys.exit(f"Manca {p}: lancia prima ./setup_tts.sh")
+    import onnxruntime as ort
+    seed = int(os.environ.get("KOKORO_SEED", "1234"))
+    ort.set_seed(seed)  # prima di creare la sessione: così ogni build dà la stessa ripresa
     k = Kokoro(KOKORO_MODEL, KOKORO_VOICES)
     if not k.has_timings:
         sys.exit("Il modello Kokoro non restituisce le durate: serve model-files-v1.1 (./setup_tts.sh)")
@@ -282,16 +304,18 @@ def synth_kokoro(out_dir, voice, speed):
     x.frombytes(pcm.tobytes())
     if sys.byteorder == "big":
         x.byteswap()
-    info = {"engine": "kokoro", "voice": voice, "speed": speed, "model": os.path.basename(KOKORO_MODEL),
+    info = {"engine": "kokoro", "voice": voice, "speed": speed, "seed": seed,
+            "model": os.path.basename(KOKORO_MODEL),
             "native_sr": sr, "compute_s": round(calc, 1), "phonemes": dict(zip((b["id"] for b in BEATS), parts))}
     print(f"Kokoro {voice} @ {speed}: {len(audio) / sr:.1f}s di parlato continuo in {calc:.1f}s "
           f"({len(full)} fonemi)")
     return x, sr, spans, info
 
 
-def trim_quiet(x, sr, rel_db=QUIET_DB):
-    """Toglie il silenzio in testa e in coda (soglia relativa al frame più forte)."""
-    rms = frame_rms(x, sr)
+def trim_quiet(x, sr, rel_db=QUIET_DB, ana=None):
+    """Toglie il silenzio in testa e in coda (soglia relativa al frame più forte).
+    ana = copia su cui misurare l'energia (stessa lunghezza di x), se diversa da x."""
+    rms = frame_rms(ana if ana is not None else x, sr)
     thr = max(rms) * db2lin(rel_db)
     loud = [k for k, v in enumerate(rms) if v > thr]
     if not loud:
@@ -308,8 +332,8 @@ def trim_quiet(x, sr, rel_db=QUIET_DB):
 def synth_per_beat(engine, out_dir, rec_dir):
     """Una battuta alla volta (piper, espeak, rec), unite con pause secondo la punteggiatura."""
     sr = SR_OUT
-    if engine == "piper" and not os.path.exists(PIPER_BIN):
-        sys.exit("Piper non installato: lancia prima ./setup_tts.sh piper")
+    if engine == "piper" and not (os.path.exists(PIPER_BIN) and os.path.exists(PIPER_MODEL)):
+        sys.exit("Piper o la voce riccardo mancanti: lancia prima ./setup_tts.sh piper")
     x, spans = array.array("h"), []
     for i, b in enumerate(BEATS):
         mono = os.path.join(out_dir, f"_{b['id']}_mono.wav")
@@ -339,11 +363,11 @@ def synth_per_beat(engine, out_dir, rec_dir):
 
 
 # ---------------------------------------------------------------- ElevenLabs
-def el_http(method, path, key, body=None, query=None, timeout=300):
+def el_http(method, path, key, body=None, query=None, timeout=300, retries=3):
     """Chiamata REST ElevenLabs (sostituibile nei test). Ritorna il corpo in bytes."""
     url = EL_BASE + path + ("?" + urllib.parse.urlencode(query) if query else "")
     data = json.dumps(body).encode("utf-8") if body is not None else None
-    for attempt in range(4):
+    for attempt in range(retries + 1):
         req = urllib.request.Request(url, data=data, method=method)
         req.add_header("xi-api-key", key)
         req.add_header("Accept", "application/json")
@@ -354,15 +378,20 @@ def el_http(method, path, key, body=None, query=None, timeout=300):
                 return r.read()
         except urllib.error.HTTPError as e:
             msg = e.read()[:600].decode("utf-8", "replace")
-            if e.code in (429, 500, 502, 503, 504) and attempt < 3:
+            if e.code in (429, 500, 502, 503, 504) and attempt < retries:
                 time.sleep(3 * 2 ** attempt)
                 continue
             sys.exit(f"ElevenLabs {method} {path}: HTTP {e.code}\n{msg}")
         except urllib.error.URLError as e:
-            if attempt < 3:
+            if attempt < retries:
                 time.sleep(3 * 2 ** attempt)
                 continue
             sys.exit(f"ElevenLabs non raggiungibile ({e.reason}): la rete deve consentire api.elevenlabs.io")
+        except (http.client.HTTPException, OSError) as e:  # connessione chiusa, timeout, corpo troncato
+            if attempt < retries:
+                time.sleep(3 * 2 ** attempt)
+                continue
+            sys.exit(f"ElevenLabs {method} {path}: connessione interrotta ({e!r})")
     raise AssertionError("non raggiunto")
 
 
@@ -443,19 +472,23 @@ def el_char_times(text, alignment):
 
 
 def el_decode(audio_bytes, fmt, dst_wav, tmp):
-    """Audio della risposta -> WAV mono 16 bit alla frequenza nativa del formato."""
+    """Audio della risposta -> WAV mono 16 bit a SR_OUT (i tempi dell'allineamento sono in secondi)."""
     if fmt.startswith("pcm_"):
         sr = int(fmt.split("_")[1])
         x = array.array("h")
         x.frombytes(audio_bytes[:len(audio_bytes) // 2 * 2])
         if sys.byteorder == "big":
             x.byteswap()
-        write_wav(dst_wav, x, sr)
-        return
-    src = tmp + "." + fmt.split("_")[0]
-    with open(src, "wb") as f:
-        f.write(audio_bytes)
-    to_mono_wav(src, dst_wav)
+        src = tmp + "_native.wav"
+        write_wav(src, x, sr)
+    elif fmt.split("_")[0] in ("mp3", "opus", "wav"):
+        src = tmp + "." + fmt.split("_")[0]
+        with open(src, "wb") as f:
+            f.write(audio_bytes)
+    else:
+        sys.exit(f"ELEVENLABS_OUTPUT_FORMAT={fmt} non supportato: usa mp3_*, pcm_*, opus_* o wav_*")
+    to_mono_wav(src, dst_wav, SR_OUT)
+    os.remove(src)
 
 
 def synth_eleven(out_dir):
@@ -481,7 +514,7 @@ def synth_eleven(out_dir):
         if model in EL_LANG_MODELS:
             body["language_code"] = "it"
         resp = json.loads(el_http("POST", f"/v1/text-to-speech/{voice_id}/with-timestamps", key,
-                                  body, {"output_format": fmt}))
+                                  body, {"output_format": fmt}, retries=1))
         al = resp.get("alignment") or resp.get("normalized_alignment")
         if not al:
             sys.exit("Risposta ElevenLabs senza allineamento")
@@ -513,22 +546,25 @@ def synth_eleven(out_dir):
 # ================================================================ pause, confini, timeline
 def shape(x, sr, spans, max_pause):
     """Accorcia le pause troppo lunghe, toglie il silenzio ai bordi, aggiunge attacco e coda."""
-    rms = frame_rms(x, sr)
+    xa = hp_copy(x, sr)
+    rms = frame_rms(xa, sr)
     thr = max(rms) * db2lin(QUIET_DB)
     n = len(rms)
     fs = int(round(sr * FRAME))
+    F = frame_dur(sr)
     cuts, capped = [], []
     for k0, k1 in runs_of([v <= thr for v in rms]):
         if k0 == 0 or k1 >= n:
             continue  # testa e coda: gestite sotto
-        length = (k1 - k0) * FRAME
+        length = (k1 - k0) * F
         if length > max_pause + 1e-6:
             half = int(max_pause / 2 * sr)
             cuts.append((k0 * fs + half, k1 * fs - half))
-            capped.append((round(k0 * FRAME, 3), round(length, 3)))
+            capped.append((round(k0 * F, 3), round(length, 3)))
     y = splice(x, cuts, int(0.005 * sr))
+    ya = splice(xa, cuts, int(0.005 * sr))
     cmap = cut_mapper(cuts, sr)
-    y, head = trim_quiet(y, sr)
+    y, head = trim_quiet(y, sr, ana=ya)
     lead = array.array("h", bytes(2 * int(LEAD * sr)))
     tail = array.array("h", bytes(2 * int(TAIL * sr)))
     out = lead + y + tail
@@ -542,13 +578,14 @@ def shape(x, sr, spans, max_pause):
 def place_beats(x, sr, spans, s0_bias):
     """s0/s1 per battuta e confini, dentro le pause reali dell'audio."""
     rms = frame_rms(x, sr)
+    F = frame_dur(sr)
     ref = max(rms)
     nfr = len(rms)
     runs40 = runs_of([v <= ref * db2lin(QUIET_DB) for v in rms])
     runs30 = runs_of([v <= ref * db2lin(QUIET_DB_2) for v in rms])
 
     def best_run(runs, lo, hi):
-        k_lo, k_hi = int(lo / FRAME), int(math.ceil(hi / FRAME))
+        k_lo, k_hi = int(lo / F), int(math.ceil(hi / F))
         best, score = None, (0, 0)
         for k0, k1 in runs:
             ov = min(k1, k_hi) - max(k0, k_lo)
@@ -557,14 +594,14 @@ def place_beats(x, sr, spans, s0_bias):
         return best
 
     def level_at(t):
-        k = min(nfr - 1, max(0, int(t / FRAME)))
+        k = min(nfr - 1, max(0, int(t / F)))
         return lin2db(max(rms[max(0, k - 1):k + 2]) / ref)
 
     n = len(spans)
     s0 = [a - s0_bias for a, _ in spans]
     s1 = [b for _, b in spans]
     loud = [k for k, v in enumerate(rms) if v > ref * db2lin(QUIET_DB)]
-    first_on, last_off = loud[0] * FRAME, (loud[-1] + 1) * FRAME
+    first_on, last_off = loud[0] * F, (loud[-1] + 1) * F
     if abs(first_on - s0[0]) <= 0.25:
         s0[0] = first_on
     s1[-1] = min(s1[-1], last_off)
@@ -574,16 +611,16 @@ def place_beats(x, sr, spans, s0_bias):
         lo, hi = min(a_next, b_cur) - 0.06, max(a_next, b_cur) + 0.06
         run_ = best_run(runs40, lo, hi) or best_run(runs30, lo, hi)
         if run_:
-            q0, q1 = run_[0] * FRAME, run_[1] * FRAME
+            q0, q1 = run_[0] * F, run_[1] * F
             if abs(q1 - s0[i + 1]) <= 0.25:
                 s0[i + 1] = q1  # attacco acustico della battuta successiva
             bnd = max((q0 + q1) / 2, q1 - BOUNDARY_LEAD)
             s1[i] = min(s1[i], q0 + 0.05)
             pause = q1 - q0
         else:  # nessuna pausa: il punto più silenzioso tra le due battute
-            k_lo, k_hi = int(lo / FRAME), max(int(lo / FRAME) + 1, int(math.ceil(hi / FRAME)))
+            k_lo, k_hi = int(lo / F), max(int(lo / F) + 1, int(math.ceil(hi / F)))
             k = min(range(k_lo, min(k_hi, nfr)), key=lambda j: rms[j])
-            bnd, pause = (k + 0.5) * FRAME, 0.0
+            bnd, pause = (k + 0.5) * F, 0.0
         s1[i] = min(s1[i], bnd - 0.02)
         s0[i + 1] = max(s0[i + 1], bnd + 0.01)
         bounds.append(bnd)
@@ -627,9 +664,6 @@ def wav_duration(path):
 def generate(engine, out_dir="audio", timeline_path="timeline.json", voice=KOKORO_VOICE,
              speed=KOKORO_SPEED, rec_dir="rec", max_pause=MAX_PAUSE, quiet=False):
     os.makedirs(out_dir, exist_ok=True)
-    for old in glob.glob(os.path.join(out_dir, "b[0-9][0-9]*.wav")) + [os.path.join(out_dir, "concat.txt")]:
-        if os.path.exists(old):
-            os.remove(old)  # tracce per battuta del vecchio sistema: non servono più
     if engine == "kokoro":
         x, sr, spans, info = synth_kokoro(out_dir, voice, speed)
         bias = KOKORO_S0_BIAS
@@ -641,12 +675,18 @@ def generate(engine, out_dir="audio", timeline_path="timeline.json", voice=KOKOR
         bias = 0.0
 
     y, spans, capped = shape(x, sr, spans, max_pause)
-    s0, s1, bounds, binfo = place_beats(y, sr, spans, bias)
+    ya = hp_copy(y, sr)
+    s0, s1, bounds, binfo = place_beats(ya, sr, spans, bias)
     edit = os.path.join(out_dir, "voice_edit.wav")
     write_wav(edit, y, sr)
     vo = os.path.join(out_dir, "voiceover.wav")
     loud = master(edit, vo)
     total = round(wav_duration(vo), 3)
+    # tracce per battuta del vecchio sistema: non servono più (mai toccare le registrazioni)
+    if not (engine == "rec" and os.path.realpath(rec_dir) == os.path.realpath(out_dir)):
+        for old in glob.glob(os.path.join(out_dir, "b[0-9][0-9]*.wav")) + [os.path.join(out_dir, "concat.txt")]:
+            if os.path.exists(old):
+                os.remove(old)
 
     edges = [0.0] + [round(b, 3) for b in bounds] + [total]
     timeline = []
@@ -660,9 +700,9 @@ def generate(engine, out_dir="audio", timeline_path="timeline.json", voice=KOKOR
         json.dump({"total": total, "engine": tag, "beats": timeline}, f, indent=2, ensure_ascii=False)
 
     # pause interne tra una parola e l'altra (sul file finale, prima del mastering)
-    rms = frame_rms(y, sr)
+    rms = frame_rms(ya, sr)
     thr = max(rms) * db2lin(QUIET_DB)
-    pauses = [(k1 - k0) * FRAME for k0, k1 in runs_of([v <= thr for v in rms])[1:-1]]
+    pauses = [(k1 - k0) * frame_dur(sr) for k0, k1 in runs_of([v <= thr for v in rms])[1:-1]]
     long_p = [p for p in pauses if p >= 0.2]
     report = {"engine": tag, **info, "total": total, "loudness": loud, "max_pause": max_pause,
               "capped_pauses": capped, "boundaries": binfo,
@@ -810,12 +850,14 @@ def selftest():
     try:
         for label, fmt, max_chars in (("eleven-1-richiesta", "mp3_44100_128", None),
                                       ("eleven-4-richieste", "mp3_44100_128", "420"),
-                                      ("eleven-pcm", "pcm_24000", None)):
+                                      ("eleven-pcm", "pcm_24000", None),
+                                      ("eleven-pcm22", "pcm_22050", "420"),
+                                      ("eleven-mp3-22", "mp3_22050_32", None)):
             sr = int(fmt.split("_")[1])
             sig, layout, freqs = _selftest_signal(sr)
             calls = []
 
-            def fake(method, path, key, body=None, query=None, timeout=0):
+            def fake(method, path, key, body=None, query=None, timeout=0, retries=0):
                 calls.append({"method": method, "path": path, "body": body, "query": query})
                 if path == "/v1/voices":
                     return json.dumps(voices).encode()
@@ -924,9 +966,10 @@ def main():
     ap.add_argument("--voice", default=KOKORO_VOICE, help="voce Kokoro (im_nicola, if_sara)")
     ap.add_argument("--speed", type=float, default=KOKORO_SPEED, help="velocità Kokoro (1.0 = naturale)")
     ap.add_argument("--max-pause", type=float, default=MAX_PAUSE, help="pausa massima in secondi")
-    ap.add_argument("--rec-dir", default="rec", help="cartella delle registrazioni (--engine rec)")
+    ap.add_argument("--rec-dir", default=None, help="cartella delle registrazioni (--engine rec, default rec/)")
     ap.add_argument("--selftest", action="store_true", help="prova offline ElevenLabs simulato + rec")
     args = ap.parse_args()
+    args.rec_dir = os.path.abspath(args.rec_dir) if args.rec_dir else os.path.join(HERE, "rec")
     os.chdir(HERE)
     if args.selftest:
         sys.exit(selftest())
