@@ -1,0 +1,193 @@
+{
+ "total": 66.05,
+ "engine": "kokoro-im_nicola-1.00",
+ "beats": [
+  {
+   "id": "b01",
+   "visual": "hook",
+   "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+   "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+   "start": 0.0,
+   "end": 3.22,
+   "dur": 3.22,
+   "s0": 0.12,
+   "s1": 3.0
+  },
+  {
+   "id": "b02",
+   "visual": "owed",
+   "say": "Andrea viene licenziato. Gli spettano l'ultimo stipendio, il TFR e le ferie non godute.",
+   "text": "ANDREA VIENE LICENZIATO. GLI SPETTANO [g]STIPENDIO[/g], [g]TFR[/g] E [g]FERIE NON GODUTE[/g]",
+   "start": 3.22,
+   "end": 8.73,
+   "dur": 5.51,
+   "s0": 3.32,
+   "s1": 8.59
+  },
+  {
+   "id": "b03",
+   "visual": "sheet",
+   "say": "Ma il capo gli mette davanti un foglio.",
+   "text": "MA IL CAPO GLI METTE DAVANTI [r]UN FOGLIO[/r]",
+   "start": 8.73,
+   "end": 10.8,
+   "dur": 2.07,
+   "s0": 8.83,
+   "s1": 10.68
+  },
+  {
+   "id": "b04",
+   "visual": "sheet",
+   "say": "«Firma qui: dichiari che non hai più nulla da pretendere.»",
+   "text": "«FIRMA QUI: DICHIARI CHE [r]NON HAI PIÙ NULLA DA PRETENDERE[/r]»",
+   "start": 10.8,
+   "end": 13.65,
+   "dur": 2.85,
+   "s0": 10.9,
+   "s1": 13.53
+  },
+  {
+   "id": "b05",
+   "visual": "blackmail",
+   "say": "«Se non firmi, non ti pago. I soldi sono miei: decido io.»",
+   "text": "«SE NON FIRMI, [r]NON TI PAGO[/r]. I SOLDI SONO MIEI: DECIDO IO»",
+   "start": 13.65,
+   "end": 17.15,
+   "dur": 3.5,
+   "s0": 13.75,
+   "s1": 17.03
+  },
+  {
+   "id": "b06",
+   "visual": "wrong",
+   "say": "Peccato che non funzioni così.",
+   "text": "PECCATO CHE [g]NON FUNZIONI COSÌ[/g]",
+   "start": 17.15,
+   "end": 19.04,
+   "dur": 1.89,
+   "s0": 17.25,
+   "s1": 18.74
+  },
+  {
+   "id": "b07",
+   "visual": "gift",
+   "say": "Stipendio, TFR e ferie non godute non sono un regalo: sono diritti tuoi.",
+   "text": "STIPENDIO, TFR E FERIE [r]NON SONO UN REGALO[/r]: [g]SONO DIRITTI TUOI[/g]",
+   "start": 19.04,
+   "end": 23.52,
+   "dur": 4.48,
+   "s0": 19.14,
+   "s1": 23.22
+  },
+  {
+   "id": "b08",
+   "visual": "gift",
+   "say": "E il pagamento di quello che ti spetta non si può legare a una rinuncia.",
+   "text": "E IL PAGAMENTO [r]NON SI PUÒ LEGARE A UNA RINUNCIA[/r]",
+   "start": 23.52,
+   "end": 26.86,
+   "dur": 3.34,
+   "s0": 23.62,
+   "s1": 26.71
+  },
+  {
+   "id": "b09",
+   "visual": "law",
+   "say": "Per il Codice Civile, le rinunce ai diritti del lavoratore si possono impugnare entro sei mesi.",
+   "text": "LE RINUNCE AI TUOI DIRITTI SI POSSONO [g]IMPUGNARE ENTRO 6 MESI[/g]",
+   "start": 26.86,
+   "end": 31.7,
+   "dur": 4.84,
+   "s0": 26.96,
+   "s1": 31.55
+  },
+  {
+   "id": "b10",
+   "visual": "law",
+   "say": "Fanno eccezione quelle firmate in sede protetta, come all'Ispettorato del lavoro o al sindacato.",
+   "text": "ECCEZIONE: QUELLE FIRMATE IN [g]SEDE PROTETTA[/g], COME ISPETTORATO O SINDACATO",
+   "start": 31.7,
+   "end": 37.28,
+   "dur": 5.58,
+   "s0": 31.8,
+   "s1": 37.01
+  },
+  {
+   "id": "b11",
+   "visual": "generic",
+   "say": "E una frase generica come «non ho più nulla da pretendere», di solito, non basta a farti perdere i tuoi diritti.",
+   "text": "E UNA FRASE GENERICA, DI SOLITO, [g]NON BASTA A FARTI PERDERE I TUOI DIRITTI[/g]",
+   "start": 37.28,
+   "end": 42.78,
+   "dur": 5.5,
+   "s0": 37.38,
+   "s1": 42.61
+  },
+  {
+   "id": "b12",
+   "visual": "receipt",
+   "say": "Così Andrea firma, sì. Ma solo la ricevuta dei soldi che riceve.",
+   "text": "ANDREA FIRMA, SÌ: MA [g]SOLO LA RICEVUTA[/g] DEI SOLDI CHE RICEVE",
+   "start": 42.78,
+   "end": 46.3,
+   "dur": 3.52,
+   "s0": 42.88,
+   "s1": 46.14
+  },
+  {
+   "id": "b13",
+   "visual": "mora",
+   "say": "E se il capo non paga? Messa in mora, e poi decreto ingiuntivo. Con gli interessi.",
+   "text": "E SE NON PAGA? [r]MESSA IN MORA[/r] E [r]DECRETO INGIUNTIVO[/r]. CON GLI INTERESSI",
+   "start": 46.3,
+   "end": 50.79,
+   "dur": 4.49,
+   "s0": 46.4,
+   "s1": 50.64
+  },
+  {
+   "id": "b14",
+   "visual": "paid",
+   "say": "Il capo ci ripensa. E paga tutto, senza liberatoria.",
+   "text": "IL CAPO CI RIPENSA. E [g]PAGA TUTTO[/g], SENZA LIBERATORIA",
+   "start": 50.79,
+   "end": 54.36,
+   "dur": 3.57,
+   "s0": 50.89,
+   "s1": 54.16
+  },
+  {
+   "id": "b15",
+   "visual": "advice",
+   "say": "Il consiglio: non firmare rinunce sotto pressione, e tieni sempre una copia di quello che firmi.",
+   "text": "[r]NON FIRMARE RINUNCE SOTTO PRESSIONE[/r] E [g]TIENI UNA COPIA[/g] DI TUTTO",
+   "start": 54.36,
+   "end": 59.32,
+   "dur": 4.96,
+   "s0": 54.46,
+   "s1": 59.19
+  },
+  {
+   "id": "b16",
+   "visual": "cta",
+   "say": "Ti chiedono una liberatoria per pagarti?",
+   "text": "TI CHIEDONO [r]UNA LIBERATORIA[/r] PER PAGARTI?",
+   "start": 59.32,
+   "end": 61.6,
+   "dur": 2.28,
+   "s0": 59.42,
+   "s1": 61.33
+  },
+  {
+   "id": "b17",
+   "visual": "cta",
+   "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+   "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+   "start": 61.6,
+   "end": 66.05,
+   "dur": 4.45,
+   "s0": 61.7,
+   "s1": 65.29
+  }
+ ]
+}
