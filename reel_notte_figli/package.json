@@ -1,0 +1,14 @@
+{
+  "name": "pagamee-reel-notte-figli",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node render.mjs check",
+    "preview": "node render.mjs preview",
+    "full": "node render.mjs full 30"
+  },
+  "dependencies": {
+    "playwright": "1.56.1"
+  }
+}

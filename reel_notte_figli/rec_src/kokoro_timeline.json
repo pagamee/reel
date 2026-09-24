@@ -1,0 +1,193 @@
+{
+ "total": 59.08,
+ "engine": "kokoro-im_nicola-1.00",
+ "beats": [
+  {
+   "id": "b01",
+   "visual": "hook",
+   "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+   "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+   "start": 0.0,
+   "end": 3.22,
+   "dur": 3.22,
+   "s0": 0.12,
+   "s1": 2.98
+  },
+  {
+   "id": "b02",
+   "visual": "family",
+   "say": "Andrea ha un figlio di due anni. E la sera, la buonanotte gliela dà lui.",
+   "text": "ANDREA HA UN [g]FIGLIO DI 2 ANNI[/g]. E LA SERA, LA BUONANOTTE GLIELA DÀ LUI",
+   "start": 3.22,
+   "end": 7.21,
+   "dur": 3.99,
+   "s0": 3.32,
+   "s1": 7.055
+  },
+  {
+   "id": "b03",
+   "visual": "shifts",
+   "say": "Un giorno il capo lo mette in turno di notte. Fisso.",
+   "text": "UN GIORNO IL CAPO LO METTE [r]IN TURNO DI NOTTE[/r]. FISSO",
+   "start": 7.21,
+   "end": 10.19,
+   "dur": 2.98,
+   "s0": 7.31,
+   "s1": 9.96
+  },
+  {
+   "id": "b04",
+   "visual": "boss",
+   "say": "«L'azienda deve coprire le notti. Se lavori qui, ti adegui.»",
+   "text": "«L'AZIENDA DEVE COPRIRE LE NOTTI. [r]SE LAVORI QUI, TI ADEGUI[/r]»",
+   "start": 10.19,
+   "end": 13.67,
+   "dur": 3.48,
+   "s0": 10.29,
+   "s1": 13.45
+  },
+  {
+   "id": "b05",
+   "visual": "wrong",
+   "say": "Peccato che, per alcuni, la notte non sia un obbligo.",
+   "text": "PECCATO CHE, PER ALCUNI, [g]LA NOTTE NON SIA UN OBBLIGO[/g]",
+   "start": 13.67,
+   "end": 17.09,
+   "dur": 3.42,
+   "s0": 13.77,
+   "s1": 16.79
+  },
+  {
+   "id": "b06",
+   "visual": "law",
+   "say": "Non è obbligata al lavoro notturno la madre di un figlio sotto i tre anni.",
+   "text": "NON È OBBLIGATA AL LAVORO NOTTURNO LA [g]MADRE DI UN FIGLIO SOTTO I 3 ANNI[/g]",
+   "start": 17.09,
+   "end": 21.36,
+   "dur": 4.27,
+   "s0": 17.19,
+   "s1": 21.06
+  },
+  {
+   "id": "b07",
+   "visual": "law",
+   "say": "O, in alternativa, il padre che vive con loro.",
+   "text": "O, IN ALTERNATIVA, [g]IL PADRE CONVIVENTE[/g]",
+   "start": 21.36,
+   "end": 23.99,
+   "dur": 2.63,
+   "s0": 21.46,
+   "s1": 23.73
+  },
+  {
+   "id": "b08",
+   "visual": "others",
+   "say": "E nemmeno il genitore unico affidatario di un figlio convivente sotto i dodici anni.",
+   "text": "NEMMENO IL [g]GENITORE UNICO AFFIDATARIO[/g] DI UN FIGLIO CONVIVENTE SOTTO I 12 ANNI",
+   "start": 23.99,
+   "end": 27.85,
+   "dur": 3.86,
+   "s0": 24.09,
+   "s1": 27.64
+  },
+  {
+   "id": "b09",
+   "visual": "others",
+   "say": "O chi ha a carico una persona con disabilità.",
+   "text": "O CHI HA A CARICO [g]UNA PERSONA CON DISABILITÀ[/g]",
+   "start": 27.85,
+   "end": 30.33,
+   "dur": 2.48,
+   "s0": 27.95,
+   "s1": 30.13
+  },
+  {
+   "id": "b10",
+   "visual": "mom",
+   "say": "E dalla gravidanza fino a un anno del bambino, per la mamma la notte è vietata.",
+   "text": "DALLA GRAVIDANZA A 1 ANNO DEL BAMBINO, PER LA MAMMA [r]LA NOTTE È VIETATA[/r]",
+   "start": 30.33,
+   "end": 34.91,
+   "dur": 4.58,
+   "s0": 30.43,
+   "s1": 34.64
+  },
+  {
+   "id": "b11",
+   "visual": "shield",
+   "say": "Non è un favore: è una tutela prevista dalla legge.",
+   "text": "NON È UN FAVORE: [g]È UNA TUTELA DI LEGGE[/g]",
+   "start": 34.91,
+   "end": 37.68,
+   "dur": 2.77,
+   "s0": 35.01,
+   "s1": 37.4
+  },
+  {
+   "id": "b12",
+   "visual": "docs",
+   "say": "Andrea presenta i documenti, e chiede l'esonero per iscritto.",
+   "text": "ANDREA PRESENTA I DOCUMENTI E CHIEDE [g]L'ESONERO PER ISCRITTO[/g]",
+   "start": 37.68,
+   "end": 42.18,
+   "dur": 4.5,
+   "s0": 37.78,
+   "s1": 41.99
+  },
+  {
+   "id": "b13",
+   "visual": "report",
+   "say": "E se gli imponessero la notte lo stesso? Può segnalarlo all'Ispettorato del lavoro.",
+   "text": "E SE GLI IMPONESSERO LA NOTTE LO STESSO? [r]SEGNALAZIONE ALL'ISPETTORATO[/r]",
+   "start": 42.18,
+   "end": 46.66,
+   "dur": 4.48,
+   "s0": 42.28,
+   "s1": 46.345
+  },
+  {
+   "id": "b14",
+   "visual": "cede",
+   "say": "Il capo ci ripensa. «Va bene, niente notti.»",
+   "text": "IL CAPO CI RIPENSA. «VA BENE, [g]NIENTE NOTTI[/g]»",
+   "start": 46.66,
+   "end": 49.4,
+   "dur": 2.74,
+   "s0": 46.76,
+   "s1": 49.1
+  },
+  {
+   "id": "b15",
+   "visual": "goodnight",
+   "say": "E stasera, la buonanotte la dà ancora Andrea.",
+   "text": "E STASERA, LA BUONANOTTE [g]LA DÀ ANCORA ANDREA[/g]",
+   "start": 49.4,
+   "end": 51.85,
+   "dur": 2.45,
+   "s0": 49.5,
+   "s1": 51.685
+  },
+  {
+   "id": "b16",
+   "visual": "cta",
+   "say": "Ti impongono la notte, anche se hai un figlio piccolo?",
+   "text": "TI IMPONGONO LA NOTTE, [r]ANCHE SE HAI UN FIGLIO PICCOLO[/r]?",
+   "start": 51.85,
+   "end": 54.57,
+   "dur": 2.72,
+   "s0": 51.95,
+   "s1": 54.33
+  },
+  {
+   "id": "b17",
+   "visual": "cta",
+   "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+   "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+   "start": 54.57,
+   "end": 59.08,
+   "dur": 4.51,
+   "s0": 54.67,
+   "s1": 58.32
+  }
+ ]
+}
