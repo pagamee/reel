@@ -1,0 +1,1028 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face{font-family:'Walter Turncoat';src:url('fonts/WalterTurncoat.woff2') format('woff2');}
+  @font-face{font-family:'Inter';font-weight:700;src:url('fonts/Inter-700.woff2') format('woff2');}
+  html,body{margin:0;padding:0;background:#fafafa;}
+  #stage{
+    width:1080px;height:1920px;position:relative;overflow:hidden;background:#fafafa;
+    font-family:'Walter Turncoat',sans-serif;color:#18181b;-webkit-font-smoothing:antialiased;
+  }
+  .scene{position:absolute;inset:0;display:none;}
+  svg.art{position:absolute;inset:0;overflow:visible;}
+
+  /* testo in alto, scritto "a macchina" mentre parla la voce */
+  .cap{
+    position:absolute;left:64px;right:64px;top:150px;text-align:center;
+    font-size:68px;line-height:1.32;letter-spacing:0.05em;display:none;
+    text-wrap:balance;
+  }
+  .cap .w{white-space:nowrap;}
+  .cap .c{opacity:0;}
+  .g{color:#059669;} .r{color:#dc2626;} .i{color:#4f46e5;}
+
+  .tag{
+    position:absolute;left:50%;transform:translateX(-50%);
+    font-size:34px;letter-spacing:0.08em;padding:6px 18px 4px;
+    border:4px solid #18181b;border-radius:10px;background:#fff;opacity:0;
+  }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+const TIMELINE = __TIMELINE_JSON__;
+const W=1080, H=1920;
+const INK="#18181b", PAPER="#ffffff", SHADOW="#e4e4e7", GREY="#a1a1aa", LIGHT="#f4f4f5";
+const GREEN="#059669", GREEN_SOFT="#d1fae5", RED="#dc2626", RED_SOFT="#fee2e2";
+const INDIGO="#4f46e5", INDIGO_SOFT="#e0e7ff", TIE="#3730a3", GOLD="#f59e0b";
+const CASH="#8fd19e", CASH_DK="#2f855a", SKY="#bfdbfe", NIGHT="#1e1b4b";
+const HAND="'Walter Turncoat',sans-serif";
+/* I disegni sono pensati su tutto il 1080x1920, poi rimpiccioliti verso l'alto:
+   su Instagram il fondo dello schermo è coperto da didascalia e pulsanti. */
+const ART_SCALE=0.86, ART_TOP=600;
+
+/* ---------- easing ---------- */
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const easeOutCubic=x=>1-Math.pow(1-x,3);
+function easeOutBack(x){const c1=1.9,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2);}
+
+/* ================= primitive SVG ================= */
+const ln=(x1,y1,x2,y2,w=8,c=INK)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+const pth=(d,fill="none",w=8,c=INK,extra="")=>`<path d="${d}" fill="${fill}" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" ${extra}/>`;
+const cir=(x,y,r,fill="none",w=8,c=INK)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" stroke="${c}" stroke-width="${w}"/>`;
+const rct=(x,y,w,h,rx,fill,sw=7,c=INK)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" stroke="${c}" stroke-width="${sw}"/>`;
+const txt=(x,y,s,size,color=INK,anchor="middle",extra="")=>
+  `<text x="${x}" y="${y}" font-family="${HAND}" font-size="${size}" fill="${color}" text-anchor="${anchor}" letter-spacing="1.5" ${extra}>${s}</text>`;
+/* come txt, ma riduce il corpo se la scritta non entra in maxW */
+const fitTxt=(x,y,s,maxW,size,color=INK,anchor="middle")=>{
+  const est=s.length*size*0.74;
+  return txt(x,y,s,est>maxW?size*maxW/est:size,color,anchor);
+};
+const sans=(x,y,s,size,color=INK,anchor="middle")=>
+  `<text x="${x}" y="${y}" font-family="Inter,sans-serif" font-weight="700" font-size="${size}" fill="${color}" text-anchor="${anchor}">${s}</text>`;
+const G=(inner,tr="")=>`<g${tr?` transform="${tr}"`:""}>${inner}</g>`;
+/* wrapper animato: from/until = istanti (id battuta, "bXX:PAROLA", "bXX+0.4"), inn = tipo di entrata */
+const A=(inner,o={})=>{
+  const at=[];
+  if(o.from)  at.push(`data-from="${o.from}"`);
+  if(o.until) at.push(`data-until="${o.until}"`);
+  if(o.inn)   at.push(`data-in="${o.inn}"`);
+  if(o.loop)  at.push(`data-loop="${o.loop}"`);
+  if(o.origin)at.push(`data-origin="${o.origin}"`);
+  if(o.name)  at.push(`data-name="${o.name}"`);
+  return `<g ${at.join(" ")}>${inner}</g>`;
+};
+/* segnetti "splendenti" attorno a un punto (come nel riferimento) */
+function sparkle(x,y,r=46,col=GREEN,n=3,a0=-60,spread=60){
+  let s="";
+  for(let i=0;i<n;i++){
+    const a=(a0+(i-(n-1)/2)*spread/(n-1||1))*Math.PI/180;
+    s+=ln(x+Math.cos(a)*r,y+Math.sin(a)*r,x+Math.cos(a)*(r+30),y+Math.sin(a)*(r+30),7,col);
+  }
+  return s;
+}
+const qmark=(x,y,size=110)=>txt(x,y,"?",size,INK);
+const xmark=(x,y,r=60,c=RED)=>ln(x-r,y-r,x+r,y+r,15,c)+ln(x+r,y-r,x-r,y+r,15,c);
+const check=(x,y,r=60,c=GREEN)=>pth(`M ${x-r} ${y} L ${x-r*0.3} ${y+r*0.7} L ${x+r} ${y-r*0.8}`,"none",16,c);
+const dropSweat=(x,y,s=1)=>`<path d="M ${x} ${y} q ${16*s} ${24*s} 0 ${38*s} q ${-16*s} ${-14*s} 0 ${-38*s} Z" fill="#93c5fd" stroke="${INK}" stroke-width="4"/>`;
+
+/* ================= il personaggio =================
+   Omino "col maglione": testa ovale, ricci castani, occhiali tondi, naso a virgola,
+   guance rosate, maglione indaco chiaro con scollo a V e colletto della camicia,
+   maniche e pantaloni "a tubo", mani a guanto chiaro, scarpe nere.
+   Coordinate locali: piedi a y=0, asse del corpo x=0. Altezza ~ 910 px a s=1.
+   l / r = posizione della mano rispetto alla spalla [dx, dy] (dy positivo = in basso).
+*/
+const SKIN="#fdf0e4", CHEEK="#fecaca", GLOVE="#ffffff", PANTS="#52525b";
+const HAIRC={curly:"#8a5a3b", bun:"#4a3222", spiky:"#27272a", grey:"#d4d4d8"};
+/* forma "a nuvola": unione di cerchi con un solo contorno esterno */
+function blob(pts,fill,ow=7){
+  let out="", inn="";
+  for(const [x,y,r] of pts){
+    out+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(r+ow/2).toFixed(1)}" fill="${INK}"/>`;
+    inn+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(r-ow/2).toFixed(1)}" fill="${fill}"/>`;
+  }
+  return out+inn;
+}
+function guy(o){
+  o=Object.assign({x:540,y:1760,s:1,look:0.3,face:'smile',brows:'neutral',eyes:'dot',
+    glasses:false,body:'shirt',tie:null,hair:'curly',l:[-40,235],r:[40,235],lh:'dot',rh:'dot',
+    bendL:34,bendR:34,sweat:false,blush:false,cheeks:true,shadow:true,name:'guy',mustache:false,
+    legs:'stand',flip:false,behind:'',front:''},o);
+  const L=o.look*30, P=[];
+  const HY=-742, HRX=118, HRY=134;               // testa ovale
+  const BT=-626, BB=-296;                         // maglione: scollo / orlo
+  const SH=[-74,-566], SHR=[74,-566];             // spalle (attacco delle maniche)
+  const suit=o.body==='suit';
+  const COL={shirt:"#c7d2fe", suit:"#3f3f46", blue:"#dbeafe", green:GREEN_SOFT}[o.body]||"#c7d2fe";
+  const RIB={shirt:"#a5b4fc", suit:"#3f3f46", blue:"#bfdbfe", green:"#a7f3d0"}[o.body]||"#a5b4fc";
+  const TRIM={shirt:INDIGO, blue:"#60a5fa", green:"#34d399"}[o.body]||INDIGO;   // bordo dello scollo
+  const SLEEVE=suit?"#52525b":COL;                                             // manica del capo più chiara della giacca
+  const tube=(d,w,fill,ow=6)=>pth(d,"none",w+ow*2,INK)+pth(d,"none",w,fill);
+
+  /* segno di matita sotto i piedi (niente ombra a ellisse) */
+  if(o.shadow){ const sw=o.legs==='sit'?190:128;
+    P.push(pth(`M ${-sw} 12 Q ${-sw*0.2} 22 ${sw} 6`,"none",7,"#d4d4d8")+pth(`M ${-sw*0.62} 27 Q ${-sw*0.2} 33 ${sw*0.2} 28`,"none",5,"#e4e4e7")); }
+  P.push(o.behind);
+
+  /* gambe: pantaloni a tubo + scarpe */
+  const shoe=(x,dir)=>`<path d="M ${x-dir*18} 2 Q ${x-dir*20} -28 ${x+dir*10} -28 Q ${x+dir*46} -26 ${x+dir*48} 2 Z" fill="${INK}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>`;
+  if(o.legs==='stand'){
+    P.push(tube(`M -42 ${BB-20} L -46 -22`,24,PANTS)+tube(`M 42 ${BB-20} L 46 -22`,24,PANTS));
+    P.push(shoe(-48,-1)+shoe(48,1));
+  } else if(o.legs==='walk'){
+    P.push(tube(`M -36 ${BB-20} L -92 -22`,28,PANTS)+tube(`M 36 ${BB-20} L 72 -150 L 100 -22`,28,PANTS));
+    P.push(shoe(-96,-1)+shoe(104,1));
+  }
+
+  /* busto: trapezio arrotondato (spalle strette, orlo largo) */
+  const bodyD=`M -48 ${BT} Q -90 ${BT+2} -96 ${BT+50} L -112 ${BB-26} Q -114 ${BB} -86 ${BB}`+
+              ` L 86 ${BB} Q 114 ${BB} 112 ${BB-26} L 96 ${BT+50} Q 90 ${BT+2} 48 ${BT} Z`;
+  P.push(pth(bodyD,COL,8));
+  if(suit){
+    /* giacca del capo: camicia bianca, cravatta scura, revers, bottoni */
+    P.push(`<path d="M -44 ${BT+2} L 0 ${BT+128} L 44 ${BT+2} Z" fill="#fff" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>`);
+    P.push(`<path d="M -10 ${BT+26} L 10 ${BT+26} L 14 ${BT+112} L 0 ${BT+130} L -14 ${BT+112} Z" fill="${INK}"/>`);
+    P.push(pth(`M -50 ${BT+6} L -26 ${BT+70} L -40 ${BT+78} L -8 ${BT+150}`,"none",5));
+    P.push(pth(`M 50 ${BT+6} L 26 ${BT+70} L 40 ${BT+78} L 8 ${BT+150}`,"none",5));
+    P.push(`<circle cx="0" cy="${BT+190}" r="7" fill="#a1a1aa"/><circle cx="0" cy="${BT+240}" r="7" fill="#a1a1aa"/>`);
+  } else {
+    /* maglione: orlo a costine, scollo a V con colletto della camicia */
+    P.push(`<path d="M -111 ${BB-34} L 111 ${BB-34} L 112 ${BB-26} Q 114 ${BB} 86 ${BB} L -86 ${BB} Q -114 ${BB} -112 ${BB-26} Z" fill="${RIB}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>`);
+    for(let x=-84;x<=84;x+=28) P.push(ln(x,BB-24,x,BB-10,4,"rgba(24,24,27,0.35)"));
+    P.push(`<path d="M -50 ${BT+2} L 0 ${BT+96} L 50 ${BT+2} Z" fill="${TRIM}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>`);
+    P.push(`<path d="M -36 ${BT+2} L 0 ${BT+74} L 36 ${BT+2} Z" fill="${PAPER}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>`);
+    if(o.tie) P.push(`<path d="M -8 ${BT+40} L 8 ${BT+40} L 10 ${BT+70} L 0 ${BT+80} L -10 ${BT+70} Z" fill="${o.tie}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>`);
+    P.push(`<path d="M -38 ${BT+4} L -4 ${BT+30} L -30 ${BT+54} Z" fill="${PAPER}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>`);
+    P.push(`<path d="M 38 ${BT+4} L 4 ${BT+30} L 30 ${BT+54} Z" fill="${PAPER}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>`);
+  }
+
+  /* braccia: manica a tubo + mano a guanto */
+  const arm=(S,d,side,bend,kind)=>{
+    if(d[1]>180) d=[d[0],180+(d[1]-180)*0.3];     // braccia a riposo: la mano resta sopra l'orlo
+    const hx=S[0]+d[0], hy=S[1]+d[1];
+    const vx=hx-S[0], vy=hy-S[1], len=Math.hypot(vx,vy)||1;
+    let px=-vy/len, py=vx/len;
+    if(px*side<0){px=-px;py=-py;}
+    const cx=(S[0]+hx)/2+px*bend, cy=(S[1]+hy)/2+py*bend;
+    const tl=Math.hypot(hx-cx,hy-cy)||1, ux=(hx-cx)/tl, uy=(hy-cy)/tl;
+    let s=tube(`M ${S[0]} ${S[1]} Q ${cx} ${cy} ${hx-ux*12} ${hy-uy*12}`,24,SLEEVE);
+    if(suit) s+=ln(hx-ux*34,hy-uy*34,hx-ux*14,hy-uy*14,24,PAPER).replace('stroke-linecap="round"','stroke-linecap="butt"')+
+                ln(hx-ux*34-uy*12,hy-uy*34+ux*12,hx-ux*34+uy*12,hy-uy*34-ux*12,4);
+    s+=hand(hx,hy,kind,ux,uy,side);
+    return s;
+  };
+  /* mano: palmo tondo + dita a tubo, un solo contorno */
+  const glove=(x,y,fingers)=>{
+    let out=`<circle cx="${x}" cy="${y}" r="23" fill="${INK}"/>`, inn=`<circle cx="${x}" cy="${y}" r="17" fill="${GLOVE}"/>`;
+    for(const [x2,y2,w] of fingers){ out+=ln(x,y,x2,y2,w+12,INK); inn+=ln(x,y,x2,y2,w,GLOVE); }
+    return out+inn;
+  };
+  const hand=(x,y,kind,ux,uy,side)=>{
+    if(kind==='none') return '';
+    if(kind==='point'){ // indice lungo + pollice alzato a "L": non si confonde col pugno
+      const a=Math.atan2(uy,ux), t=a-side*1.25;
+      return glove(x,y,[[x+Math.cos(a)*52,y+Math.sin(a)*52,12],[x+Math.cos(t)*26,y+Math.sin(t)*26,11]]);
+    }
+    if(kind==='up')    return glove(x,y,[[x,y-44,12]]);
+    if(kind==='thumb'){ // pugno chiuso + pollice in su
+      const tx=x-side*10, d=`M ${tx} ${y-12} L ${tx} ${y-50}`;
+      return `<rect x="${x-24}" y="${y-20}" width="48" height="42" rx="15" fill="${INK}"/>`+pth(d,"none",28,INK)+
+        `<rect x="${x-18}" y="${y-14}" width="36" height="30" rx="10" fill="${GLOVE}"/>`+pth(d,"none",15,GLOVE)+
+        ln(x-side*14,y-1,x+side*16,y-1,4)+ln(x-side*14,y+9,x+side*16,y+9,4);
+    }
+    if(kind==='open')  return glove(x,y,[[x-side*20,y-42,11],[x+side*4,y-48,11],[x+side*24,y-40,11],[x+side*36,y-6,11]]);
+    return glove(x,y,[]);
+  };
+
+  /* orecchie e testa */
+  P.push(`<ellipse cx="${-HRX+4}" cy="${HY+12}" rx="20" ry="27" fill="${SKIN}" stroke="${INK}" stroke-width="7"/>`);
+  P.push(`<ellipse cx="${HRX-4}" cy="${HY+12}" rx="20" ry="27" fill="${SKIN}" stroke="${INK}" stroke-width="7"/>`);
+  P.push(`<ellipse cx="0" cy="${HY}" rx="${HRX}" ry="${HRY}" fill="${SKIN}" stroke="${INK}" stroke-width="8"/>`);
+
+  /* capelli */
+  if(o.hair==='curly'){
+    // ricci morbidi: corona di riccioli sulla calotta + frangetta mossa
+    const pts=[];
+    for(let i=0;i<=8;i++){ const a=(-166+i*19)*Math.PI/180; pts.push([Math.cos(a)*(HRX-8),HY+Math.sin(a)*(HRY-12),i%2?28:26]); }
+    [[-86,-832,24],[-52,-842,25],[-16,-846,25],[20,-845,25],[56,-838,24],[88,-826,22],
+     [-50,-868,30],[0,-876,30],[50,-868,30],[-120,-760,19],[120,-760,19]].forEach(p=>pts.push(p));
+    P.push(blob(pts,HAIRC.curly));
+    const dk="#5b3a26";
+    P.push(pth(`M -62 -866 q 12 -14 24 -2`,"none",5,dk)+pth(`M 10 -872 q 14 -12 26 2`,"none",5,dk)+
+           pth(`M -98 -800 q 6 -16 20 -12`,"none",5,dk)+pth(`M 74 -848 q 12 -10 22 4`,"none",5,dk));
+  } else if(o.hair==='grey'){
+    // capo: pelato, ciuffi grigi arruffati sopra le orecchie
+    P.push(blob([[-112,-770,22],[-124,-742,20],[-100,-790,18]],HAIRC.grey,6)+
+           blob([[112,-770,22],[124,-742,20],[100,-790,18]],HAIRC.grey,6));
+    P.push(pth(`M -44 ${HY-HRY+18} q 18 -8 38 -6`,"none",5,"#ffffff"));
+  } else if(o.hair==='bun'){
+    const c=HAIRC.bun;
+    P.push(`<path d="M ${-HRX+2} ${HY+14} Q ${-HRX-10} ${HY-HRY-8} 0 ${HY-HRY-6} Q ${HRX+10} ${HY-HRY-8} ${HRX-2} ${HY+14} Q ${HRX-26} ${HY-74} 0 ${HY-84} Q ${-HRX+26} ${HY-74} ${-HRX+2} ${HY+14} Z" fill="${c}" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/>`);
+    P.push(cir(0,HY-HRY-30,36,c,7));
+  } else if(o.hair==='spiky'){
+    P.push(`<path d="M -104 ${HY-54} L -96 ${HY-118} L -70 ${HY-96} L -58 ${HY-156} L -30 ${HY-116} L -4 ${HY-164} L 18 ${HY-118} L 48 ${HY-158} L 58 ${HY-110} L 92 ${HY-134} L 104 ${HY-54} Q 0 ${HY-96} -104 ${HY-54} Z" fill="${HAIRC.spiky}" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/>`);
+  }
+
+  /* faccia */
+  const ey=HY+2, exL=L-42, exR=L+42;
+  const eye=(x)=>{
+    if(o.eyes==='sly')   return `<path d="M ${x-11} ${ey-1} A 11 11 0 0 0 ${x+11} ${ey-1} Z" fill="${INK}"/>`+ln(x-15,ey-3,x+15,ey-3,5);
+    if(o.eyes==='tired') return `<path d="M ${x-10} ${ey+1} A 10 9 0 0 0 ${x+10} ${ey+1} Z" fill="${INK}"/>`+ln(x-15,ey,x+15,ey,5)+pth(`M ${x-12} ${ey+16} q 12 7 24 0`,"none",3,GREY);
+    if(o.eyes==='wide')  return cir(x,ey,14,PAPER,4)+`<circle cx="${x}" cy="${ey}" r="6" fill="${INK}"/>`;
+    if(o.eyes==='closed')return pth(`M ${x-13} ${ey+2} q 13 -13 26 0`,"none",6);
+    return o.glasses ? `<circle cx="${x}" cy="${ey}" r="10" fill="${INK}"/><circle cx="${x+3}" cy="${ey-4}" r="3" fill="#fff"/>`
+                     : `<ellipse cx="${x}" cy="${ey}" rx="11" ry="14" fill="${INK}"/><circle cx="${x+3}" cy="${ey-5}" r="3.5" fill="#fff"/>`;
+  };
+  /* guance: sempre un filo di rosa, più accese se blush */
+  const ck=o.blush?{c:"#fca5a5",op:0.95,rx:24,ry:13}:{c:CHEEK,op:0.8,rx:17,ry:10};
+  if(o.blush||o.cheeks){
+    P.push(`<ellipse cx="${exL-12}" cy="${ey+46}" rx="${ck.rx}" ry="${ck.ry}" fill="${ck.c}" opacity="${ck.op}"/>`);
+    P.push(`<ellipse cx="${exR+12}" cy="${ey+46}" rx="${ck.rx}" ry="${ck.ry}" fill="${ck.c}" opacity="${ck.op}"/>`);
+  }
+  P.push(eye(exL)+eye(exR));
+  if(o.glasses){
+    P.push(cir(exL,ey,31,"rgba(255,255,255,0.25)",6)+cir(exR,ey,31,"rgba(255,255,255,0.25)",6));
+    P.push(pth(`M ${exL+31} ${ey-4} q ${(exR-exL-62)/2} -12 ${exR-exL-62} 0`,"none",6));
+    if(o.look>=0) P.push(ln(exL-31,ey-6,-HRX+6,ey-12,6)); else P.push(ln(exR+31,ey-6,HRX-6,ey-12,6));
+  }
+  const by=ey-52;
+  const brow=(x,side)=>{
+    const b=o.brows;
+    if(b==='up')      return pth(`M ${x-22} ${by} q 22 -16 44 0`,"none",8);
+    if(b==='worried') return ln(x-20,by+(side<0?4:-8),x+20,by+(side<0?-8:4),8);
+    if(b==='angry')   return ln(x-20,by+(side<0?-8:6),x+20,by+(side<0?6:-8),8);
+    if(b==='sly')     return side<0 ? ln(x-20,by+2,x+20,by+2,8) : pth(`M ${x-22} ${by+4} q 24 -20 46 -6`,"none",8);
+    return pth(`M ${x-20} ${by+2} q 20 -8 40 -2`,"none",8);
+  };
+  P.push(brow(exL,-1)+brow(exR,1));
+  /* naso a virgola */
+  P.push(pth(`M ${L+4} ${ey+20} q 18 8 8 26 q -4 4 -12 2`,"none",6));
+  const mx=L+6, my=HY+76;
+  const f=o.face;
+  if(f==='smile')      P.push(pth(`M ${mx-30} ${my-8} Q ${mx} ${my+20} ${mx+30} ${my-8}`,"none",7));
+  else if(f==='smirk') P.push(pth(`M ${mx-26} ${my+2} Q ${mx+4} ${my+14} ${mx+30} ${my-10}`,"none",7));
+  else if(f==='flat')  P.push(ln(mx-22,my+2,mx+22,my+2,7));
+  else if(f==='sad')   P.push(pth(`M ${mx-26} ${my+10} Q ${mx} ${my-12} ${mx+26} ${my+10}`,"none",7));
+  else if(f==='o')     P.push(`<ellipse cx="${mx}" cy="${my+4}" rx="13" ry="16" fill="${INK}"/>`);
+  else if(f==='grin')  P.push(`<path d="M ${mx-34} ${my-10} Q ${mx} ${my+40} ${mx+34} ${my-10} Z" fill="#fff" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/>`);
+  else if(f==='wavy')  P.push(pth(`M ${mx-28} ${my+4} q 9 -9 18 0 q 9 9 18 0 q 9 -9 18 0`,"none",6));
+  else if(f==='shh')   P.push(`<ellipse cx="${mx}" cy="${my+2}" rx="11" ry="8" fill="${INK}"/>`);
+  if(o.mustache) P.push(`<path d="M ${mx-56} ${my-8} q 14 -24 56 -14 q 42 -10 56 14 q -26 -2 -56 0 q -30 -2 -56 0 Z" fill="${HAIRC.grey}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>`);
+  if(o.sweat) P.push(dropSweat(HRX+28,HY-100,1.1));
+
+  /* braccia: dopo la testa, così una mano vicino al viso resta visibile */
+  P.push(arm(SH,o.l,-1,o.bendL,o.lh));
+  P.push(arm(SHR,o.r,1,o.bendR,o.rh));
+  P.push(o.front);
+
+  const tr=`translate(${o.x},${o.y}) scale(${o.flip?-o.s:o.s},${o.s})`;
+  return `<g transform="${tr}" data-fig="${o.name}">${P.join("")}</g>`;
+}
+/* pollice del guanto disegnato SOPRA un oggetto tenuto in mano (foglio, telefono) */
+const thumbOver=(x,y,ang,len=30,s=1)=>{
+  const a=ang*Math.PI/180, x2=x+Math.cos(a)*len*s, y2=y+Math.sin(a)*len*s;
+  return ln(x,y,x2,y2,26*s,INK)+ln(x,y,x2,y2,14*s,GLOVE);
+};
+/* il capo: giacca scura, pelato con ciuffi grigi, baffi */
+const boss=o=>guy(Object.assign({body:'suit',hair:'grey',glasses:false,cheeks:false,mustache:true,tie:null,name:'boss'},o));
+
+/* ================= oggetti ================= */
+/* foglio con angolo piegato; contenuto in coordinate locali (0,0 = alto a sinistra) */
+function paper(x,y,w,h,inner="",rot=0,fill=PAPER){
+  const f=Math.min(46,Math.round(w*0.15));   // orecchia più piccola sui fogli piccoli
+  const d=`M 0 0 L ${w-f} 0 L ${w} ${f} L ${w} ${h} L 0 ${h} Z`;
+  return G(`<rect x="10" y="12" width="${w}" height="${h}" rx="4" fill="${SHADOW}"/>`+
+    pth(d,fill,7)+pth(`M ${w-f} 0 L ${w-f} ${f} L ${w} ${f}`,"#f4f4f5",6)+inner,
+    `translate(${x},${y}) rotate(${rot} ${w/2} ${h/2})`);
+}
+const lines=(x,y,w,n,gap=34,c="#d4d4d8",wd=7)=>{let s="";for(let i=0;i<n;i++)s+=ln(x,y+i*gap,x+w*(i%3===2?0.62:1),y+i*gap,wd,c);return s;};
+const squiggle=(x,y,c=INDIGO)=>pth(`M ${x} ${y} q 14 -32 26 -4 q 10 26 24 -6 q 12 -26 22 8 q 8 18 30 -8`,"none",5,c);
+
+function contractDoc(x,y,w,h,rot=0,{big="PART-TIME",bigCol=GREEN,sub="24 ore / settimana"}={}){
+  const k=w/380;
+  return paper(x,y,w,h,
+    txt(w/2,64*k,"CONTRATTO",34*k,INK)+ln(40*k,86*k,w-40*k,86*k,5,"#d4d4d8")+
+    fitTxt(w/2,170*k,big,w-70*k,66*k,bigCol)+fitTxt(w/2,226*k,sub,w-70*k,30*k,"#52525b")+
+    lines(40*k,286*k,w-80*k,4,32*k)+squiggle(w-176*k,h-58*k)+
+    ln(w-190*k,h-40*k,w-40*k,h-40*k,4,"#a1a1aa"),rot);
+}
+
+function clock(x,y,r,hh,mm,{face=PAPER,rim=INK,spin=null,label=null,labelCol=INK}={}){
+  let s=cir(0,0,r,face,Math.max(6,r/14),rim);
+  for(let i=0;i<12;i++){const a=i*Math.PI/6;s+=ln(Math.cos(a)*r*0.78,Math.sin(a)*r*0.78,Math.cos(a)*r*0.88,Math.sin(a)*r*0.88,i%3?4:7);}
+  const ah=((hh%12)+mm/60)*30-90, am=mm*6-90;
+  const hand=(ang,len,w)=>ln(0,0,Math.cos(ang*Math.PI/180)*len,Math.sin(ang*Math.PI/180)*len,w);
+  if(spin){
+    s+=A(hand(ah,r*0.5,10),{from:spin,loop:"spin:0.35",origin:"0 0"});
+    s+=A(hand(am,r*0.72,7),{from:spin,loop:"spin:3.2",origin:"0 0"});
+  } else s+=hand(ah,r*0.5,10)+hand(am,r*0.72,7);
+  s+=`<circle cx="0" cy="0" r="${r/12}" fill="${INK}"/>`;
+  if(label) s+=txt(0,r+64,label,54,labelCol);
+  return G(s,`translate(${x},${y})`);
+}
+
+function envelope(x,y,w,rot=0,cash=true){
+  const h=w*0.62;
+  let s="";
+  if(cash){
+    s+=`<g transform="translate(${w*0.12},${-h*0.34}) rotate(-8)">${rct(0,0,w*0.7,h*0.52,6,CASH,5)}${cir(w*0.35,h*0.26,h*0.14,"none",4,CASH_DK)}${sans(w*0.35,h*0.33,"€",h*0.2,CASH_DK)}</g>`;
+    s+=`<g transform="translate(${w*0.2},${-h*0.22}) rotate(5)">${rct(0,0,w*0.7,h*0.52,6,CASH,5)}${cir(w*0.35,h*0.26,h*0.14,"none",4,CASH_DK)}${sans(w*0.35,h*0.33,"€",h*0.2,CASH_DK)}</g>`;
+  }
+  s+=rct(0,0,w,h,8,PAPER,7);
+  s+=pth(`M 0 0 L ${w/2} ${h*0.55} L ${w} 0`,"none",6);
+  return G(s,`translate(${x},${y}) rotate(${rot} ${w/2} ${h/2})`);
+}
+
+function desk(x,y,w){ // y = piano del tavolo; gambe fino a terra (1760)
+  const legH=1760-y;
+  return G(rct(0,0,w,34,6,"#e4e4e7",7)+ln(40,34,40,legH,8)+ln(w-40,34,w-40,legH,8),`translate(${x},${y})`);
+}
+function monitor(x,y,w,glow=false){ // x,y = base del monitor sul tavolo
+  const h=w*0.62;
+  return G(rct(-w/2,-h-60,w,h,12,glow?"#c7d2fe":"#e0e7ff",7)+
+    (glow?"":lines(-w/2+34,-h-18,w-68,1,0,"#a5b4fc",10)+lines(-w/2+34,-h+22-60+60,w*0.5,2,30,"#a5b4fc",8))+
+    ln(0,-60,0,-8,10)+ln(-60,-4,60,-4,10),`translate(${x},${y})`);
+}
+function mug(x,y,s=1,steam=true){
+  return G(rct(-34,-80,68,80,10,PAPER,6)+pth(`M 34 -60 q 30 4 26 28 q -4 16 -26 12`,"none",6)+
+    (steam?pth(`M -10 -104 q -12 -16 0 -30 q 12 -14 0 -30`,"none",4,GREY)+pth(`M 12 -100 q -12 -16 0 -30`,"none",4,GREY):""),
+    `translate(${x},${y}) scale(${s})`);
+}
+
+function card(x,y,w,h,label,icon){
+  return G(`<rect x="10" y="12" width="${w}" height="${h}" rx="26" fill="${SHADOW}"/>`+
+    rct(0,0,w,h,26,PAPER,7)+G(icon,`translate(${w/2},${h*0.44})`)+txt(w/2,h-34,label,44,INK),
+    `translate(${x},${y})`);
+}
+const iconPiggy=()=>
+  `<ellipse cx="0" cy="0" rx="92" ry="66" fill="#fbcfe8" stroke="${INK}" stroke-width="7"/>`+
+  rct(-18,-78,36,10,4,INK,0)+`<ellipse cx="88" cy="-4" rx="18" ry="22" fill="#fbcfe8" stroke="${INK}" stroke-width="6"/>`+
+  `<circle cx="84" cy="-8" r="3.5" fill="${INK}"/><circle cx="93" cy="-8" r="3.5" fill="${INK}"/>`+
+  `<circle cx="50" cy="-22" r="6" fill="${INK}"/>`+pth("M 30 -58 l 8 -30 l 22 22","#fbcfe8",6)+
+  ln(-50,60,-50,86,10)+ln(40,60,40,86,10)+pth("M -92 -6 q -26 -4 -20 -26","none",6);
+const iconSack=()=>
+  pth("M -76 70 Q -96 -10 -34 -54 L -50 -86 Q 0 -104 50 -86 L 34 -54 Q 96 -10 76 70 Z","#fde68a",7)+
+  ln(-40,-58,40,-58,7)+txt(0,40,"TFR",50,"#92400e");
+const icon13=()=>
+  rct(-78,-74,156,150,14,PAPER,7)+rct(-78,-74,156,40,14,RED_SOFT,7)+ln(-44,-92,-44,-60,9)+ln(44,-92,44,-60,9)+
+  txt(0,44,"13ª",64,INK);
+const iconUmbrella=()=>
+  pth("M -96 0 Q -90 -86 0 -92 Q 90 -86 96 0 Q 72 -18 48 0 Q 24 -18 0 0 Q -24 -18 -48 0 Q -72 -18 -96 0 Z","#fca5a5",7)+
+  ln(0,-92,0,-104,7)+ln(0,0,0,70,7)+pth("M 0 70 q 0 18 -18 14","none",7)+
+  pth("M -110 86 Q 0 60 110 86","none",6,"#d97706");
+
+function phone(x,y,w,inner="",rot=0){
+  const h=w*1.9;
+  return G(`<rect x="12" y="14" width="${w}" height="${h}" rx="30" fill="${SHADOW}"/>`+
+    rct(0,0,w,h,30,"#27272a",7)+rct(12,40,w-24,h-80,12,PAPER,0)+inner+ln(w/2-26,20,w/2+26,20,6,"#52525b"),
+    `translate(${x},${y}) rotate(${rot} ${w/2} ${h/2})`);
+}
+const chatBubble=(x,y,w,h,col,right=false)=>
+  rct(x,y,w,h,14,col,4)+ln(x+18,y+h/2-6,x+w-24,y+h/2-6,5,"#52525b")+ln(x+18,y+h/2+12,x+w*0.55,y+h/2+12,5,"#71717a");
+
+function badgeCard(x,y,w,rot=0){
+  const h=w*1.3;
+  return G(pth(`M ${w/2-60} -150 L ${w/2} 0 L ${w/2+60} -150`,"none",8,INDIGO)+
+    rct(0,0,w,h,18,PAPER,7)+rct(w/2-34,-14,68,28,8,"#d4d4d8",5)+
+    `<circle cx="${w/2}" cy="${h*0.34}" r="${w*0.16}" fill="#e4e4e7" stroke="${INK}" stroke-width="5"/>`+
+    txt(w/2,h*0.66,"IN 8:31",w*0.15,GREEN)+txt(w/2,h*0.86,"OUT 17:36",w*0.15,RED),
+    `translate(${x},${y}) rotate(${rot} ${w/2} ${h/2})`);
+}
+function mailIcon(x,y,w,time,rot=0){
+  const h=w*0.66;
+  return G(rct(0,0,w,h,12,PAPER,7)+pth(`M 0 0 L ${w/2} ${h*0.55} L ${w} 0`,"none",6)+
+    rct(w*0.52,h*0.62,w*0.62,h*0.5,12,RED,0)+txt(w*0.83,h*1.0,time,w*0.2,"#fff"),
+    `translate(${x},${y}) rotate(${rot} ${w/2} ${h/2})`);
+}
+function hourglass(x,y,h){
+  const w=h*0.62;
+  return G(rct(-w/2-20,-h/2-20,w+40,32,10,"#d6a86b",6)+rct(-w/2-20,h/2-12,w+40,32,10,"#d6a86b",6)+
+    pth(`M ${-w/2} ${-h/2+12} Q ${-w/2} ${-h*0.08} -12 0 Q ${-w/2} ${h*0.08} ${-w/2} ${h/2-12} L ${w/2} ${h/2-12} Q ${w/2} ${h*0.08} 12 0 Q ${w/2} ${-h*0.08} ${w/2} ${-h/2+12} Z`,"#eff6ff",7)+
+    `<path d="M ${-w/2+30} ${-h/2+70} L ${w/2-30} ${-h/2+70} Q ${w*0.18} ${-h*0.12} 0 -6 Q ${-w*0.18} ${-h*0.12} ${-w/2+30} ${-h/2+70} Z" fill="${GOLD}"/>`+
+    `<path d="M ${-w/2+26} ${h/2-14} Q 0 ${h/2-120} ${w/2-26} ${h/2-14} Z" fill="${GOLD}"/>`+
+    A(ln(0,-4,0,h/2-110,5,GOLD),{loop:"blink:0.5"}),
+    `translate(${x},${y})`);
+}
+function alarmClock(x,y,r){
+  let s=cir(-r*0.62,-r*0.86,r*0.34,"#fca5a5",7)+cir(r*0.62,-r*0.86,r*0.34,"#fca5a5",7)+
+    ln(-r*0.55,r*0.8,-r*0.8,r*1.1,9)+ln(r*0.55,r*0.8,r*0.8,r*1.1,9)+
+    cir(0,0,r,RED,9)+cir(0,0,r*0.8,PAPER,6);
+  for(let i=0;i<12;i++){const a=i*Math.PI/6;s+=ln(Math.cos(a)*r*0.66,Math.sin(a)*r*0.66,Math.cos(a)*r*0.74,Math.sin(a)*r*0.74,i%3?4:7);}
+  s+=ln(0,0,0,-r*0.5,9)+ln(0,0,r*0.36,r*0.18,7)+`<circle r="10" fill="${INK}"/>`;
+  return G(s,`translate(${x},${y})`);
+}
+const ringLines=(x,y,r)=>{
+  let s="";
+  for(const side of [-1,1]) for(let i=0;i<3;i++){
+    const a=(-40+i*40)*Math.PI/180;
+    s+=ln(x+side*Math.cos(a)*(r+30),y+Math.sin(a)*(r+30),x+side*Math.cos(a)*(r+70),y+Math.sin(a)*(r+70),8);
+  }
+  return s;
+};
+function calculator(x,y,w,rot=0){
+  const h=w*1.35;
+  let s=rct(0,0,w,h,20,"#e0e7ff",7)+rct(w*0.12,h*0.08,w*0.76,h*0.2,8,"#ecfdf5",5)+
+    txt(w*0.82,h*0.23,"+ €",h*0.13,GREEN,"end");
+  for(let r=0;r<3;r++)for(let c=0;c<3;c++) s+=rct(w*0.13+c*w*0.26,h*0.36+r*h*0.2,w*0.2,h*0.14,6,PAPER,4);
+  return G(s,`translate(${x},${y}) rotate(${rot} ${w/2} ${h/2})`);
+}
+function moneyBag(x,y,s=1){
+  return G(pth("M -86 90 Q -110 -10 -40 -64 L -58 -104 Q 0 -126 58 -104 L 40 -64 Q 110 -10 86 90 Z",CASH,7)+
+    ln(-46,-68,46,-68,7)+sans(0,56,"€",96,CASH_DK),`translate(${x},${y}) scale(${s})`);
+}
+function thermometer(x,y,rot=0){
+  return G(rct(-10,-110,20,120,10,PAPER,5)+`<circle cx="0" cy="14" r="17" fill="${RED}" stroke="${INK}" stroke-width="5"/>`+
+    ln(0,0,0,-60,8,RED),`translate(${x},${y}) rotate(${rot})`);
+}
+function magnifier(x,y,r,rot=0,inner=""){
+  return G(inner+cir(0,0,r,"rgba(191,219,254,0.35)",10)+ln(r*0.72,r*0.72,r*1.5,r*1.5,22),`translate(${x},${y}) rotate(${rot})`);
+}
+function moth(x,y,s=1.7){
+  return G(`<ellipse cx="-22" cy="-8" rx="26" ry="18" fill="#e7e5e4" stroke="${INK}" stroke-width="5" transform="rotate(-25 -22 -8)"/>`+
+    `<ellipse cx="22" cy="-8" rx="26" ry="18" fill="#e7e5e4" stroke="${INK}" stroke-width="5" transform="rotate(25 22 -8)"/>`+
+    `<ellipse cx="0" cy="4" rx="8" ry="22" fill="#a8a29e" stroke="${INK}" stroke-width="5"/>`+
+    ln(-4,-16,-14,-34,3)+ln(4,-16,14,-34,3),`translate(${x},${y}) scale(${s})`);
+}
+function windowNight(x,y,w,h){
+  let s=rct(0,0,w,h,10,NIGHT,8)+ln(w/2,0,w/2,h,7)+ln(0,h/2,w,h/2,7);
+  s+=`<path d="M ${w*0.30} ${h*0.20} a 44 44 0 1 0 40 62 a 36 36 0 1 1 -40 -62 Z" fill="#fde68a"/>`;
+  const star=(sx,sy)=>A(`<path d="M ${sx} ${sy-12} L ${sx+4} ${sy-4} L ${sx+12} ${sy} L ${sx+4} ${sy+4} L ${sx} ${sy+12} L ${sx-4} ${sy+4} L ${sx-12} ${sy} L ${sx-4} ${sy-4} Z" fill="#fef3c7"/>`,{loop:"twinkle:"+(0.8+sx%5/5)});
+  s+=star(w*0.72,h*0.2)+star(w*0.85,h*0.36)+star(w*0.64,h*0.7)+star(w*0.16,h*0.72);
+  return G(s,`translate(${x},${y})`);
+}
+function stamp(x,y,label,rot=-12,col=RED){
+  const w=label.length*44+60;
+  return G(rct(-w/2,-58,w,116,16,"rgba(255,255,255,0.75)",9,col)+rct(-w/2+12,-46,w-24,92,10,"none",4,col)+
+    txt(0,20,label,64,col),`translate(${x},${y}) rotate(${rot})`);
+}
+function notebook(x,y,w,h,rows,rot=0){
+  let s=`<rect x="12" y="14" width="${w}" height="${h}" rx="14" fill="${SHADOW}"/>`+rct(0,0,w,h,14,"#fefce8",7);
+  for(let i=0;i<8;i++) s+=ln(26,90+i*(h-110)/8,w-26,90+i*(h-110)/8,3,"#bfdbfe");
+  s+=ln(80,20,80,h-20,4,"#fca5a5");
+  for(let i=0;i<9;i++) s+=cir(0,40+i*(h-80)/8,12,"#fafafa",5);
+  s+=txt(w/2+30,66,"ORARI",44,INK);
+  rows.forEach((r,i)=>{ s+=A(txt(104,158+i*((h-110)/8)*1.5,r.t,46,INK,"start"),{from:r.from,inn:"write"}); });
+  return G(s,`translate(${x},${y}) rotate(${rot} ${w/2} ${h/2})`);
+}
+function pencil(x,y,rot=35,len=220){
+  return G(rct(-14,-len,28,len-40,4,GOLD,6)+pth(`M -14 -40 L 0 0 L 14 -40 Z`,"#fde68a",6)+
+    `<path d="M -5 -14 L 0 0 L 5 -14 Z" fill="${INK}"/>`+rct(-14,-len-26,28,30,6,"#fca5a5",6),
+    `translate(${x},${y}) rotate(${rot})`);
+}
+function block(x,y,w,h,fill,label,lcol=INK){
+  return G(rct(0,0,w,h,12,fill,7)+txt(w/2,h/2+16,label,44,lcol),`translate(${x},${y})`);
+}
+function thought(x,y,r){
+  return G(`<ellipse cx="0" cy="0" rx="${r*1.2}" ry="${r}" fill="${PAPER}" stroke="${INK}" stroke-width="7"/>`+
+    cir(-r*0.9,r*1.15,r*0.16,PAPER,6)+cir(-r*1.2,r*1.55,r*0.1,PAPER,5),`translate(${x},${y})`);
+}
+function pagameeMark(x,y,size){
+  return G(`<defs><linearGradient id="pgGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>`+
+    `<rect x="${-size/2}" y="${-size/2}" width="${size}" height="${size}" rx="${size*0.28}" fill="url(#pgGrad)"/>`+
+    sans(0,size*0.2,"P",size*0.6,"#fff"),`translate(${x},${y})`);
+}
+
+/* ================= le illustrazioni =================
+   Ogni visual riceve gli id delle sue battute (b[0], b[1]...) per agganciare
+   le entrate: from:"b05" = all'inizio della battuta, from:"b21:MAIL" = quando
+   il testo a macchina arriva a quella parola. */
+const ART={};
+
+/* ---------- oggetti di questa puntata ---------- */
+const sack=(x,y,s=1)=>G(iconSack(),`translate(${x},${y}) scale(${s})`);
+function letter(x,y,w,label,rot=0){
+  const h=w*1.3;
+  return paper(x,y,w,h,
+    fitTxt(w/2,h*0.2,label,w*0.8,w*0.15,INK)+ln(w*0.14,h*0.28,w*0.86,h*0.28,4,"#d4d4d8")+
+    lines(w*0.14,h*0.42,w*0.72,4,h*0.1,"#d4d4d8",5)+squiggle(w*0.48,h*0.9),rot);
+}
+function coin(x,y,r=34,label="",col=GOLD){
+  return G(`<circle r="${r}" fill="#fde68a" stroke="${INK}" stroke-width="5"/>`+
+    `<circle r="${r*0.72}" fill="none" stroke="${col}" stroke-width="4"/>`+
+    (label?txt(0,r*0.3,label,r*0.62,"#92400e"):sans(0,r*0.36,"€",r,"#92400e")),`translate(${x},${y})`);
+}
+function giftBox(x,y,s=1){
+  return G(rct(-110,-40,220,170,10,"#fecaca",7)+rct(-126,-86,252,56,10,"#fca5a5",7)+
+    rct(-18,-86,36,216,0,RED,0)+ln(-18,-86,-18,130,5)+ln(18,-86,18,130,5)+
+    pth("M 0 -86 q -70 -80 -86 -30 q -10 30 86 30","#fca5a5",7)+pth("M 0 -86 q 70 -80 86 -30 q 10 30 -86 30","#fca5a5",7),
+    `translate(${x},${y}) scale(${s})`);
+}
+function medal(x,y,s=1,label="FEDELTÀ"){
+  return G(`<path d="M -60 -170 L -10 -40 L 30 -60 L -20 -190 Z" fill="${INDIGO}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>`+
+    `<path d="M 60 -170 L 10 -40 L -30 -60 L 20 -190 Z" fill="#818cf8" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>`+
+    `<circle r="96" fill="#fde68a" stroke="${INK}" stroke-width="7"/><circle r="72" fill="none" stroke="${GOLD}" stroke-width="6"/>`+
+    fitTxt(0,12,label,150,36,"#92400e"),`translate(${x},${y}) scale(${s})`);
+}
+/* barattolo del TFR: le monete (con i mesi) cadono una alla volta */
+function jar(x,y,h,coins){
+  const w=h*0.7;
+  let s=`<path d="M ${-w/2} ${-h/2+40} Q ${-w/2} ${h/2} 0 ${h/2} Q ${w/2} ${h/2} ${w/2} ${-h/2+40} Z" fill="rgba(191,219,254,0.35)" stroke="${INK}" stroke-width="8"/>`+
+    rct(-w/2-14,-h/2,w+28,48,12,"#e4e4e7",7)+
+    rct(-w*0.32,-h*0.05,w*0.64,h*0.22,12,PAPER,6)+txt(0,h*0.105,"TFR",h*0.12,INK);
+  coins.forEach((c,i)=>{
+    const cx=-w*0.26+(i%3)*w*0.26, cy=h/2-44-Math.floor(i/3)*62;
+    s+=A(coin(cx,cy,34,c.m,GOLD),{from:c.from,inn:"drop"});
+  });
+  return G(s,`translate(${x},${y})`);
+}
+function book(x,y,w,h,{title="CODICE CIVILE",art="ART. 2120",line="in ogni caso"}={}){
+  const pw=w/2;
+  return G(`<path d="M 8 14 L ${w+8} 14 L ${w+8} ${h+14} L 8 ${h+14} Z" fill="${SHADOW}"/>`+
+    pth(`M 0 0 Q ${pw/2} -24 ${pw} 0 L ${pw} ${h} Q ${pw/2} ${h-24} 0 ${h} Z`,PAPER,7)+
+    pth(`M ${pw} 0 Q ${pw*1.5} -24 ${w} 0 L ${w} ${h} Q ${pw*1.5} ${h-24} ${pw} ${h} Z`,PAPER,7)+
+    title.split(" ").map((t,i)=>fitTxt(pw/2,h*(0.22+i*0.13),t,pw*0.8,h*0.11,INDIGO)).join("")+
+    lines(pw*0.12,h*0.5,pw*0.76,4,h*0.1,"#d4d4d8",5)+
+    txt(pw*1.5,h*0.26,art,h*0.13,INK)+
+    line.split("|").map((t,i)=>fitTxt(pw*1.5,h*(0.44+i*0.11),t,pw*0.84,h*0.085,GREEN)).join("")+
+    lines(pw*1.12,h*0.7,pw*0.76,2,h*0.1,"#d4d4d8",5),`translate(${x},${y})`);
+}
+/* foglio delle rate: 24 monete da 300 */
+function rateSheet(x,y,w,h,fromOf,rot=0){
+  let s=`<rect x="0" y="0" width="${w-46}" height="${h*0.13}" fill="${RED_SOFT}"/>`+
+    txt((w-46)/2,h*0.095,"RATE TFR",h*0.075,RED);
+  const cols=4, rows=6, gx=w/(cols+0.6), gy=(h*0.8)/rows;
+  for(let i=0;i<cols*rows;i++){
+    const cx=gx*0.8+(i%cols)*gx, cy=h*0.2+gy*0.5+Math.floor(i/cols)*gy;
+    const c=coin(cx,cy,Math.min(gx,gy)*0.36,"300");
+    s+=fromOf?A(c,{from:fromOf(i),inn:"pop"}):c;
+  }
+  return paper(x,y,w,h,s,rot);
+}
+function gavel(x,y,s=1,rot=-30){
+  return G(rct(-90,-38,180,76,18,"#b45309",7)+rct(-104,-44,30,88,10,"#92400e",6)+rct(74,-44,30,88,10,"#92400e",6)+
+    rct(-12,34,24,200,8,"#d97706",6),`translate(${x},${y}) rotate(${rot}) scale(${s})`);
+}
+function decreeDoc(x,y,w,h,rot=0){
+  return paper(x,y,w,h,
+    txt(w/2-20,h*0.12,"TRIBUNALE",h*0.06,"#52525b")+ln(w*0.1,h*0.16,w*0.82,h*0.16,4,"#d4d4d8")+
+    fitTxt(w/2-20,h*0.3,"DECRETO",w*0.7,h*0.1,INK)+fitTxt(w/2-20,h*0.41,"INGIUNTIVO",w*0.8,h*0.085,INK)+
+    lines(w*0.1,h*0.53,w*0.72,4,h*0.07,"#d4d4d8",5)+
+    `<circle cx="${w*0.7}" cy="${h*0.86}" r="${h*0.075}" fill="none" stroke="${INDIGO}" stroke-width="6"/>`+
+    squiggle(w*0.12,h*0.88),rot);
+}
+function bankBuilding(x,y,w){
+  const h=w*0.8;
+  let s=pth(`M ${-w/2-20} ${-h*0.55} L 0 ${-h} L ${w/2+20} ${-h*0.55} Z`,"#e0e7ff",8)+
+    rct(-w/2-10,-h*0.55,w+20,40,6,"#c7d2fe",7)+rct(-w/2-30,h*0.02,w+60,50,8,"#c7d2fe",7);
+  for(let i=0;i<5;i++){const cx=-w/2+w*0.1+i*w*0.2; s+=rct(cx-22,-h*0.55+40,44,h*0.57-40,6,PAPER,7);}
+  s+=fitTxt(0,-h*0.66,"BANCA",w*0.4,54,INDIGO);
+  return G(s,`translate(${x},${y})`);
+}
+function bill(x,y,w,label,col,rot=0){
+  return paper(x,y,w,w*0.72,fitTxt(w/2-14,w*0.24,label,w*0.78,w*0.13,col)+lines(w*0.12,w*0.38,w*0.7,3,w*0.1,"#d4d4d8",5),rot);
+}
+function bigUmbrella(cx,cy,r,label){
+  let s=`<path d="M ${-r} 0 Q ${-r*0.9} ${-r*0.95} 0 ${-r} Q ${r*0.9} ${-r*0.95} ${r} 0 Q ${r*0.75} ${-r*0.2} ${r/2} 0 Q ${r*0.25} ${-r*0.2} 0 0 Q ${-r*0.25} ${-r*0.2} ${-r/2} 0 Q ${-r*0.75} ${-r*0.2} ${-r} 0 Z" fill="${INDIGO}" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>`;
+  s+=ln(0,-r,0,-r-26,8);
+  s+=label.map((l,i)=>fitTxt(0,-r*0.52+i*r*0.2,l,r*1.3,r*0.15,"#fff")).join("");
+  return G(s,`translate(${cx},${cy})`);
+}
+const drops=(xs,y0)=>xs.map((x,i)=>A(`<path d="M ${x} ${y0+(i%3)*70} q 12 20 0 30 q -12 -10 0 -30 Z" fill="#93c5fd" stroke="${INK}" stroke-width="3"/>`,{loop:`bob:14:${0.6+(i%4)*0.15}`})).join("");
+
+/* ---------- oggetti della parte 3 ---------- */
+function clipboard(x,y,w,rot=0){
+  const h=w*1.35;
+  return G(rct(0,0,w,h,14,"#d6a86b",7)+rct(w*0.08,h*0.08,w*0.84,h*0.86,6,PAPER,5)+
+    rct(w*0.3,-h*0.04,w*0.4,h*0.1,8,"#a1a1aa",6)+
+    [0,1,2].map(i=>check(w*0.2,h*(0.3+i*0.2),w*0.07,GREEN)+ln(w*0.34,h*(0.3+i*0.2),w*0.82,h*(0.3+i*0.2),5,"#d4d4d8")).join(""),
+    `translate(${x},${y}) rotate(${rot} ${w/2} ${h/2})`);
+}
+function namePlate(x,y,w,label){
+  const h=w*0.26;
+  return G(`<path d="M 0 ${h} L ${w*0.08} 0 L ${w*0.92} 0 L ${w} ${h} Z" fill="${INDIGO}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>`+
+    fitTxt(w/2,h*0.72,label,w*0.78,h*0.62,"#fff"),`translate(${x},${y})`);
+}
+/* calendario a mesi: celle con la spunta che compare su "from" */
+function monthsGrid(x,y,w,n,cols,marks,{title=null,col=GREEN}={}){
+  const cw=w/cols, ch=cw*0.9, rows=Math.ceil(n/cols);
+  let s=`<rect x="10" y="12" width="${w}" height="${rows*ch+(title?90:0)}" rx="16" fill="${SHADOW}"/>`+
+    rct(0,0,w,rows*ch+(title?90:0),16,PAPER,7);
+  const top=title?90:0;
+  if(title) s+=`<rect x="4" y="4" width="${w-8}" height="82" rx="12" fill="${col===RED?RED_SOFT:GREEN_SOFT}"/>`+txt(w/2,62,title,48,col);
+  const M=["GEN","FEB","MAR","APR","MAG","GIU","LUG","AGO","SET","OTT","NOV","DIC"];
+  for(let i=0;i<n;i++){
+    const cx=(i%cols)*cw, cy=top+Math.floor(i/cols)*ch;
+    s+=ln(cx,cy,cx+cw,cy,3,"#e4e4e7")+txt(cx+cw/2,cy+ch*0.34,M[i%12],ch*0.2,"#71717a");
+    if(marks[i]) s+=A(col===RED?xmark(cx+cw/2,cy+ch*0.64,ch*0.2,RED):check(cx+cw/2,cy+ch*0.64,ch*0.24,GREEN),{from:marks[i],inn:"stamp"});
+  }
+  return G(s,`translate(${x},${y})`);
+}
+function gradCap(x,y,s=1){
+  return G(pth("M -110 0 L 0 -50 L 110 0 L 0 50 Z",INK,6)+pth("M -60 26 L -60 80 Q 0 110 60 80 L 60 26","#3f3f46",6)+
+    ln(100,4,100,80,6,GOLD)+cir(100,86,10,GOLD,4),`translate(${x},${y}) scale(${s})`);
+}
+function team(x,y,s=1){
+  const head=(hx,hy,hair)=>cir(hx,hy,34,SKIN,6)+pth(`M ${hx-34} ${hy-6} Q ${hx} ${hy-58} ${hx+34} ${hy-6}`,hair,6)+
+    `<circle cx="${hx-11}" cy="${hy+4}" r="4" fill="${INK}"/><circle cx="${hx+11}" cy="${hy+4}" r="4" fill="${INK}"/>`;
+  const body=(bx,by,c)=>pth(`M ${bx-44} ${by+70} Q ${bx-44} ${by} ${bx} ${by} Q ${bx+44} ${by} ${bx+44} ${by+70} Z`,c,6);
+  return G(body(-70,30,"#dbeafe")+head(-70,-10,"#4a3222")+body(70,30,GREEN_SOFT)+head(70,-10,"#27272a")+
+    body(0,50,"#fecaca")+head(0,10,"#8a5a3b"),`translate(${x},${y}) scale(${s})`);
+}
+function stairs(x,y,step,labels){ // gradini da sinistra (basso) a destra (alto); y = base
+  let s="";
+  labels.forEach((l,i)=>{
+    const h=(i+1)*step*0.62;
+    s+=rct(i*step,-h,step,h,8,i===labels.length-1?GREEN_SOFT:LIGHT,7)+txt(i*step+step/2,-h+58,l,46,i===labels.length-1?GREEN:INK);
+  });
+  return G(s,`translate(${x},${y})`);
+}
+function plantPot(x,y,s=1,label=""){
+  return G(pth("M -70 0 L 70 0 L 54 110 L -54 110 Z","#fdba74",7)+rct(-80,-20,160,34,8,"#fb923c",7)+
+    pth("M 0 -20 Q -6 -80 0 -120","none",7,GREEN)+
+    `<path d="M 0 -80 Q -60 -110 -70 -60 Q -20 -50 0 -80 Z" fill="${GREEN_SOFT}" stroke="${INK}" stroke-width="5"/>`+
+    `<path d="M 0 -110 Q 50 -150 70 -100 Q 20 -86 0 -110 Z" fill="${GREEN_SOFT}" stroke="${INK}" stroke-width="5"/>`+
+    (label?fitTxt(0,68,label,96,30,"#7c2d12"):""),`translate(${x},${y}) scale(${s})`);
+}
+function wateringCan(x,y,s=1,rot=-20,flip=false){
+  return G(rct(-70,-50,140,110,22,"#93c5fd",7)+pth("M 70 -10 L 150 -60 L 160 -46 L 76 20","#93c5fd",7)+
+    pth("M -50 -50 Q 0 -120 50 -50","none",8)+
+    A([0,1,2].map(i=>`<circle cx="${172+i*10}" cy="${-30+i*26}" r="6" fill="#60a5fa"/>`).join(""),{loop:"bob:8:0.5"}),
+    `translate(${x},${y}) scale(${flip?-s:s},${s}) rotate(${rot})`);
+}
+function officeChair(x,y,s=1){
+  return G(rct(-80,-230,160,170,26,"#a1a1aa",7)+rct(-100,-70,200,40,14,"#71717a",7)+ln(0,-30,0,70,10)+
+    ln(-80,90,80,90,9)+cir(-80,96,12,INK,0)+cir(80,96,12,INK,0)+cir(0,96,12,INK,0),`translate(${x},${y}) scale(${s})`);
+}
+function hangSign(x,y,w,lines2,col=INDIGO){
+  const h=lines2.length*54+40;
+  return G(ln(w*0.2,-60,w/2,-100,4)+ln(w*0.8,-60,w/2,-100,4)+cir(w/2,-100,6,INK,0)+
+    rct(0,-60,w,h,12,PAPER,6)+lines2.map((l,i)=>fitTxt(w/2,-60+50+i*54,l,w*0.84,40,col)).join(""),`translate(${x},${y})`);
+}
+function balance(x,y,heavyL,lightR){ // (x,y) = perno; il piatto sinistro pesa di più
+  const tilt=10, arm=320, sl=250, t=tilt*Math.PI/180;
+  let s=rct(-100,420,200,40,10,"#a1a1aa",7)+ln(0,420,0,0,14);
+  const lx=-arm*Math.cos(t), ly=arm*Math.sin(t), rx=arm*Math.cos(t), ry=-arm*Math.sin(t);
+  const pan=(px,py,items,fill,col)=>ln(px,py,px-112,py+sl,4)+ln(px,py,px+112,py+sl,4)+
+    items.map((l,i)=>G(rct(-110,0,220,62,12,fill,7)+fitTxt(0,46,l,196,42,col),`translate(${px},${py+sl-66-i*68})`)).join("")+
+    pth(`M ${px-130} ${py+sl} Q ${px} ${py+sl+70} ${px+130} ${py+sl} Z`,"#e4e4e7",7)+cir(px,py,10,INK,0);
+  s+=ln(lx,ly,rx,ry,12)+`<circle r="20" fill="${INK}"/>`;
+  s+=pan(lx,ly,heavyL,GREEN_SOFT,GREEN)+pan(rx,ry,lightR,LIGHT,INK);
+  return G(s,`translate(${x},${y})`);
+}
+const pill=(x,y,w,label,col)=>G(rct(-w/2,-56,w,112,56,col,0)+fitTxt(0,20,label,w*0.86,56,"#fff"),`translate(${x},${y})`);
+
+function shiftSheet(x,y,w,rot=0){
+  const h=w*0.9, cols=["#bfdbfe","#bbf7d0","#fde68a","#fecaca"];
+  let g=`<rect x="0" y="0" width="${w-46}" height="${h*0.22}" fill="${GREEN_SOFT}"/>`+txt((w-46)/2,h*0.16,"TURNI",h*0.13,GREEN);
+  for(let r=0;r<3;r++) for(let c=0;c<4;c++)
+    g+=rct(w*0.08+c*w*0.2,h*0.3+r*h*0.21,w*0.17,h*0.16,6,cols[(r+c)%4],4);
+  return paper(x,y,w,h,g,rot);
+}
+
+/* ---------- le scene ---------- */
+ART.hook=b=>
+  guy({x:520,y:1760,s:1.12,look:0.35,face:'smirk',brows:'sly',eyes:'sly',
+       l:[-26,168],bendL:78,r:[56,70],bendR:40,rh:'dot',
+       behind:clipboard(96,-560,200,10)})+
+  A(sparkle(840,1000,70,GREEN,3,-45,80),{from:b[0]+"+0.5",loop:"blink:0.9"});
+
+ART.duties=b=>
+  desk(560,1420,460)+namePlate(640,1340,300,"RESPONSABILE")+
+  guy({x:280,y:1770,s:0.9,look:0.5,face:'smile',brows:'up',l:[-30,230],r:[150,120],bendR:30,rh:'dot',
+       behind:clipboard(150,-560,150,8)})+
+  A(shiftSheet(390,660,300,-4),{from:b[1]+":TURNI"})+
+  A(G(team(0,0,1.15)+txt(0,-100,"TEAM",48,GREEN),"translate(820,800)"),{from:b[1]+":TEAM"})+
+  A(G(gradCap(0,0,1.1)+txt(0,-80,"NUOVI",48,GREEN),"translate(840,1150)"),{from:b[1]+":NUOVI"});
+
+ART.payslip=b=>
+  paper(410,660,560,760,
+    `<rect x="0" y="0" width="514" height="96" fill="${INDIGO_SOFT}"/>`+txt(260,66,"BUSTA PAGA",48,INDIGO)+
+    txt(40,180,"Mese: settimo",34,"#52525b","start")+ln(40,210,520,210,4,"#e4e4e7")+
+    txt(40,290,"Livello",40,INK,"start")+txt(460,292,"4°",64,RED,"middle")+
+    ln(40,330,520,330,4,"#e4e4e7")+
+    txt(40,410,"Qualifica",40,INK,"start")+txt(470,410,"impiegato",34,INK,"end")+
+    ln(40,450,520,450,4,"#e4e4e7")+
+    lines(40,520,480,4,44)+txt(40,720,"NETTO",40,INK,"start")+txt(480,720,"= prima",36,RED,"end"),-3)+
+  A(`<ellipse cx="870" cy="930" rx="84" ry="64" fill="none" stroke="${RED}" stroke-width="9" transform="rotate(-8 870 930)"/>`,{from:b[0]+":SEMPRE",inn:"draw"})+
+  guy({x:230,y:1770,s:0.86,look:0.5,face:'flat',brows:'worried',l:[-40,-256],bendL:64,r:[30,230]})+
+  A(qmark(120,960,110)+qmark(330,900,90),{from:b[0]+"+0.6",loop:"bob:10:1.4"});
+
+ART.ask=b=>
+  guy({x:290,y:1770,s:0.92,look:0.6,face:'smile',brows:'up',l:[-30,230],r:[170,-60],bendR:30,rh:'open'})+
+  boss({x:810,y:1770,s:0.92,look:-0.5,face:'flat',brows:'sly',eyes:'sly',l:[-30,230],r:[30,230]})+
+  A(G(thought(0,0,110)+txt(-62,30,"4°",78,INK)+pth("M -22 6 L 26 6 M 8 -12 L 26 6 L 8 24","none",9,GREEN)+txt(74,34,"3°",96,GREEN),"translate(360,800) scale(1.4)"),{from:b[0]+":LIVELLO"});
+
+ART.grow=b=>
+  plantPot(330,1500,1.5,"ANDREA")+
+  A(stamp(540,790,"ESPERIENZA",-8),{from:b[0]+":ESPERIENZA",inn:"stamp"})+
+  boss({x:760,y:1770,s:0.95,look:-0.4,face:'grin',brows:'up',l:[-190,-40],bendL:30,lh:'dot',r:[30,230],
+        behind:wateringCan(-330,-600,1.0,35,true)});
+
+ART.temp=b=>{
+  const marks=Array.from({length:7},(_,i)=>`${b[0]}+${(0.15+i*0.14).toFixed(2)}`);
+  return monthsGrid(90,660,560,12,4,marks,{title:"TEMPORANEO?",col:RED})+
+    boss({x:830,y:1770,s:0.86,look:-0.4,face:'smirk',brows:'sly',eyes:'sly',
+          l:[-170,-20],r:[170,-20],lh:'open',rh:'open',bendL:24,bendR:24});
+};
+
+ART.law=b=>
+  book(170,640,740,420,{title:"CODICE CIVILE",art:"ART. 2103",line:"paga del livello|superiore"})+
+  guy({x:540,y:1790,s:0.72,look:0.3,face:'smirk',brows:'sly',l:[-26,168],bendL:78,r:[40,-236],bendR:30,rh:'up'})+
+  A(check(840,1000,60),{from:b[1]+":SUPERIORE",inn:"stamp"});
+
+ART.stairs=b=>
+  stairs(360,1650,220,["5°","4°","3°"])+
+  guy({x:910,y:1650-3*220*0.62,s:0.6,look:-0.2,face:'grin',brows:'up',l:[-30,200],r:[120,-160],bendR:30,rh:'thumb'})+
+  A(coin(560,1000,50)+coin(660,940,40)+coin(480,900,36),{from:b[0]+":PRIMO",inn:"drop"})+
+  A(G(paper(0,0,200,220,txt(100,70,"GIORNO",30,"#52525b")+txt(100,170,"1",110,GREEN)),"translate(90,700) rotate(-6 100 110)"),{from:b[0]+":GIORNO",inn:"pop"});
+
+ART.six=b=>{
+  const marks=Array.from({length:6},(_,i)=>`${b[0]}+${(0.6+i*0.45).toFixed(2)}`);
+  return monthsGrid(260,660,660,6,3,marks,{title:"6 MESI",col:GREEN})+
+    A(stamp(620,1300,"DEFINITIVO",-8,GREEN),{from:b[1]+":DEFINITIVO",inn:"stamp"})+
+    guy({x:200,y:1780,s:0.72,look:0.5,face:'smile',brows:'up',l:[-30,230],r:[160,-120],bendR:30,rh:'point'});
+};
+
+ART.except=b=>
+  officeChair(640,1600,1.3)+hangSign(490,1110,300,["ASSENTE","torna presto"])+
+  guy({x:250,y:1770,s:0.86,look:0.5,face:'flat',brows:'worried',l:[-30,230],r:[140,110],bendR:30})+
+  A(pill(540,700,700,"PAGA IN PIÙ: SÌ",GREEN),{from:b[1]+":PAGA",inn:"stamp"})+
+  A(pill(540,840,700,"DEFINITIVO: NO",RED),{from:b[1]+":DEFINITIVO",inn:"stamp"});
+
+ART.prevalent=b=>
+  A(stamp(540,760,"PREVALENTI",-6,GREEN),{from:b[0]+":PREVALENTI",inn:"stamp"})+
+  balance(540,960,["SUPERIORI","SUPERIORI","SUPERIORI"],["ALTRO"])+
+  guy({x:880,y:1790,s:0.55,look:-0.4,face:'smile',brows:'up',l:[-160,-100],bendL:30,lh:'point',r:[30,200]});
+
+ART.daily=b=>{
+  const marks=Array.from({length:7},(_,i)=>`${b[0]}+${(0.2+i*0.18).toFixed(2)}`);
+  return monthsGrid(480,660,500,7,3,marks,{title:"OGNI GIORNO",col:GREEN})+
+    desk(80,1420,420)+namePlate(150,1340,300,"RESPONSABILE")+
+    guy({x:640,y:1790,s:0.62,look:-0.2,face:'smirk',brows:'sly',eyes:'sly',l:[-26,168],bendL:78,r:[26,168],bendR:78});
+};
+
+ART.threat=b=>
+  A(G(contractDoc(0,0,300,400,-6,{big:"LIV. 3°",sub:"+ arretrati"}),"translate(70,680)"),{from:b[0]+":LIVELLO",inn:"pop"})+
+  A(G(gavel(0,0,1.15,-35),"translate(840,900)"),{from:b[0]+":GIUDICE",inn:"stamp"})+
+  A(txt(840,1180,"GIUDICE",48,RED),{from:b[0]+":GIUDICE",inn:"fade"})+
+  guy({x:540,y:1780,s:0.8,look:0,face:'smirk',brows:'sly',l:[-150,-60],bendL:30,lh:'open',r:[150,-60],bendR:30,rh:'open'});
+
+ART.cede=b=>
+  guy({x:290,y:1770,s:0.92,look:0.6,face:'grin',brows:'up',l:[-30,230],r:[196,30],bendR:34,rh:'dot'})+
+  boss({x:810,y:1770,s:0.92,look:-0.5,face:'sad',brows:'worried',l:[-230,40],bendL:40,lh:'dot',r:[30,230],
+        behind:A(contractDoc(-420,-720,200,270,-6,{big:"LIV. 3°",sub:"nuovo contratto"}),{from:b[0]+":CONTRATTO",inn:"slide"})})+
+  A(sparkle(560,860,60,GREEN,3,-70,80),{from:b[0]+":CONTRATTO",loop:"blink:0.9"});
+
+ART.proofs=b=>
+  guy({x:500,y:1780,s:0.84,look:0.3,face:'smirk',brows:'sly',eyes:'dot',l:[-30,230],r:[170,-120],bendR:30,rh:'dot',
+       behind:magnifier(322,-792,80,82)})+
+  A(mailIcon(70,760,230,"MAIL",-6),{from:b[0]+":MAIL"})+
+  A(paper(760,640,240,300,txt(100,60,"ORDINE",30,INK)+txt(100,100,"DI SERVIZIO",26,INK)+lines(30,150,160,3,40),5),{from:b[0]+":ORDINI"})+
+  A(phone(90,1150,170,rct(10,34,150,48,0,"#bbf7d0",0)+txt(85,68,"TURNI",26,"#166534")+
+      chatBubble(20,100,128,54,"#f0fdf4")+chatBubble(20,170,110,54,"#dcfce7"),-6),{from:b[0]+":TURNI"});
+
+ART.cta=b=>
+  guy({x:330,y:1560,s:0.84,look:0.4,face:'grin',brows:'up',l:[-30,230],r:[210,-120],bendR:30,rh:'dot'})+
+  phone(540,640,250,
+    rct(12,40,226,70,0,INDIGO_SOFT,0)+txt(125,88,"Pagamee",30,INDIGO)+
+    chatBubble(24,140,190,80,"#f4f4f5")+
+    A(chatBubble(40,240,190,80,INDIGO_SOFT),{from:b[1]+":SCRIVICI"})+
+    A(chatBubble(24,340,170,80,"#f4f4f5"),{from:b[1]+":VERIFICHIAMO"}),-4)+
+  thumbOver(556,994,-30,30,0.84)+
+  A(sparkle(830,640,60,INDIGO,3,-60,80),{from:b[1]+":SCRIVICI",loop:"blink:0.9"})+
+  A(G(pagameeMark(-190,0,120)+sans(-100,38,"Pagamee",112,INK,"start"),"translate(540,1720)"),{from:b[0]+"+0.4",inn:"rise"});
+
+
+/* ================= costruzione ================= */
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+/* peso di ogni carattere nel "tempo di lettura": le pause della voce cadono sulla punteggiatura */
+function weight(ch){
+  if(/[.?!:]/.test(ch)) return 4.2;
+  if(ch===',') return 3.2;
+  if(ch===' ') return 0.6;
+  return 1;
+}
+/* "[g]PAROLA[/g] ..." -> html a caratteri singoli + testo piano (per le parole-cue) */
+function buildCaption(src){
+  let cls=null, html="", plain="", cum=[], acc=0, word="";
+  const flushWord=()=>{ if(word){ html+=`<span class="w">${word}</span>`; word=""; } };
+  let i=0;
+  while(i<src.length){
+    const m=src.slice(i).match(/^\[(\/?)([gri])\]/);
+    if(m){ cls = m[1] ? null : m[2]; i+=m[0].length; continue; }
+    const ch=src[i];
+    cum.push(acc); acc+=weight(ch);
+    const span=`<span class="c${cls?" "+cls:""}" data-k="${plain.length}">${esc(ch)}</span>`;
+    if(ch===' '){ flushWord(); html+=span; } else word+=span;
+    plain+=ch; i++;
+  }
+  flushWord();
+  return {html, plain, cum, total:acc};
+}
+
+let SEGS=null;
+function buildScenes(){
+  const stage=document.getElementById('stage');
+  const beats=TIMELINE.beats;
+  // battute consecutive con lo stesso visual = una sola scena (niente stacco)
+  const segs=[];
+  for(const bt of beats){
+    const last=segs[segs.length-1];
+    if(last && last.visual===bt.visual) { last.beats.push(bt); last.end=bt.end; }
+    else segs.push({visual:bt.visual, beats:[bt], start:bt.start, end:bt.end});
+  }
+  for(const sg of segs){
+    const div=document.createElement('div');
+    div.className='scene'; div.id='scene-'+sg.visual+'-'+sg.beats[0].id;
+    const art=(ART[sg.visual]||(()=>''))(sg.beats.map(x=>x.id));
+    let html=`<svg class="art" viewBox="0 0 ${W} ${H}"><g class="cam">${art}</g></svg>`;
+    sg.caps=[];
+    for(const bt of sg.beats){
+      const c=buildCaption(bt.text);
+      html+=`<div class="cap" id="cap-${bt.id}">${c.html}</div>`;
+      sg.caps.push({bt, ...c});
+    }
+    if(sg.visual==='hook') html+=`<div class="tag" id="tag-parte">${SERIES_PART}</div>`;
+    div.innerHTML=html;
+    stage.appendChild(div);
+    sg.dom=div;
+    sg.caps.forEach(c=>{ c.el=div.querySelector('#cap-'+c.bt.id); c.chars=[...c.el.querySelectorAll('.c')]; });
+  }
+  return segs;
+}
+
+/* istante assoluto di una parola nel testo di una battuta */
+function cueTime(seg, spec){
+  const [bid, rest] = spec.split(/:(.*)/s);
+  const cap = seg.caps.find(c=>c.bt.id===bid);
+  if(!cap) throw new Error('battuta sconosciuta '+bid+' nel visual '+seg.visual);
+  const idx = cap.plain.indexOf(rest);
+  if(idx<0) throw new Error(`parola "${rest}" non trovata in ${bid}: ${cap.plain}`);
+  return cap.bt.s0 + (cap.cum[idx]/cap.total)*(cap.bt.s1-cap.bt.s0) - 0.04;
+}
+function resolveTime(seg, spec){
+  if(spec==null) return null;
+  let off=0;
+  const mo=spec.match(/^(.*?)([+-]\d+(\.\d+)?)$/);
+  if(mo && !spec.includes(':')){ spec=mo[1]; off=parseFloat(mo[2]); }
+  if(spec.includes(':')) return cueTime(seg, spec)+off;
+  const bt=seg.beats.find(x=>x.id===spec);
+  if(!bt) throw new Error('battuta sconosciuta '+spec);
+  return bt.start+off;
+}
+
+/* Se una didascalia supera 4 righe, rimpicciolisce il font finché ci sta. */
+function fitCaptions(){
+  document.querySelectorAll('.cap').forEach(el=>{
+    let fs=parseFloat(getComputedStyle(el).fontSize), guard=0;
+    const lh=()=>parseFloat(getComputedStyle(el).lineHeight);
+    while(el.getBoundingClientRect().height > lh()*4+2 && fs>40 && guard++<40){ fs-=2; el.style.fontSize=fs+'px'; }
+  });
+}
+
+function ready(){
+  if(SEGS) return;
+  SEGS=buildScenes();
+  document.querySelectorAll('.scene').forEach(d=>d.style.display='block');
+  document.querySelectorAll('.cap').forEach(d=>d.style.display='block');
+  fitCaptions();
+  for(const sg of SEGS){
+    sg.anims=[...sg.dom.querySelectorAll('svg [data-from],svg [data-until],svg [data-loop]')].map(el=>{
+      const bb=el.getBBox();
+      const a={el, from:resolveTime(sg, el.getAttribute('data-from')),
+        until:resolveTime(sg, el.getAttribute('data-until')),
+        inn:el.getAttribute('data-in')||'pop', loop:el.getAttribute('data-loop'),
+        base:el.getAttribute('transform')||'', cx:bb.x+bb.width/2, cy:bb.y+bb.height/2, bb};
+      const og=el.getAttribute('data-origin');
+      if(og){ const [ox,oy]=og.split(' ').map(Number); a.ox=ox; a.oy=oy; } else { a.ox=a.cx; a.oy=a.cy; }
+      if(a.inn==='draw'){ el.querySelectorAll('ellipse,path').forEach(p=>{ const L=p.getTotalLength?p.getTotalLength():1000; p.style.strokeDasharray=L; p.dataset.len=L; }); }
+      if(a.inn==='write'){ const t=el.querySelector('text'); a.textW=t.getComputedTextLength(); a.tx=+t.getAttribute('x'); }
+      return a;
+    });
+    const tag=sg.dom.querySelector('#tag-parte');
+    if(tag){
+      const c=sg.caps[0].el.getBoundingClientRect();
+      tag.style.top=(c.bottom+30)+'px';
+      sg.tagAt=sg.caps[0].bt.s1+0.1;
+    }
+  }
+  document.querySelectorAll('.cap').forEach(d=>d.style.display='none');
+  document.querySelectorAll('.scene').forEach(d=>d.style.display='none');
+}
+
+function applyAnim(a,t){
+  const el=a.el;
+  let op=1, tr='';
+  const T=t-(a.from??-1e9);
+  if(a.from!=null){
+    if(T<0) op=0;
+    else if(a.inn==='pop'){
+      const p=clamp(T/0.38,0,1), k=0.4+0.6*easeOutBack(p);
+      op=clamp(p*2.5,0,1); tr=`translate(${a.cx} ${a.cy}) scale(${k}) translate(${-a.cx} ${-a.cy})`;
+    } else if(a.inn==='stamp'){
+      const p=clamp(T/0.26,0,1), k=1+1.2*(1-easeOutCubic(p));
+      op=clamp(p*3,0,1); tr=`translate(${a.cx} ${a.cy}) scale(${k}) translate(${-a.cx} ${-a.cy})`;
+    } else if(a.inn==='drop'){
+      const p=clamp(T/0.4,0,1); op=clamp(p*3,0,1); tr=`translate(0 ${(-(1-easeOutBack(p))*140).toFixed(1)})`;
+    } else if(a.inn==='slide'){
+      const p=clamp(T/0.45,0,1); op=clamp(p*2,0,1); tr=`translate(${((1-easeOutCubic(p))*160).toFixed(1)} 0)`;
+    } else if(a.inn==='rise'){
+      const p=clamp(T/0.5,0,1); op=p; tr=`translate(0 ${((1-easeOutCubic(p))*60).toFixed(1)})`;
+    } else if(a.inn==='fade'){
+      op=clamp(T/0.35,0,1);
+    } else if(a.inn==='draw'){
+      const p=easeOutCubic(clamp(T/0.5,0,1));
+      el.querySelectorAll('[data-len]').forEach(n=>n.style.strokeDashoffset=(1-p)*n.dataset.len);
+    } else if(a.inn==='write'){
+      const p=clamp(T/0.55,0,1);
+      el.setAttribute('clip-path',''); op=T<0?0:1;
+      el.style.clipPath=`inset(0 ${((1-p)*100).toFixed(1)}% 0 0)`;
+    }
+  }
+  if(a.until!=null && t>=a.until) op=0;
+  if(a.loop){
+    const [kind,p1,p2]=a.loop.split(':');
+    const L=t-(a.from??0);
+    if(kind==='spin') tr+=` rotate(${(L*360/parseFloat(p1))%360} ${a.ox} ${a.oy})`;
+    else if(kind==='bob') tr+=` translate(0 ${(Math.sin(L*2*Math.PI/parseFloat(p2))*parseFloat(p1)).toFixed(2)})`;
+    else if(kind==='shake') tr+=` rotate(${(Math.sin(L*2*Math.PI/parseFloat(p2))*parseFloat(p1)).toFixed(2)} ${a.ox} ${a.oy})`;
+    else if(kind==='blink') op*= (Math.floor(L/parseFloat(p1))%2===0)?1:0.25;
+    else if(kind==='twinkle') op*=0.55+0.45*Math.sin(L*2*Math.PI/parseFloat(p1));
+    else if(kind==='flutter'){
+      const x=a.ox+Math.sin(L*1.3)*130+L*40, y=a.oy-L*120+Math.sin(L*5)*26;
+      tr+=` translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(Math.sin(L*9)*14).toFixed(1)})`;
+    }
+  }
+  el.style.opacity=op;
+  el.setAttribute('transform',(a.base+' '+tr).trim());
+}
+
+/* ================= copertina =================
+   Stessi personaggi e font del reel. Tutto l'essenziale sta nella fascia centrale
+   (y 285-1635): Instagram la ritaglia a 4:5 nel feed e a 3:4 nella griglia del profilo. */
+const SERIES_PART="PARTE 3";
+const COVER={
+  tag:SERIES_PART,
+  title:["FAI IL LAVORO","DEL [g]RESPONSABILE[/g]?","[r]VA PAGATO[/r]."],  // una riga per voce, mai a capo
+  art:()=>
+    boss({x:830,y:1790,s:0.62,look:-0.5,face:'sad',brows:'worried',l:[-30,230],r:[30,230]})+
+    guy({x:420,y:1770,s:1.0,look:0.3,face:'grin',brows:'up',l:[-150,-70],bendL:30,lh:'thumb',
+         r:[56,70],bendR:40,rh:'dot',behind:clipboard(96,-560,200,10)})+
+    namePlate(560,760,300,"RESPONSABILE")+
+    sparkle(660,960,60,GREEN,3,-50,80)+sparkle(180,860,60,GREEN,3,-130,80),
+};
+window.renderCover=function(){
+  ready();
+  document.querySelectorAll('.scene').forEach(d=>d.style.display='none');
+  const title=COVER.title.map(l=>'<span class="w">'+l.replace(/\[([gri])\]/g,'<span class="$1">').replace(/\[\/[gri]\]/g,'</span>')+'</span>').join('<br>');
+  const art=COVER.art();
+  const d=document.createElement('div');
+  d.id='cover'; d.className='scene'; d.style.display='block';
+  d.innerHTML=
+    `<svg class="art" viewBox="0 0 ${W} ${H}"><g transform="translate(540 800) scale(0.74) translate(-500 -690)">${art}</g></svg>`+
+    `<div class="tag" style="top:300px;opacity:1;font-size:40px">${COVER.tag}</div>`+
+    `<div class="cap" id="cover-title" style="display:block;top:380px;font-size:88px;line-height:1.25">${title}</div>`;
+  document.getElementById('stage').appendChild(d);
+  // il titolo deve restare in 3 righe e finire prima del disegno
+  const el=d.querySelector('#cover-title');
+  let fs=88;
+  const fits=()=>el.getBoundingClientRect().bottom<=730 && Math.max(...[...el.querySelectorAll('.w')].map(w=>w.getBoundingClientRect().width))<=952;
+  while(!fits() && fs>56){ fs-=2; el.style.fontSize=fs+'px'; }
+  return {titleBottom:el.getBoundingClientRect().bottom, art:d.querySelector('svg g').getBoundingClientRect().toJSON()};
+};
+
+window.renderFrame=function(t){
+  ready();
+  let seg=SEGS[0];
+  for(const s of SEGS){ if(t>=s.start) seg=s; }
+  for(const s of SEGS) s.dom.style.display=(s===seg)?'block':'none';
+
+  // leggero zoom lento della "camera", come in un video montato
+  const u=clamp((t-seg.start)/(seg.end-seg.start),0,1);
+  const k=ART_SCALE*(1+0.035*u);
+  seg.dom.querySelector('.cam').setAttribute('transform',`translate(540 ${ART_TOP}) scale(${k.toFixed(4)}) translate(-540 ${-ART_TOP})`);
+
+  // didascalia della battuta corrente, scritta a macchina
+  let cap=seg.caps[0];
+  for(const c of seg.caps){ if(t>=c.bt.start) cap=c; }
+  for(const c of seg.caps) c.el.style.display=(c===cap)?'block':'none';
+  const f=clamp((t-cap.bt.s0)/(cap.bt.s1-cap.bt.s0),0,1);
+  const pos=f*cap.total;
+  cap.chars.forEach((n,i)=>{ n.style.opacity=clamp((pos-cap.cum[i])/1.4+ (f>=1?1:0),0,1).toFixed(3); });
+
+  for(const a of seg.anims) applyAnim(a,t);
+  const tag=seg.dom.querySelector('#tag-parte');
+  if(tag){ const p=clamp((t-seg.tagAt)/0.3,0,1); tag.style.opacity=p; tag.style.transform=`translateX(-50%) scale(${(0.6+0.4*easeOutBack(p)).toFixed(3)})`; }
+};
+
+/* stato "a riposo" di una scena per i controlli: tutto visibile, testo completo */
+window.settle=function(visualId){
+  ready();
+  const seg=SEGS.find(s=>s.dom.id===visualId);
+  const tEnd=seg.end-0.01;
+  window.renderFrame(tEnd);
+  return {caps:seg.caps.map(c=>c.bt.id)};
+};
+window.segments=()=>{ ready(); return SEGS.map(s=>({id:s.dom.id,visual:s.visual,start:s.start,end:s.end,beats:s.beats.map(b=>b.id)})); };
+window.showCaption=function(visualId, beatId){
+  const seg=SEGS.find(s=>s.dom.id===visualId);
+  seg.caps.forEach(c=>{ c.el.style.display=c.bt.id===beatId?'block':'none'; if(c.bt.id===beatId) c.chars.forEach(n=>n.style.opacity=1); });
+};
+window.__READY__=true;
+</script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+{
+  "total": 86.36,
+  "engine": "take",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.17,
+      "dur": 3.17,
+      "s0": 0.14,
+      "s1": 3.035
+    },
+    {
+      "id": "b02",
+      "visual": "duties",
+      "say": "Da sette mesi Andrea fa il lavoro del suo responsabile.",
+      "text": "DA [r]7 MESI[/r] ANDREA FA IL LAVORO DEL SUO RESPONSABILE",
+      "start": 3.17,
+      "end": 6.11,
+      "dur": 2.94,
+      "s0": 3.27,
+      "s1": 6.007
+    },
+    {
+      "id": "b03",
+      "visual": "duties",
+      "say": "Organizza i turni, gestisce il team, forma i nuovi arrivati.",
+      "text": "ORGANIZZA I [g]TURNI[/g], GESTISCE IL [g]TEAM[/g], FORMA I [g]NUOVI[/g] ARRIVATI",
+      "start": 6.11,
+      "end": 9.84,
+      "dur": 3.73,
+      "s0": 6.2,
+      "s1": 9.718
+    },
+    {
+      "id": "b04",
+      "visual": "payslip",
+      "say": "Ma in busta paga il livello è sempre lo stesso. E lo stipendio pure.",
+      "text": "MA IN BUSTA PAGA IL LIVELLO È [r]SEMPRE LO STESSO[/r]. E LO STIPENDIO PURE",
+      "start": 9.84,
+      "end": 13.79,
+      "dur": 3.95,
+      "s0": 9.94,
+      "s1": 13.578
+    },
+    {
+      "id": "b05",
+      "visual": "ask",
+      "say": "Così chiede al capo il livello più alto, e le differenze arretrate.",
+      "text": "COSÌ CHIEDE AL CAPO IL [g]LIVELLO PIÙ ALTO[/g] E LE DIFFERENZE ARRETRATE",
+      "start": 13.79,
+      "end": 17.465,
+      "dur": 3.675,
+      "s0": 13.89,
+      "s1": 17.366
+    },
+    {
+      "id": "b06",
+      "visual": "grow",
+      "say": "«Ma dai, ti sto facendo crescere! È esperienza, mica una promozione.»",
+      "text": "«TI STO FACENDO CRESCERE! È [r]ESPERIENZA[/r], MICA UNA PROMOZIONE»",
+      "start": 17.465,
+      "end": 21.68,
+      "dur": 4.215,
+      "s0": 17.55,
+      "s1": 21.47
+    },
+    {
+      "id": "b07",
+      "visual": "temp",
+      "say": "«E poi è una cosa temporanea.»",
+      "text": "«E POI È UNA COSA [r]TEMPORANEA[/r]»",
+      "start": 21.68,
+      "end": 23.63,
+      "dur": 1.95,
+      "s0": 21.78,
+      "s1": 23.458
+    },
+    {
+      "id": "b08",
+      "visual": "law",
+      "say": "Temporanea da sette mesi? Vediamo cosa dice la legge.",
+      "text": "TEMPORANEA DA 7 MESI? [g]VEDIAMO COSA DICE LA LEGGE[/g]",
+      "start": 23.63,
+      "end": 27.09,
+      "dur": 3.46,
+      "s0": 23.73,
+      "s1": 26.91
+    },
+    {
+      "id": "b09",
+      "visual": "law",
+      "say": "Per il Codice Civile, se fai mansioni di livello superiore, ti spetta la paga di quel livello.",
+      "text": "SE FAI MANSIONI DI [g]LIVELLO SUPERIORE[/g], TI SPETTA LA PAGA DI QUEL LIVELLO",
+      "start": 27.09,
+      "end": 32.795,
+      "dur": 5.705,
+      "s0": 27.19,
+      "s1": 32.7
+    },
+    {
+      "id": "b10",
+      "visual": "stairs",
+      "say": "E ti spetta dal primo giorno, per tutto il periodo.",
+      "text": "E TI SPETTA [g]DAL PRIMO GIORNO[/g], PER TUTTO IL PERIODO",
+      "start": 32.795,
+      "end": 35.89,
+      "dur": 3.095,
+      "s0": 32.88,
+      "s1": 35.669
+    },
+    {
+      "id": "b11",
+      "visual": "six",
+      "say": "Non solo: dopo il periodo fissato dal tuo contratto collettivo, o in mancanza dopo sei mesi continuativi,",
+      "text": "DOPO IL PERIODO DEL TUO CCNL, O IN MANCANZA [g]6 MESI CONTINUATIVI[/g],",
+      "start": 35.89,
+      "end": 42.77,
+      "dur": 6.88,
+      "s0": 35.99,
+      "s1": 42.642
+    },
+    {
+      "id": "b12",
+      "visual": "six",
+      "say": "il livello superiore diventa definitivo.",
+      "text": "IL LIVELLO SUPERIORE [g]DIVENTA DEFINITIVO[/g]",
+      "start": 42.77,
+      "end": 45.34,
+      "dur": 2.57,
+      "s0": 42.87,
+      "s1": 45.138
+    },
+    {
+      "id": "b13",
+      "visual": "except",
+      "say": "Attenzione, però: se stai sostituendo un collega assente, che ha diritto a tornare al suo posto,",
+      "text": "ATTENZIONE: SE [r]SOSTITUISCI UN COLLEGA ASSENTE[/r] CHE HA DIRITTO A TORNARE,",
+      "start": 45.34,
+      "end": 50.625,
+      "dur": 5.285,
+      "s0": 45.44,
+      "s1": 50.571
+    },
+    {
+      "id": "b14",
+      "visual": "except",
+      "say": "la paga in più ti spetta, ma il livello non diventa definitivo.",
+      "text": "LA PAGA IN PIÙ SÌ, [r]IL LIVELLO DEFINITIVO NO[/r]",
+      "start": 50.625,
+      "end": 54.46,
+      "dur": 3.835,
+      "s0": 50.67,
+      "s1": 54.342
+    },
+    {
+      "id": "b15",
+      "visual": "prevalent",
+      "say": "E le mansioni superiori devono essere prevalenti: non basta farle ogni tanto.",
+      "text": "E DEVONO ESSERE [g]PREVALENTI[/g]: NON BASTA FARLE OGNI TANTO",
+      "start": 54.46,
+      "end": 59.53,
+      "dur": 5.07,
+      "s0": 54.56,
+      "s1": 59.342
+    },
+    {
+      "id": "b16",
+      "visual": "daily",
+      "say": "Andrea non sostituisce nessuno. E fa il responsabile ogni giorno, da sette mesi.",
+      "text": "ANDREA NON SOSTITUISCE NESSUNO. E LO FA [g]OGNI GIORNO DA 7 MESI[/g]",
+      "start": 59.53,
+      "end": 65.03,
+      "dur": 5.5,
+      "s0": 59.63,
+      "s1": 64.795
+    },
+    {
+      "id": "b17",
+      "visual": "threat",
+      "say": "Quindi: o livello e arretrati, o giudice del lavoro.",
+      "text": "QUINDI: O [g]LIVELLO E ARRETRATI[/g], O [r]GIUDICE DEL LAVORO[/r]",
+      "start": 65.03,
+      "end": 68.63,
+      "dur": 3.6,
+      "s0": 65.13,
+      "s1": 68.398
+    },
+    {
+      "id": "b18",
+      "visual": "cede",
+      "say": "Il capo ci ripensa. «Va bene, facciamo il contratto nuovo.»",
+      "text": "IL CAPO CI RIPENSA. «VA BENE, [g]FACCIAMO IL CONTRATTO NUOVO[/g]»",
+      "start": 68.63,
+      "end": 73.04,
+      "dur": 4.41,
+      "s0": 68.73,
+      "s1": 72.722
+    },
+    {
+      "id": "b19",
+      "visual": "proofs",
+      "say": "Il consiglio: conserva mail, ordini di servizio e turni. Sono le tue prove.",
+      "text": "CONSERVA [g]MAIL[/g], [g]ORDINI DI SERVIZIO[/g] E [g]TURNI[/g]: SONO LE TUE PROVE",
+      "start": 73.04,
+      "end": 78.59,
+      "dur": 5.55,
+      "s0": 73.14,
+      "s1": 78.363
+    },
+    {
+      "id": "b20",
+      "visual": "cta",
+      "say": "Fai il lavoro di un livello superiore, con la paga di prima?",
+      "text": "FAI IL LAVORO DI UN [r]LIVELLO SUPERIORE[/r] CON LA PAGA DI PRIMA?",
+      "start": 78.59,
+      "end": 81.82,
+      "dur": 3.23,
+      "s0": 78.69,
+      "s1": 81.655
+    },
+    {
+      "id": "b21",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 81.82,
+      "end": 86.36,
+      "dur": 4.54,
+      "s0": 81.92,
+      "s1": 85.6
+    }
+  ]
+}
