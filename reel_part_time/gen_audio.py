@@ -670,6 +670,18 @@ def generate(engine, out_dir="audio", timeline_path="timeline.json", voice=KOKOR
     elif engine == "eleven":
         x, sr, spans, info = synth_eleven(out_dir)
         bias = 0.0
+    elif engine == "take":
+        # lettura continua già pronta (es. ElevenLabs dal connettore, o una registrazione unica)
+        # con i confini per battuta in rec_src/take_spans.json (vedi rec_src/align_take.py)
+        meta = json.load(open(os.path.join(HERE, "rec_src", "take_spans.json")))
+        wav = os.path.join(out_dir, "_take_mono.wav")
+        to_mono_wav(os.path.join(HERE, meta["file"]), wav, SR_OUT)
+        x, sr = read_wav(wav)
+        os.remove(wav)
+        spans = [tuple(sp) for sp in meta["spans"]]
+        if len(spans) != len(BEATS):
+            sys.exit(f"take_spans.json ha {len(spans)} battute, il copione {len(BEATS)}")
+        info, bias = {"engine": "take", "source": meta["file"]}, 0.0
     else:
         x, sr, spans, info = synth_per_beat(engine, out_dir, rec_dir)
         bias = 0.0
@@ -962,7 +974,7 @@ def ensure_venv():
 
 def main():
     ap = argparse.ArgumentParser(description="Voce narrante continua + timeline delle battute")
-    ap.add_argument("--engine", choices=["kokoro", "eleven", "piper", "espeak", "rec"], default="kokoro")
+    ap.add_argument("--engine", choices=["kokoro", "eleven", "take", "piper", "espeak", "rec"], default="kokoro")
     ap.add_argument("--voice", default=KOKORO_VOICE, help="voce Kokoro (im_nicola, if_sara)")
     ap.add_argument("--speed", type=float, default=KOKORO_SPEED, help="velocità Kokoro (1.0 = naturale)")
     ap.add_argument("--max-pause", type=float, default=MAX_PAUSE, help="pausa massima in secondi")

@@ -18,6 +18,7 @@ npm install
 ./build.sh                    # voce Kokoro offline (al primo giro la installa con ./setup_tts.sh)
 ./build.sh eleven             # voce ElevenLabs (vedi sotto)
 ./build.sh rec                # la tua registrazione (vedi sotto)
+./build.sh take               # lettura continua già pronta in rec_src/ (versione attuale, ElevenLabs)
 ./build.sh kokoro --music traccia.mp3 --music-db -24   # con musica, abbassata sotto la voce
 ```
 
@@ -70,6 +71,17 @@ italiana se l'account ne ha una), `ELEVENLABS_MODEL` (predefinito
 `ELEVENLABS_SPEED`. Impostazioni voce: stability 0,48, similarity 0,75, style 0,25,
 speaker boost. Prova offline del percorso (risposta simulata, niente rete):
 `python3 gen_audio.py --selftest`.
+
+### Lettura continua già pronta (motore "take") — versione attuale
+
+Il video attuale usa la voce ElevenLabs "Chris Basetta – Social Media" (modello
+eleven_multilingual_v2), generata col connettore ElevenLabs in un'unica lettura:
+`rec_src/eleven_full.mp3`. È accelerata ×1,2 (`atempo`, stesso tono) in
+`rec_src/take.flac`; `rec_src/align_take.py` sceglie i confini delle battute tra le
+pause reali (programmazione dinamica, durate attese dalla timeline Kokoro in
+`rec_src/kokoro_timeline.json`) e scrive `rec_src/take_spans.json`, verificato con
+trascrizione automatica battuta per battuta. Poi `./build.sh take`.
+Funziona allo stesso modo con una tua registrazione unica di tutto il copione.
 
 ### Registrazione propria
 
