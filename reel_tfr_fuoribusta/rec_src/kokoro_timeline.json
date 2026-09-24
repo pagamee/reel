@@ -1,0 +1,226 @@
+{
+  "total": 71.3,
+  "engine": "kokoro-im_nicola-1.00",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.34,
+      "dur": 3.34,
+      "s0": 0.12,
+      "s1": 3.04
+    },
+    {
+      "id": "b02",
+      "visual": "fired",
+      "say": "Andrea viene licenziato, e l'azienda gli liquida il TFR.",
+      "text": "ANDREA VIENE [r]LICENZIATO[/r], E L'AZIENDA GLI LIQUIDA IL TFR",
+      "start": 3.34,
+      "end": 6.95,
+      "dur": 3.61,
+      "s0": 3.44,
+      "s1": 6.7
+    },
+    {
+      "id": "b03",
+      "visual": "inbusta",
+      "say": "Ma lo calcola solo sulla parte in busta paga.",
+      "text": "MA LO CALCOLA [r]SOLO SULLA PARTE IN BUSTA[/r]",
+      "start": 6.95,
+      "end": 9.36,
+      "dur": 2.41,
+      "s0": 7.05,
+      "s1": 9.18
+    },
+    {
+      "id": "b04",
+      "visual": "cash",
+      "say": "Per tre anni, Andrea ha preso ottocento euro al mese in contanti. Fuori busta.",
+      "text": "PER 3 ANNI HA PRESO [r]800 € AL MESE IN CONTANTI[/r]. FUORI BUSTA",
+      "start": 9.36,
+      "end": 13.86,
+      "dur": 4.5,
+      "s0": 9.46,
+      "s1": 13.61
+    },
+    {
+      "id": "b05",
+      "visual": "deny",
+      "say": "«Quali contanti? Io ho sempre pagato tutto in busta.»",
+      "text": "«QUALI CONTANTI? IO HO SEMPRE PAGATO [r]TUTTO IN BUSTA[/r]»",
+      "start": 13.86,
+      "end": 17.16,
+      "dur": 3.3,
+      "s0": 13.96,
+      "s1": 16.89
+    },
+    {
+      "id": "b06",
+      "visual": "chats",
+      "say": "Peccato che Andrea abbia i suoi messaggi, mese per mese.",
+      "text": "PECCATO CHE ANDREA ABBIA [g]I SUOI MESSAGGI[/g], MESE PER MESE",
+      "start": 17.16,
+      "end": 20.18,
+      "dur": 3.02,
+      "s0": 17.26,
+      "s1": 19.9
+    },
+    {
+      "id": "b07",
+      "visual": "guilt",
+      "say": "«E comunque quei soldi li hai presi pure tu. Ti metti nei guai da solo.»",
+      "text": "«QUEI SOLDI LI HAI PRESI PURE TU. [r]TI METTI NEI GUAI DA SOLO[/r]»",
+      "start": 20.18,
+      "end": 23.85,
+      "dur": 3.67,
+      "s0": 20.28,
+      "s1": 23.63
+    },
+    {
+      "id": "b08",
+      "visual": "law",
+      "say": "Davvero? Vediamo cosa dice la legge.",
+      "text": "DAVVERO? [g]VEDIAMO COSA DICE LA LEGGE[/g]",
+      "start": 23.85,
+      "end": 25.95,
+      "dur": 2.1,
+      "s0": 23.95,
+      "s1": 25.78
+    },
+    {
+      "id": "b09",
+      "visual": "law",
+      "say": "Per il Codice Civile, il TFR si calcola su tutto quello che ricevi per il tuo lavoro, in modo non occasionale.",
+      "text": "IL TFR SI CALCOLA SU [g]TUTTO QUELLO CHE RICEVI[/g] PER IL TUO LAVORO",
+      "start": 25.95,
+      "end": 31.58,
+      "dur": 5.63,
+      "s0": 26.05,
+      "s1": 31.4
+    },
+    {
+      "id": "b10",
+      "visual": "law",
+      "say": "Anche sulla parte pagata in nero.",
+      "text": "[g]ANCHE SULLA PARTE PAGATA IN NERO[/g]",
+      "start": 31.58,
+      "end": 33.69,
+      "dur": 2.11,
+      "s0": 31.68,
+      "s1": 33.4
+    },
+    {
+      "id": "b11",
+      "visual": "calc",
+      "say": "Ottocento euro al mese per tre anni: sono circa duemila euro di TFR in più.",
+      "text": "800 € AL MESE PER 3 ANNI: [g]CIRCA 2.000 € DI TFR IN PIÙ[/g]",
+      "start": 33.69,
+      "end": 38.23,
+      "dur": 4.54,
+      "s0": 33.79,
+      "s1": 37.93
+    },
+    {
+      "id": "b12",
+      "visual": "inps",
+      "say": "E i contributi? Doveva versarli l'azienda, su tutta la paga.",
+      "text": "E I CONTRIBUTI? [g]DOVEVA VERSARLI L'AZIENDA[/g], SU TUTTA LA PAGA",
+      "start": 38.23,
+      "end": 41.82,
+      "dur": 3.59,
+      "s0": 38.33,
+      "s1": 41.52
+    },
+    {
+      "id": "b13",
+      "visual": "inps",
+      "say": "E le sanzioni per quelli non versati sono a carico suo.",
+      "text": "E LE SANZIONI PER QUELLI NON VERSATI SONO [r]A CARICO SUO[/r]",
+      "start": 41.82,
+      "end": 45.02,
+      "dur": 3.2,
+      "s0": 41.92,
+      "s1": 44.74
+    },
+    {
+      "id": "b14",
+      "visual": "report",
+      "say": "In più, il nero si può segnalare all'Ispettorato del lavoro e all'INPS.",
+      "text": "IL NERO SI PUÒ SEGNALARE ALL'[g]ISPETTORATO DEL LAVORO[/g] E ALL'[g]INPS[/g]",
+      "start": 45.02,
+      "end": 48.61,
+      "dur": 3.59,
+      "s0": 45.12,
+      "s1": 48.41
+    },
+    {
+      "id": "b15",
+      "visual": "threat",
+      "say": "Andrea è chiaro: o TFR ricalcolato su tutto, o segnalazione.",
+      "text": "O [g]TFR RICALCOLATO SU TUTTO[/g], O [r]SEGNALAZIONE[/r]",
+      "start": 48.61,
+      "end": 52.62,
+      "dur": 4.01,
+      "s0": 48.71,
+      "s1": 52.32
+    },
+    {
+      "id": "b16",
+      "visual": "cede",
+      "say": "«Dai, dai, un attimo… ne parliamo.»",
+      "text": "«DAI, DAI, UN ATTIMO… [g]NE PARLIAMO[/g]»",
+      "start": 52.62,
+      "end": 54.89,
+      "dur": 2.27,
+      "s0": 52.72,
+      "s1": 54.69
+    },
+    {
+      "id": "b17",
+      "visual": "proofs",
+      "say": "Il consiglio: conserva ogni prova. Messaggi, prelievi, bonifici, colleghi che possono testimoniare.",
+      "text": "CONSERVA OGNI PROVA: [g]MESSAGGI[/g], [g]PRELIEVI[/g], [g]BONIFICI[/g], [g]TESTIMONI[/g]",
+      "start": 54.89,
+      "end": 60.68,
+      "dur": 5.79,
+      "s0": 54.99,
+      "s1": 60.5
+    },
+    {
+      "id": "b18",
+      "visual": "time",
+      "say": "E non aspettare troppo: per il TFR hai cinque anni dalla fine del rapporto.",
+      "text": "E NON ASPETTARE: PER IL TFR HAI [r]5 ANNI[/r] DALLA FINE DEL RAPPORTO",
+      "start": 60.68,
+      "end": 64.82,
+      "dur": 4.14,
+      "s0": 60.78,
+      "s1": 64.65
+    },
+    {
+      "id": "b19",
+      "visual": "cta",
+      "say": "Ti pagavano in parte fuori busta?",
+      "text": "TI PAGAVANO IN PARTE [r]FUORI BUSTA[/r]?",
+      "start": 64.82,
+      "end": 66.97,
+      "dur": 2.15,
+      "s0": 64.92,
+      "s1": 66.69
+    },
+    {
+      "id": "b20",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 66.97,
+      "end": 71.3,
+      "dur": 4.33,
+      "s0": 67.07,
+      "s1": 70.54
+    }
+  ]
+}
