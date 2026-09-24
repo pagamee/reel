@@ -13,25 +13,65 @@ Output: `out/reel.mp4` — 1080×1920, H.264 yuv420p, 30 fps, AAC stereo.
 
 ```bash
 npm install
-./build.sh                    # voce Piper offline (la scarica al primo giro con setup_tts.sh)
-./build.sh eleven             # voce ElevenLabs (serve ELEVENLABS_API_KEY; ELEVENLABS_VOICE_ID opzionale)
-./build.sh piper --music traccia.mp3 --music-db -24   # con musica, abbassata sotto la voce
+./build.sh                    # voce Kokoro offline (al primo giro la installa con ./setup_tts.sh)
+./build.sh eleven             # voce ElevenLabs (vedi sotto)
+./build.sh rec                # la tua registrazione (vedi sotto)
+./build.sh kokoro --music traccia.mp3 --music-db -24   # con musica, abbassata sotto la voce
 ```
 
-In alternativa si registra la propria voce: un file per battuta in `audio/<id>.wav`,
-poi si adattano a mano `timeline.json` e `audio/voiceover.wav` (vedi `gen_audio.py`).
+## La voce
 
-## I pezzi
+**Motore predefinito: Kokoro-82M** (`kokoro-onnx` 0.6.1, voce italiana maschile
+`im_nicola`, velocità 1,0), tutto offline sulla CPU (~30 s per l'intero copione).
+`./setup_tts.sh` crea `tts/venv` e scarica il modello dalle release GitHub di
+`thewh1teagle/kokoro-onnx` (`model-files-v1.1`, ~350 MB, con checksum); `tts/` non
+va nel repo. `gen_audio.py` si rilancia da solo dentro `tts/venv`.
 
-| file | cosa fa |
-|---|---|
-| `scenes.py` | copione: 25 battute, ognuna con `visual`, `say` (voce) e `text` (schermo) |
-| `setup_tts.sh` | scarica Piper e la voce italiana `riccardo` dalle release GitHub |
-| `gen_audio.py` | una traccia per battuta, misura inizio/fine del parlato, scrive `timeline.json` |
-| `mix_audio.py` | voce + "pop" leggero a ogni cambio di illustrazione (+ musica opzionale) |
-| `reel_template.html` | personaggi, oggetti e le 18 illustrazioni (`ART.<visual>`), testo a macchina |
-| `build_html.py` | inietta `timeline.json` nel template → `reel.html` |
-| `render.mjs` | `check` (layout), `preview` (1 PNG per battuta + `preview/sheet.png`), `full` (video), `still <t>` |
+- **Narrazione continua.** Il copione intero è letto in UNA sintesi: l'intonazione
+  scorre da una battuta all'altra e le battute che spezzano una frase (b16→b17,
+  b23→b24) sono lette come una frase sola. Le pause sono quelle del parlato
+  (~0,1 s a virgole e due punti, un respiro di 0,25–0,45 s a fine frase); solo quelle
+  oltre 0,45 s vengono accorciate, tagliando al centro del silenzio.
+- **Confini delle battute** dalle durate per fonema che il modello restituisce,
+  rifiniti sulle pause reali dell'audio: il cambio di battuta (e di disegno) cade
+  sempre dentro una pausa, al più 0,1 s prima che parta la frase successiva.
+  `s0`/`s1` = inizio/fine del parlato della battuta (testo a macchina).
+- **Pronuncia**: correzioni solo per il TTS in `KOKORO_RESPELL`/`KOKORO_PHONFIX`
+  dentro `gen_audio.py` (es. "WhatsApp", "ségnati", il verbo "è" accentato); il
+  testo a schermo non cambia.
+- **Uscite**: `audio/voiceover.wav` (traccia unica, 44,1 kHz stereo, −15 LUFS,
+  elaborazione leggera: passa-alto, +1,5 dB di presenza, compressione 2:1, limitatore
+  a −1,5 dBFS), `timeline.json`, e `audio/voice_report.json` con pause, energia ai
+  confini e loudness.
+- Altre voci/velocità: `KOKORO_VOICE=if_sara KOKORO_SPEED=0.9 ./build.sh`
+  (oppure `python3 gen_audio.py --voice if_sara --speed 0.9`).
+
+Limite onesto: è una voce sintetica. Molto più fluida della vecchia (Piper x_low a
+battute separate), ma nessuna voce offline disponibile qui è indistinguibile da una
+persona. Per una resa "umana al 100%" ci sono ElevenLabs o una registrazione vera.
+
+### Passare a ElevenLabs
+
+1. Nelle impostazioni dell'ambiente imposta la variabile `ELEVENLABS_API_KEY`
+   e consenti nella rete l'host `api.elevenlabs.io`.
+2. `./build.sh eleven`
+
+Il copione parte in **una sola richiesta** a `/v1/text-to-speech/{voice_id}/with-timestamps`
+(a paragrafi con `previous_text`/`next_text` solo se superasse `ELEVENLABS_MAX_CHARS`),
+e i tempi delle battute vengono dall'allineamento per carattere della risposta.
+Opzionali: `ELEVENLABS_VOICE_ID` (altrimenti sceglie da solo una voce maschile,
+italiana se l'account ne ha una), `ELEVENLABS_MODEL` (predefinito
+`eleven_multilingual_v2`), `ELEVENLABS_OUTPUT_FORMAT` (predefinito `mp3_44100_128`),
+`ELEVENLABS_SPEED`. Impostazioni voce: stability 0,48, similarity 0,75, style 0,25,
+speaker boost. Prova offline del percorso (risposta simulata, niente rete):
+`python3 gen_audio.py --selftest`.
+
+### Registrazione propria
+
+Un file per battuta in `rec/<id>.wav` (anche `.mp3`, `.m4a`: `rec/b01.wav` …
+`rec/b25.wav`), letto con il testo del campo `say`; poi `./build.sh rec`. Il silenzio
+ai bordi viene tolto e le battute sono unite con pause secondo la punteggiatura
+(0,14 s dopo una virgola, 0,2 s dopo i due punti, 0,36 s a fine frase).
 
 ## Come funziona il copione
 

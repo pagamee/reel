@@ -56,7 +56,8 @@ def main():
         graph += ";[bed][0:a]sidechaincompress=threshold=0.03:ratio=6:attack=20:release=300[duck]"
         graph += ";[vox][duck]amix=inputs=2:duration=first:normalize=0[mix]"
         last = "[mix]"
-    graph += f";{last}alimiter=limit=0.95,aresample=44100[out]"
+    # level=0: col default alimiter moltiplica tutto per 1/limit, e i picchi limitati finiscono a 0 dBFS
+    graph += f";{last}alimiter=limit=0.89:level=0:latency=1,aresample=44100[out]"
 
     run(["ffmpeg", "-y"] + inputs + ["-filter_complex", graph, "-map", "[out]",
          "-t", f"{total:.3f}", "-ac", "2", "-ar", "44100", os.path.join(OUT, "final.wav")])

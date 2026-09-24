@@ -1,11 +1,19 @@
 #!/usr/bin/env bash
 # Pipeline completa: voce -> timeline -> HTML -> controlli -> anteprime -> video.
-# Uso:  ./build.sh [piper|eleven|espeak] [--music traccia.mp3 --music-db -24]
+# Uso:  ./build.sh [kokoro|eleven|piper|espeak|rec] [--music traccia.mp3 --music-db -24]
+#   kokoro (predefinito)  voce offline continua, installata da ./setup_tts.sh
+#   eleven                ElevenLabs (serve ELEVENLABS_API_KEY e api.elevenlabs.io raggiungibile)
+#   rec                   registrazione propria, un file per battuta in rec/<id>.wav
 set -euo pipefail
 cd "$(dirname "$0")"
-ENGINE="${1:-piper}"
+ENGINE="${1:-kokoro}"
 
-[ "$ENGINE" = "piper" ] && [ ! -x tts/piper/piper ] && ./setup_tts.sh
+if [ "$ENGINE" = "kokoro" ] && { [ ! -x tts/venv/bin/python ] || [ ! -f tts/kokoro/kokoro-v1.0.onnx ]; }; then
+  ./setup_tts.sh kokoro
+fi
+if [ "$ENGINE" = "piper" ] && [ ! -x tts/piper/piper ]; then
+  ./setup_tts.sh piper
+fi
 
 echo "== 1/6  voce + timeline (motore: $ENGINE)"
 python3 gen_audio.py --engine "$ENGINE"
