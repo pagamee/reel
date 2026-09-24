@@ -831,6 +831,37 @@ function applyAnim(a,t){
   el.setAttribute('transform',(a.base+' '+tr).trim());
 }
 
+/* ================= copertina =================
+   Stessi personaggi e font del reel. Tutto l'essenziale sta nella fascia centrale
+   (y 285-1635): Instagram la ritaglia a 4:5 nel feed e a 3:4 nella griglia del profilo. */
+const COVER={
+  tag:"PARTE 1",
+  title:["IL CONTRATTO","DICE [g]24 ORE[/g].","MA NE LAVORI [r]40[/r]?"],  // una riga per voce, mai a capo
+};
+window.renderCover=function(){
+  ready();
+  document.querySelectorAll('.scene').forEach(d=>d.style.display='none');
+  const title=COVER.title.map(l=>'<span class="w">'+l.replace(/\[([gri])\]/g,'<span class="$1">').replace(/\[\/[gri]\]/g,'</span>')+'</span>').join('<br>');
+  const art=
+    contractDoc(520,700,400,560,6,{big:"PART-TIME",sub:"24 ore / settimana"})+
+    guy({x:300,y:1770,s:0.95,look:0.4,face:'wavy',brows:'worried',eyes:'tired',sweat:true,l:[-30,230],r:[210,-40],rh:'dot'})+
+    G(stamp(0,0,"40 ORE",-10),"translate(756,1110) scale(0.9)")+
+    sparkle(930,720,60,RED,3,-60,80);
+  const d=document.createElement('div');
+  d.id='cover'; d.className='scene'; d.style.display='block';
+  d.innerHTML=
+    `<svg class="art" viewBox="0 0 ${W} ${H}"><g transform="translate(540 800) scale(0.74) translate(-500 -690)">${art}</g></svg>`+
+    `<div class="tag" style="top:300px;opacity:1;font-size:40px">${COVER.tag}</div>`+
+    `<div class="cap" id="cover-title" style="display:block;top:380px;font-size:88px;line-height:1.25">${title}</div>`;
+  document.getElementById('stage').appendChild(d);
+  // il titolo deve restare in 3 righe e finire prima del disegno
+  const el=d.querySelector('#cover-title');
+  let fs=88;
+  const fits=()=>el.getBoundingClientRect().bottom<=730 && Math.max(...[...el.querySelectorAll('.w')].map(w=>w.getBoundingClientRect().width))<=952;
+  while(!fits() && fs>56){ fs-=2; el.style.fontSize=fs+'px'; }
+  return {titleBottom:el.getBoundingClientRect().bottom, art:d.querySelector('svg g').getBoundingClientRect().toJSON()};
+};
+
 window.renderFrame=function(t){
   ready();
   let seg=SEGS[0];

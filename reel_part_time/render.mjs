@@ -79,6 +79,14 @@ if (mode === 'preview') {
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-pattern_type', 'glob', '-i', 'preview/[0-9]*.png',
     '-vf', 'scale=270:-1,pad=iw+6:ih+6:3:3:color=0x888888,tile=7x4', '-frames:v', '1', 'preview/sheet.png']);
   console.log('preview: ' + i + ' fotogrammi + preview/sheet.png');
+} else if (mode === 'cover') {
+  fs.mkdirSync('out', { recursive: true });
+  const info = await page.evaluate(() => window.renderCover());
+  await page.screenshot({ path: 'out/cover.png' });
+  // come appare nella griglia del profilo (3:4) e nel feed (4:5)
+  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', 'out/cover.png', '-vf', 'crop=1080:1440:0:240', 'out/cover_griglia_3x4.png']);
+  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', 'out/cover.png', '-vf', 'crop=1080:1350:0:285', 'out/cover_feed_4x5.png']);
+  console.log('out/cover.png (+ ritagli 3:4 e 4:5)', JSON.stringify(info));
 } else if (mode === 'still') {
   fs.mkdirSync('out', { recursive: true });
   await page.evaluate(t => window.renderFrame(t), parseFloat(process.argv[3] || '1'));

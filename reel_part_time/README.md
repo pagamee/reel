@@ -90,6 +90,14 @@ Un file per battuta in `rec/<id>.wav` (anche `.mp3`, `.m4a`: `rec/b01.wav` …
 ai bordi viene tolto e le battute sono unite con pause secondo la punteggiatura
 (0,14 s dopo una virgola, 0,2 s dopo i due punti, 0,36 s a fine frase).
 
+## Copertina
+
+`node render.mjs cover` → `out/cover.png` (1080×1920) più i ritagli di controllo
+`out/cover_griglia_3x4.png` (griglia del profilo) e `out/cover_feed_4x5.png` (feed).
+Titolo e disegno stanno nella fascia centrale (y 285–1635), l'unica sempre visibile.
+Testo e righe in `COVER` dentro `reel_template.html`. Su Instagram: "Modifica
+copertina" → "Aggiungi dal rullino".
+
 ## Come funziona il copione
 
 - Battute consecutive con lo **stesso `visual`** restano sulla stessa illustrazione:
