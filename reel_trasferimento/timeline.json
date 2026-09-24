@@ -1,0 +1,204 @@
+{
+  "total": 78.32,
+  "engine": "take",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.62,
+      "dur": 3.62,
+      "s0": 0.14,
+      "s1": 3.38
+    },
+    {
+      "id": "b02",
+      "visual": "call",
+      "say": "Venerdì pomeriggio, il capo chiama Andrea nel suo ufficio.",
+      "text": "VENERDÌ POMERIGGIO, IL CAPO CHIAMA ANDREA NEL SUO UFFICIO",
+      "start": 3.62,
+      "end": 7.1,
+      "dur": 3.48,
+      "s0": 3.72,
+      "s1": 6.883
+    },
+    {
+      "id": "b03",
+      "visual": "napoli",
+      "say": "«Da lunedì lavori nella sede di Napoli.»",
+      "text": "«DA LUNEDÌ LAVORI NELLA SEDE DI [r]NAPOLI[/r]»",
+      "start": 7.1,
+      "end": 9.315,
+      "dur": 2.215,
+      "s0": 7.2,
+      "s1": 9.218
+    },
+    {
+      "id": "b04",
+      "visual": "life",
+      "say": "Andrea vive a Milano, con la famiglia e un mutuo da pagare.",
+      "text": "ANDREA VIVE A [g]MILANO[/g], CON LA [g]FAMIGLIA[/g] E UN [g]MUTUO[/g] DA PAGARE",
+      "start": 9.315,
+      "end": 13.02,
+      "dur": 3.705,
+      "s0": 9.4,
+      "s1": 12.748
+    },
+    {
+      "id": "b05",
+      "visual": "clause",
+      "say": "«Decisione aziendale. E il contratto prevede la mobilità: fidati.»",
+      "text": "«DECISIONE AZIENDALE. IL CONTRATTO PREVEDE LA [r]MOBILITÀ[/r]: FIDATI»",
+      "start": 13.02,
+      "end": 17.71,
+      "dur": 4.69,
+      "s0": 13.12,
+      "s1": 17.347
+    },
+    {
+      "id": "b06",
+      "visual": "blank",
+      "say": "Ma una clausola di mobilità non è un assegno in bianco.",
+      "text": "MA LA CLAUSOLA DI MOBILITÀ [g]NON È UN ASSEGNO IN BIANCO[/g]",
+      "start": 17.71,
+      "end": 21.07,
+      "dur": 3.36,
+      "s0": 17.81,
+      "s1": 20.933
+    },
+    {
+      "id": "b07",
+      "visual": "law",
+      "say": "Per il Codice Civile, puoi essere trasferito in un'altra sede solo per comprovate ragioni tecniche, organizzative e produttive.",
+      "text": "SOLO PER [g]COMPROVATE RAGIONI[/g] TECNICHE, ORGANIZZATIVE E PRODUTTIVE",
+      "start": 21.07,
+      "end": 28.86,
+      "dur": 7.79,
+      "s0": 21.17,
+      "s1": 28.676
+    },
+    {
+      "id": "b08",
+      "visual": "law",
+      "say": "Ragioni vere, e dimostrabili. Non basta un «fidati».",
+      "text": "RAGIONI VERE E [g]DIMOSTRABILI[/g]. NON BASTA UN [r]«FIDATI»[/r]",
+      "start": 28.86,
+      "end": 33.24,
+      "dur": 4.38,
+      "s0": 28.96,
+      "s1": 32.997
+    },
+    {
+      "id": "b09",
+      "visual": "punish",
+      "say": "E il trasferimento non può essere una punizione mascherata.",
+      "text": "E NON PUÒ ESSERE UNA [r]PUNIZIONE MASCHERATA[/r]",
+      "start": 33.24,
+      "end": 36.69,
+      "dur": 3.45,
+      "s0": 33.34,
+      "s1": 36.551
+    },
+    {
+      "id": "b10",
+      "visual": "ccnl",
+      "say": "In più, molti contratti collettivi prevedono la forma scritta e un preavviso minimo.",
+      "text": "MOLTI CCNL PREVEDONO LA [g]FORMA SCRITTA[/g] E UN [g]PREAVVISO MINIMO[/g]",
+      "start": 36.69,
+      "end": 42.12,
+      "dur": 5.43,
+      "s0": 36.79,
+      "s1": 41.873
+    },
+    {
+      "id": "b11",
+      "visual": "care",
+      "say": "E se assisti un familiare con i permessi della legge centoquattro, serve il tuo consenso.",
+      "text": "SE ASSISTI UN FAMILIARE CON I PERMESSI [g]104[/g], [g]SERVE IL TUO CONSENSO[/g]",
+      "start": 42.12,
+      "end": 48.2,
+      "dur": 6.08,
+      "s0": 42.22,
+      "s1": 47.973
+    },
+    {
+      "id": "b12",
+      "visual": "ask",
+      "say": "Andrea chiede le ragioni del trasferimento per iscritto.",
+      "text": "ANDREA CHIEDE LE RAGIONI DEL TRASFERIMENTO [g]PER ISCRITTO[/g]",
+      "start": 48.2,
+      "end": 51.475,
+      "dur": 3.275,
+      "s0": 48.3,
+      "s1": 51.396
+    },
+    {
+      "id": "b13",
+      "visual": "threat",
+      "say": "E se non ci sono, lo impugna. Anche d'urgenza, davanti al giudice del lavoro.",
+      "text": "SE NON CI SONO, LO IMPUGNA. [r]ANCHE D'URGENZA[/r], DAVANTI AL GIUDICE",
+      "start": 51.475,
+      "end": 56.77,
+      "dur": 5.295,
+      "s0": 51.54,
+      "s1": 56.487
+    },
+    {
+      "id": "b14",
+      "visual": "time",
+      "say": "Occhio ai tempi: il trasferimento va impugnato per iscritto entro sessanta giorni.",
+      "text": "OCCHIO AI TEMPI: VA IMPUGNATO PER ISCRITTO [r]ENTRO 60 GIORNI[/r]",
+      "start": 56.77,
+      "end": 62.22,
+      "dur": 5.45,
+      "s0": 56.87,
+      "s1": 62.088
+    },
+    {
+      "id": "b15",
+      "visual": "cede",
+      "say": "Il capo ci ripensa. «Aspetta, sento la direzione.»",
+      "text": "IL CAPO CI RIPENSA. «ASPETTA, [g]SENTO LA DIREZIONE[/g]»",
+      "start": 62.22,
+      "end": 66.39,
+      "dur": 4.17,
+      "s0": 62.32,
+      "s1": 66.023
+    },
+    {
+      "id": "b16",
+      "visual": "deal",
+      "say": "E alla fine si trova una soluzione che non stravolge la vita di Andrea.",
+      "text": "E SI TROVA UNA SOLUZIONE CHE [g]NON STRAVOLGE LA SUA VITA[/g]",
+      "start": 66.39,
+      "end": 70.62,
+      "dur": 4.23,
+      "s0": 66.49,
+      "s1": 70.386
+    },
+    {
+      "id": "b17",
+      "visual": "cta",
+      "say": "Ti vogliono trasferire da un giorno all'altro?",
+      "text": "TI VOGLIONO TRASFERIRE [r]DA UN GIORNO ALL'ALTRO[/r]?",
+      "start": 70.62,
+      "end": 73.29,
+      "dur": 2.67,
+      "s0": 70.72,
+      "s1": 73.146
+    },
+    {
+      "id": "b18",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 73.29,
+      "end": 78.32,
+      "dur": 5.03,
+      "s0": 73.39,
+      "s1": 77.56
+    }
+  ]
+}
