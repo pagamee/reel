@@ -1,0 +1,204 @@
+{
+  "total": 71.49,
+  "engine": "take",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.195,
+      "dur": 3.195,
+      "s0": 0.14,
+      "s1": 3.106
+    },
+    {
+      "id": "b02",
+      "visual": "night",
+      "say": "Sono le ventitré. Andrea è appena tornato a casa dal turno.",
+      "text": "SONO LE [r]23[/r]. ANDREA È APPENA TORNATO A CASA DAL TURNO",
+      "start": 3.195,
+      "end": 6.725,
+      "dur": 3.53,
+      "s0": 3.28,
+      "s1": 6.638
+    },
+    {
+      "id": "b03",
+      "visual": "msg",
+      "say": "Gli arriva un messaggio del capo.",
+      "text": "GLI ARRIVA [r]UN MESSAGGIO DEL CAPO[/r]",
+      "start": 6.725,
+      "end": 8.5,
+      "dur": 1.775,
+      "s0": 6.8,
+      "s1": 8.214
+    },
+    {
+      "id": "b04",
+      "visual": "msg",
+      "say": "«Domani non entri alle quattordici. Entri alle sei.»",
+      "text": "«DOMANI NON ENTRI ALLE 14. [r]ENTRI ALLE 6[/r]»",
+      "start": 8.5,
+      "end": 11.58,
+      "dur": 3.08,
+      "s0": 8.6,
+      "s1": 11.265
+    },
+    {
+      "id": "b05",
+      "visual": "boss",
+      "say": "«Ho un buco da coprire. I turni li decido io, e tu ti adegui.»",
+      "text": "«HO UN BUCO DA COPRIRE. [r]I TURNI LI DECIDO IO[/r], E TU TI ADEGUI»",
+      "start": 11.58,
+      "end": 15.325,
+      "dur": 3.745,
+      "s0": 11.68,
+      "s1": 15.22
+    },
+    {
+      "id": "b06",
+      "visual": "limit",
+      "say": "Ci si adegua, sì. Ma fino a un certo punto.",
+      "text": "CI SI ADEGUA, SÌ. [g]MA FINO A UN CERTO PUNTO[/g]",
+      "start": 15.325,
+      "end": 18.435,
+      "dur": 3.11,
+      "s0": 15.42,
+      "s1": 18.328
+    },
+    {
+      "id": "b07",
+      "visual": "plan",
+      "say": "I turni vanno programmati, e le modifiche comunicate con un preavviso ragionevole.",
+      "text": "TURNI [g]PROGRAMMATI[/g], E CAMBI CON UN [g]PREAVVISO RAGIONEVOLE[/g]",
+      "start": 18.435,
+      "end": 23.14,
+      "dur": 4.705,
+      "s0": 18.53,
+      "s1": 23.025
+    },
+    {
+      "id": "b08",
+      "visual": "plan",
+      "say": "Spesso è il contratto collettivo a fissare il preavviso minimo.",
+      "text": "SPESSO È IL [g]CCNL[/g] A FISSARE IL PREAVVISO MINIMO",
+      "start": 23.14,
+      "end": 26.635,
+      "dur": 3.495,
+      "s0": 23.24,
+      "s1": 26.526
+    },
+    {
+      "id": "b09",
+      "visual": "rest",
+      "say": "E c'è un limite che vale per tutti: undici ore di riposo consecutive ogni ventiquattro.",
+      "text": "E C'È UN LIMITE PER TUTTI: [g]11 ORE DI RIPOSO[/g] CONSECUTIVE OGNI 24",
+      "start": 26.635,
+      "end": 32.01,
+      "dur": 5.375,
+      "s0": 26.73,
+      "s1": 31.858
+    },
+    {
+      "id": "b10",
+      "visual": "rest",
+      "say": "Andrea ha staccato alle ventidue: rientrando alle sei, ne farebbe solo otto.",
+      "text": "HA STACCATO ALLE 22: RIENTRANDO ALLE 6, NE FAREBBE [r]SOLO 8[/r]",
+      "start": 32.01,
+      "end": 36.4,
+      "dur": 4.39,
+      "s0": 32.11,
+      "s1": 36.335
+    },
+    {
+      "id": "b11",
+      "visual": "rest",
+      "say": "Salvo deroghe del contratto collettivo, così non si può.",
+      "text": "SALVO DEROGHE DEL CCNL, [r]COSÌ NON SI PUÒ[/r]",
+      "start": 36.4,
+      "end": 40.41,
+      "dur": 4.01,
+      "s0": 36.45,
+      "s1": 40.052
+    },
+    {
+      "id": "b12",
+      "visual": "flex",
+      "say": "«Ma nel contratto c'è la flessibilità!»",
+      "text": "«MA NEL CONTRATTO C'È LA [r]FLESSIBILITÀ[/r]!»",
+      "start": 40.41,
+      "end": 42.91,
+      "dur": 2.5,
+      "s0": 40.51,
+      "s1": 42.552
+    },
+    {
+      "id": "b13",
+      "visual": "flex",
+      "say": "La flessibilità non è un potere illimitato: va usata con correttezza e buona fede.",
+      "text": "LA FLESSIBILITÀ [r]NON È ILLIMITATA[/r]: VA USATA CON [g]CORRETTEZZA E BUONA FEDE[/g]",
+      "start": 42.91,
+      "end": 48.02,
+      "dur": 5.11,
+      "s0": 43.01,
+      "s1": 47.882
+    },
+    {
+      "id": "b14",
+      "visual": "write",
+      "say": "Andrea risponde: «Me lo metta per iscritto, con il preavviso previsto dal contratto.»",
+      "text": "ANDREA: «ME LO METTA [g]PER ISCRITTO[/g], CON IL PREAVVISO DEL CONTRATTO»",
+      "start": 48.02,
+      "end": 53.26,
+      "dur": 5.24,
+      "s0": 48.12,
+      "s1": 52.898
+    },
+    {
+      "id": "b15",
+      "visual": "cede",
+      "say": "Il capo ci ripensa. «Va bene, sento l'ufficio del personale.»",
+      "text": "IL CAPO CI RIPENSA. «VA BENE, [g]SENTO L'UFFICIO DEL PERSONALE[/g]»",
+      "start": 53.26,
+      "end": 57.92,
+      "dur": 4.66,
+      "s0": 53.36,
+      "s1": 57.552
+    },
+    {
+      "id": "b16",
+      "visual": "advice",
+      "say": "Il consiglio: salva i messaggi, e controlla cosa dice il tuo contratto collettivo sui cambi turno.",
+      "text": "[g]SALVA I MESSAGGI[/g] E CONTROLLA COSA DICE IL TUO [g]CCNL[/g] SUI CAMBI TURNO",
+      "start": 57.92,
+      "end": 64.56,
+      "dur": 6.64,
+      "s0": 58.02,
+      "s1": 64.194
+    },
+    {
+      "id": "b17",
+      "visual": "cta",
+      "say": "Ti cambiano i turni all'ultimo minuto?",
+      "text": "TI CAMBIANO I TURNI [r]ALL'ULTIMO MINUTO[/r]?",
+      "start": 64.56,
+      "end": 66.81,
+      "dur": 2.25,
+      "s0": 64.66,
+      "s1": 66.684
+    },
+    {
+      "id": "b18",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 66.81,
+      "end": 71.49,
+      "dur": 4.68,
+      "s0": 66.91,
+      "s1": 70.73
+    }
+  ]
+}
