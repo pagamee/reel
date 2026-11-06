@@ -1,0 +1,461 @@
+<title>Flusso lead Pagamee</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: palco fisso 1600×900 (16:9) scalato sul viewport; flusso orizzontale con biforcazione sui conteggi.
+   Tema unico chiaro per scelta (slide da presentare su sfondo chiaro). */
+:root {
+  --bg: #fafafa; --surface: #ffffff;
+  --ink-950: #09090b; --ink-900: #18181b; --ink-700: #3f3f46; --ink-600: #52525b; --ink-500: #71717a; --ink-400: #a1a1aa; --ink-300: #d4d4d8; --ink-200: #e4e4e7; --ink-100: #f4f4f5;
+  --ok: #4f46e5; --ok-soft: #eef2ff; --ok-strong: #4338ca;
+  --law: #059669; --law-soft: #ecfdf5; --law-strong: #047857;
+  --crit: #ef4444; --crit-soft: #fef2f2; --crit-strong: #b91c1c; --crit-line: #fca5a5;
+  --warn: #f59e0b; --warn-soft: #fffbeb; --warn-strong: #b45309;
+  --sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink-900); font-family: var(--sans); letter-spacing: -0.011em; -webkit-font-smoothing: antialiased; overflow: hidden; }
+.wrap { height: 100%; display: grid; place-items: center; padding-block: 16px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.fit { position: relative; }
+.stage { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: 0 0; background: var(--bg);
+  background-image: radial-gradient(var(--ink-200) 1px, transparent 1px); background-size: 24px 24px; border: 1px solid var(--ink-200); border-radius: 14px; overflow: hidden; }
+
+.ic { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* reveal */
+.rv { opacity: 0; transform: translateY(8px); transition: opacity .55s ease, transform .55s cubic-bezier(.2,.8,.2,1); }
+.rv.in { opacity: 1; transform: none; }
+.pop { opacity: 0; transform: scale(.8); transition: opacity .4s ease, transform .5s cubic-bezier(.3,1.6,.5,1); }
+.pop.in { opacity: 1; transform: none; }
+
+/* header */
+.head { position: absolute; left: 64px; top: 44px; right: 64px; display: flex; justify-content: space-between; align-items: flex-start; z-index: 3; }
+.eyebrow { font-size: 12px; font-weight: 600; color: var(--ink-500); text-transform: uppercase; letter-spacing: 0.06em; display: flex; gap: 8px; align-items: center; }
+.brand { width: 20px; height: 20px; border-radius: 6px; background: linear-gradient(135deg,#6366f1,#8b5cf6); box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+h1 { margin: 10px 0 0; font-size: 32px; font-weight: 700; letter-spacing: -0.025em; line-height: 1.15; color: var(--ink-950); text-wrap: balance; }
+h1 em { font-style: normal; color: var(--crit-strong); }
+.legend { display: flex; gap: 16px; align-items: center; font-size: 13px; color: var(--ink-600); }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.legend i { width: 10px; height: 10px; border-radius: 999px; display: inline-block; }
+.replay { font: 500 13px var(--sans); color: var(--ink-900); background: var(--surface); border: 1px solid var(--ink-200); border-radius: 8px; padding: 8px 14px; display: inline-flex; gap: 8px; align-items: center; cursor: pointer; }
+.replay:hover { background: var(--ink-100); }
+.replay:focus-visible { outline: 3px solid rgba(79,70,229,.25); outline-offset: 2px; }
+.replay .ic { width: 15px; height: 15px; }
+
+/* flow svg */
+svg.flow { position: absolute; inset: 0; width: 1600px; height: 900px; z-index: 1; overflow: visible; }
+.track { fill: none; stroke: var(--ink-200); stroke-width: 2; stroke-dasharray: 4 6; }
+.line { fill: none; stroke-width: 3; stroke-linecap: round; }
+.line.ok { stroke: var(--ok); }
+.line.crit { stroke: var(--crit); }
+.line.warn { stroke: var(--warn); }
+.line.thin { stroke-width: 1.5; opacity: .55; }
+.pt { stroke: var(--surface); stroke-width: 1.5; }
+.pt.p-ok { fill: var(--ok); }
+.pt.p-crit { fill: var(--crit); }
+.pt.p-warn { fill: var(--warn); }
+.pt.p-lead { fill: var(--ok); stroke: var(--ok-soft); stroke-width: 5; }
+
+/* nodes */
+.node { position: absolute; width: 60px; height: 60px; margin: -30px 0 0 -30px; top: 400px; border-radius: 999px; display: grid; place-items: center; z-index: 2;
+  background: var(--ok-soft); color: var(--ok); border: 1.5px solid var(--ok); box-shadow: 0 0 0 6px var(--bg); }
+.node.law { background: var(--law-soft); color: var(--law); border-color: var(--law); }
+.above { position: absolute; top: 296px; width: 180px; margin-left: -90px; text-align: center; z-index: 2; }
+.below { position: absolute; top: 446px; width: 180px; margin-left: -90px; text-align: center; z-index: 2; }
+.below.narrow { width: 160px; margin-left: -80px; }
+.step { font-family: var(--mono); font-size: 11px; color: var(--ink-400); }
+.title { font-size: 17px; font-weight: 600; color: var(--ink-900); letter-spacing: -0.01em; margin-top: 4px; line-height: 1.3; }
+.desc { font-size: 13.5px; color: var(--ink-700); line-height: 1.45; margin-top: 6px; }
+.note { font-size: 12px; color: var(--ink-500); line-height: 1.45; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--ink-200); }
+.num { font-size: 40px; font-weight: 700; letter-spacing: -0.025em; line-height: 1; font-feature-settings: 'tnum'; color: var(--ink-950); white-space: nowrap; }
+.num small { font-size: 20px; font-weight: 600; margin-left: 2px; color: var(--ink-600); letter-spacing: -0.01em; }
+.numlab { font-size: 12px; color: var(--ink-500); margin-top: 6px; }
+
+/* critical cards */
+.card { position: absolute; left: 890px; width: 390px; background: var(--surface); border: 1px solid var(--ink-200); border-radius: 12px; padding: 18px 20px; z-index: 2; }
+.card.crit { border-color: var(--crit-line); background: linear-gradient(135deg, var(--crit-soft), var(--surface) 60%); }
+.card.warn { border-color: #fcd34d; background: linear-gradient(135deg, #fff7ed, var(--surface) 60%); }
+.card .hd { display: flex; align-items: center; gap: 10px; }
+.ibox { width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; }
+.ibox .ic { width: 19px; height: 19px; }
+.crit .ibox { background: var(--crit-soft); color: var(--crit); border: 1px solid var(--crit-line); }
+.warn .ibox { background: var(--warn-soft); color: var(--warn-strong); border: 1px solid #fcd34d; }
+.card .title { margin: 0; }
+.card .route { font-family: var(--mono); font-size: 11px; color: var(--ink-400); }
+.badge { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; padding: 3px 9px 3px 7px; border-radius: 999px; }
+.badge .ic { width: 13px; height: 13px; stroke-width: 2; }
+.crit .badge { background: var(--crit-soft); color: var(--crit-strong); border: 1px solid var(--crit-line); }
+.warn .badge { background: var(--warn-soft); color: var(--warn-strong); border: 1px solid #fcd34d; }
+.card .desc { margin-top: 10px; }
+.crit .num { color: var(--crit-strong); }
+.warn .num { color: var(--warn-strong); }
+.row { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-top: 12px; }
+.grid100 { display: grid; grid-template-columns: repeat(10, 7px); gap: 4px; }
+.grid100 b { width: 7px; height: 7px; border-radius: 999px; background: var(--crit); transition: background .35s, opacity .35s, box-shadow .35s; }
+.grid100 b.lost { background: var(--crit-line); opacity: .45; }
+.grid100 b.kept { background: var(--crit-strong); box-shadow: 0 0 0 3px rgba(239,68,68,.25); }
+.docs { display: flex; gap: 6px; }
+.doc { width: 30px; height: 36px; border-radius: 6px; border: 1.5px solid var(--ink-300); background: var(--surface); display: grid; place-items: center; color: var(--ink-400); transition: all .35s ease; position: relative; }
+.doc .ic { width: 15px; height: 15px; }
+.doc.bad { border-color: var(--warn); background: var(--warn-soft); color: var(--warn-strong); transform: rotate(-4deg); }
+.doc.good { border-color: var(--ink-300); color: var(--ink-500); }
+.why { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--ink-200); }
+.why .lab { font-size: 10.5px; font-weight: 600; color: var(--ink-500); text-transform: uppercase; letter-spacing: 0.06em; }
+.why ul { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.why li { font-size: 12.5px; line-height: 1.4; color: var(--ink-700); display: flex; gap: 8px; }
+.why li::before { content: ""; width: 5px; height: 5px; border-radius: 999px; background: var(--warn); margin-top: 7px; flex: none; }
+
+/* pulse for critical points */
+@keyframes pulseCrit { 0% { box-shadow: 0 0 0 0 rgba(239,68,68,.30); } 70% { box-shadow: 0 0 0 12px rgba(239,68,68,0); } 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); } }
+@keyframes pulseWarn { 0% { box-shadow: 0 0 0 0 rgba(245,158,11,.32); } 70% { box-shadow: 0 0 0 12px rgba(245,158,11,0); } 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); } }
+.card.crit.pulse { animation: pulseCrit 2.2s ease-out infinite; }
+.card.warn.pulse { animation: pulseWarn 2.2s ease-out infinite; animation-delay: 1.1s; }
+.pulse .badge .ic { animation: blink 2.2s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: .35; } }
+
+/* outcome pills on the exit lines */
+.pill { position: absolute; z-index: 2; font-size: 11.5px; font-weight: 500; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+.pill.crit { background: var(--crit-soft); color: var(--crit-strong); border: 1px solid var(--crit-line); }
+.pill.warn { background: var(--warn-soft); color: var(--warn-strong); border: 1px solid #fcd34d; }
+
+/* bottleneck zone */
+.zone { position: absolute; left: 645px; top: 140px; width: 650px; height: 614px; border: 1.5px dashed var(--crit-line); border-radius: 20px; background: rgba(254,242,242,.45); z-index: 0; }
+.zone .tag { position: absolute; left: 50%; bottom: -13px; transform: translateX(-50%); background: var(--crit-strong); color: #fff; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 999px; white-space: nowrap; display: inline-flex; gap: 6px; align-items: center; }
+.zone .tag .ic { width: 13px; height: 13px; stroke-width: 2.2; }
+
+/* final message */
+.banner { position: absolute; left: 64px; right: 64px; top: 790px; height: 84px; background: var(--surface); border: 1px solid var(--ink-200); border-radius: 14px; box-shadow: 0 8px 24px rgba(24,24,27,.06); display: flex; align-items: center; gap: 20px; padding: 0 24px; z-index: 3; }
+.banner .alert { width: 44px; height: 44px; border-radius: 999px; background: var(--crit-soft); color: var(--crit); display: grid; place-items: center; border: 1px solid var(--crit-line); flex: none; }
+.banner .big { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink-950); }
+.banner .big em { font-style: normal; color: var(--crit-strong); }
+.banner .sub { font-size: 14.5px; color: var(--ink-600); margin-top: 4px; }
+.banner .chips { margin-left: auto; display: flex; gap: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rv, .pop, .grid100 b, .doc { transition: none !important; }
+  .card.pulse, .pulse .badge .ic { animation: none !important; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-mega" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-head" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+  <symbol id="i-calc" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8"/><path d="M16 14v4"/><path d="M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/></symbol>
+  <symbol id="i-bldg" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></symbol>
+  <symbol id="i-brief" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+</svg>
+
+<div class="wrap" id="wrap">
+<div class="fit" id="fit">
+<div class="stage" id="stage" role="img" aria-label="Flusso di lavoro Pagamee dal nuovo lead al passaggio all'avvocato. Il collo di bottiglia sono i conteggi: via CAF ci va solo l'1% dei clienti, con lo studio partner 3 conteggi su 6 vanno rivisti.">
+
+  <div class="zone rv" id="zone"><span class="tag"><svg class="ic"><use href="#i-warn"/></svg>Collo di bottiglia: i conteggi</span></div>
+
+  <header class="head">
+    <div class="rv" id="hd">
+      <div class="eyebrow"><span class="brand"></span>Pagamee · flusso operativo</div>
+      <h1>Dal lead all'avvocato: <em>dove si blocca</em> il processo</h1>
+    </div>
+    <div class="rv" id="hdr" style="display:flex; gap:24px; align-items:center;">
+      <div class="legend">
+        <span><i style="background:var(--ok)"></i>funziona</span>
+        <span><i style="background:var(--crit)"></i><i style="background:var(--warn); margin-left:-4px"></i>punto critico</span>
+      </div>
+      <button class="replay" id="replay" type="button"><svg class="ic"><use href="#i-redo"/></svg>rivedi</button>
+    </div>
+  </header>
+
+  <svg class="flow" id="flow" viewBox="0 0 1600 900">
+    <g id="tracks"></g>
+    <g id="lines">
+      <path id="s12" class="line ok" d="M120,400 L330,400"/>
+      <path id="s23" class="line ok" d="M330,400 L540,400"/>
+      <path id="s34" class="line ok" d="M540,400 L750,400"/>
+      <path id="brA" class="line crit" d="M750,400 L800,400 C850,400 850,265 890,265"/>
+      <path id="brB" class="line warn" d="M750,400 L800,400 C850,400 850,565 890,565"/>
+      <path id="outA" class="line crit thin" d="M1280,265 C1380,265 1400,400 1500,400"/>
+      <path id="outB" class="line warn" d="M1280,565 C1380,565 1400,400 1500,400"/>
+    </g>
+    <g id="pts"></g>
+  </svg>
+
+  <!-- 1 -->
+  <div class="node pop" id="n1" style="left:120px"><svg class="ic"><use href="#i-mega"/></svg></div>
+  <div class="below rv" id="t1" style="left:120px">
+    <div class="step">01</div>
+    <div class="title">Nuovo lead</div>
+    <div class="desc">Arriva dalle campagne Ads.</div>
+  </div>
+
+  <!-- 2 -->
+  <div class="above rv" id="a2" style="left:330px"><div class="num"><span id="c24">0</span><small>h</small></div><div class="numlab">tempo medio di risposta</div></div>
+  <div class="node pop" id="n2" style="left:330px"><svg class="ic"><use href="#i-phone"/></svg></div>
+  <div class="below rv" id="t2" style="left:330px">
+    <div class="step">02</div>
+    <div class="title">Primo contatto</div>
+    <div class="desc">Lo chiamiamo entro 24 ore in media.</div>
+    <div class="note">In settimana entro 1 ora. La media sale per i lead tra venerdì notte e domenica.</div>
+  </div>
+
+  <!-- 3 -->
+  <div class="above rv" id="a3" style="left:540px"><div class="num"><span id="c10">0</span>–<span id="c20">0</span><small>min</small></div><div class="numlab">per chiamata</div></div>
+  <div class="node pop" id="n3" style="left:540px"><svg class="ic"><use href="#i-head"/></svg></div>
+  <div class="below rv" id="t3" style="left:540px">
+    <div class="step">03</div>
+    <div class="title">Chiamata conoscitiva</div>
+    <div class="desc">Durata 10–20 minuti.</div>
+  </div>
+
+  <!-- 4 -->
+  <div class="above rv" id="a4" style="left:750px"><div class="num"><span id="c95">0</span><small>%</small></div><div class="numlab">dei casi prendibili</div></div>
+  <div class="node pop" id="n4" style="left:750px"><svg class="ic"><use href="#i-calc"/></svg></div>
+  <div class="below narrow rv" id="t4" style="left:750px">
+    <div class="step">04</div>
+    <div class="title">Servono i conteggi</div>
+    <div class="desc">Quasi sempre, per i casi prendibili.</div>
+    <div class="note">Differenze retributive frammentate e documenti incompleti: i datori ci fanno leva.</div>
+  </div>
+
+  <!-- 5a -->
+  <div class="card crit rv" id="c5a" style="top:160px">
+    <div class="hd">
+      <div class="ibox"><svg class="ic"><use href="#i-bldg"/></svg></div>
+      <div><div class="route">05a</div><div class="title">CAF</div></div>
+      <span class="badge"><svg class="ic"><use href="#i-warn"/></svg>punto critico</span>
+    </div>
+    <div class="desc">Mandiamo il cliente a un CAF per i conteggi.</div>
+    <div class="row">
+      <div><div class="num"><span id="c1">100</span><small>%</small></div><div class="numlab">ci va davvero</div></div>
+      <div class="grid100" id="g100" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="pill crit rv" id="pA" style="left:1306px; top:226px">quasi nessuno arriva</div>
+
+  <!-- 5b -->
+  <div class="card warn rv" id="c5b" style="top:420px">
+    <div class="hd">
+      <div class="ibox"><svg class="ic"><use href="#i-brief"/></svg></div>
+      <div><div class="route">05b</div><div class="title">Studio partner</div></div>
+      <span class="badge"><svg class="ic"><use href="#i-warn"/></svg>punto critico</span>
+    </div>
+    <div class="desc">Conteggi di uno studio di consulenza partner, a 60 €.</div>
+    <div class="row">
+      <div><div class="num"><span id="c3">0</span><small>su 6</small></div><div class="numlab">conteggi da rivedere</div></div>
+      <div class="docs" id="docs" aria-hidden="true"></div>
+    </div>
+    <div class="why">
+      <div class="lab">Perché</div>
+      <ul>
+        <li>Prezzo di favore: il consulente si limita al software.</li>
+        <li>Servirebbe risentire il cliente per i dettagli.</li>
+        <li>Manca un parere di avvocato e consulente su cosa è quantificabile e dimostrabile.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pill warn rv" id="pB" style="left:1306px; top:584px">dati da rifare</div>
+
+  <!-- 6 -->
+  <div class="node law pop" id="n6" style="left:1500px"><svg class="ic"><use href="#i-scale"/></svg></div>
+  <div class="below narrow rv" id="t6" style="left:1500px; width:150px; margin-left:-75px">
+    <div class="step">06</div>
+    <div class="title">Passaggio all'avvocato</div>
+    <div class="desc">Il lead viene passato all'avvocato.</div>
+  </div>
+
+  <!-- messaggio finale -->
+  <div class="banner rv" id="banner">
+    <div class="alert"><svg class="ic"><use href="#i-warn"/></svg></div>
+    <div>
+      <div class="big">Il collo di bottiglia sono <em>i conteggi</em>.</div>
+      <div class="sub">Senza conteggi affidabili e rapidi, i lead si perdono o arrivano all'avvocato con dati da rifare.</div>
+    </div>
+    <div class="chips">
+      <span class="pill crit" style="position:static">CAF: 1% ci va</span>
+      <span class="pill warn" style="position:static">Studio: 3 su 6 da rivedere</span>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<script>
+(() => {
+  const NS = 'http://www.w3.org/2000/svg';
+  const $ = id => document.getElementById(id);
+  const stage = $('stage'), fit = $('fit'), wrap = $('wrap');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* scale the 1600×900 stage to the available box */
+  function resize() {
+    const cs = getComputedStyle(wrap);
+    const w = wrap.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const h = wrap.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    const s = Math.max(0.1, Math.min(w / 1600, h / 900));
+    stage.style.transform = `scale(${s})`;
+    fit.style.width = 1600 * s + 'px';
+    fit.style.height = 900 * s + 'px';
+  }
+  addEventListener('resize', resize); resize();
+
+  /* build static bits */
+  const g = $('g100');
+  for (let i = 0; i < 100; i++) g.appendChild(document.createElement('b'));
+  const docs = $('docs');
+  for (let i = 0; i < 6; i++) { const d = document.createElement('span'); d.className = 'doc'; d.innerHTML = '<svg class="ic"><use href="#i-file"/></svg>'; docs.appendChild(d); }
+  const P = {}; ['s12','s23','s34','brA','brB','outA','outB'].forEach(id => {
+    P[id] = $(id); P[id].len = P[id].getTotalLength();
+    const t = document.createElementNS(NS, 'path'); t.setAttribute('d', P[id].getAttribute('d')); t.setAttribute('class', 'track'); $('tracks').appendChild(t);
+  });
+
+  /* particles */
+  const layer = $('pts'); let parts = [];
+  function particle(steps, r = 4, cls = 'p-ok', alpha = 1) {
+    const c = document.createElementNS(NS, 'circle'); c.setAttribute('r', r); c.setAttribute('class', 'pt ' + cls); c.style.opacity = 0;
+    layer.appendChild(c); const p = { c, steps, i: 0, t0: null, x: 0, y: 0, alpha }; parts.push(p); return p;
+  }
+  function tick(now) {
+    parts = parts.filter(p => {
+      const s = p.steps[p.i];
+      if (!s) { p.c.remove(); return false; }
+      if (p.t0 === null) { p.t0 = now; if (s.cls) p.c.setAttribute('class', 'pt ' + s.cls); }
+      const k = Math.min(1, (now - p.t0) / s.dur);
+      if (s.type === 'move') {
+        const e = s.ease ? (k < .5 ? 2*k*k : 1 - Math.pow(-2*k + 2, 2) / 2) : k;
+        const pt = s.path.getPointAtLength(e * s.path.len); p.x = pt.x; p.y = pt.y;
+        p.c.setAttribute('cx', p.x); p.c.setAttribute('cy', p.y); p.c.style.opacity = p.alpha;
+      } else if (s.type === 'die') {
+        p.c.setAttribute('cx', p.x + 10 * k); p.c.setAttribute('cy', p.y + 26 * k * k); p.c.style.opacity = p.alpha * (1 - k);
+      } else if (s.type === 'hide') { p.c.style.opacity = 0; }
+      if (k >= 1) { p.i++; p.t0 = null; }
+      return true;
+    });
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  /* helpers */
+  let run = 0, ambient = null;
+  const sleep = (ms, r) => new Promise((res, rej) => setTimeout(() => r === run ? res() : rej('stale'), ms));
+  const show = (...ids) => ids.forEach(id => $(id).classList.add('in'));
+  function setDrawn(path, f) { path.style.strokeDasharray = path.len; path.style.strokeDashoffset = path.len * (1 - f); }
+  function draw(id, dur, r, lead = true) {
+    const path = P[id]; const t0 = performance.now();
+    if (lead) particle([{ type: 'move', path, dur, ease: true }], 6, 'p-lead');
+    return new Promise((res, rej) => {
+      (function f(now) {
+        if (r !== run) return rej('stale');
+        const k = Math.min(1, (now - t0) / dur); const e = k < .5 ? 2*k*k : 1 - Math.pow(-2*k + 2, 2) / 2;
+        setDrawn(path, e); k < 1 ? requestAnimationFrame(f) : res();
+      })(t0);
+    });
+  }
+  function count(id, from, to, dur, r) {
+    const el = $(id); const t0 = performance.now();
+    (function f(now) {
+      if (r !== run) return;
+      const k = Math.min(1, (now - t0) / dur); const e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(from + (to - from) * e); if (k < 1) requestAnimationFrame(f);
+    })(t0);
+  }
+  function lose100(r, fast) {
+    const dots = [...g.children]; const keep = 37;
+    const order = dots.map((_, i) => i).filter(i => i !== keep).sort(() => Math.random() - .5);
+    order.forEach((i, n) => fast ? dots[i].classList.add('lost') : setTimeout(() => r === run && dots[i].classList.add('lost'), n * 14));
+    dots[keep].classList.add('kept');
+  }
+  function flagDocs(r, fast) {
+    [...docs.children].forEach((d, i) => {
+      const bad = i >= 3;
+      const apply = () => { d.classList.add(bad ? 'bad' : 'good'); d.innerHTML = `<svg class="ic"><use href="#${bad ? 'i-redo' : 'i-check'}"/></svg>`; };
+      fast ? apply() : setTimeout(() => r === run && apply(), 250 + i * 220);
+    });
+  }
+
+  /* ambient flow: lead continui, quasi tutti persi al CAF, quelli dello studio arrivano "da rifare" */
+  function spawnAmbient() {
+    const main = [{ type: 'move', path: P.s12, dur: 1300 }, { type: 'move', path: P.s23, dur: 1300 }, { type: 'move', path: P.s34, dur: 1300 }];
+    if (Math.random() < .5) {
+      const tail = Math.random() < .04
+        ? [{ type: 'hide', dur: 1200 }, { type: 'move', path: P.outA, dur: 1200, cls: 'p-crit' }]
+        : [{ type: 'die', dur: 800 }];
+      particle([...main, { type: 'move', path: P.brA, dur: 900, cls: 'p-crit' }, ...tail], 3.5, 'p-ok', .75);
+    } else {
+      particle([...main, { type: 'move', path: P.brB, dur: 900, cls: 'p-warn' }, { type: 'hide', dur: 1600 }, { type: 'move', path: P.outB, dur: 1200, cls: 'p-warn' }], 3.5, 'p-ok', .75);
+    }
+  }
+
+  function reset() {
+    run++; clearInterval(ambient); ambient = null;
+    parts.forEach(p => p.c.remove()); parts = [];
+    document.querySelectorAll('.in').forEach(el => el.classList.remove('in'));
+    document.querySelectorAll('.pulse').forEach(el => el.classList.remove('pulse'));
+    Object.values(P).forEach(p => setDrawn(p, 0));
+    [...g.children].forEach(b => b.className = '');
+    [...docs.children].forEach(d => { d.className = 'doc'; d.innerHTML = '<svg class="ic"><use href="#i-file"/></svg>'; });
+    $('c24').textContent = 0; $('c10').textContent = 0; $('c20').textContent = 0; $('c95').textContent = 0; $('c1').textContent = 100; $('c3').textContent = 0;
+  }
+
+  function finalState() {
+    reset();
+    document.querySelectorAll('.rv,.pop').forEach(el => el.classList.add('in'));
+    Object.values(P).forEach(p => setDrawn(p, 1));
+    $('c24').textContent = 24; $('c10').textContent = 10; $('c20').textContent = 20; $('c95').textContent = 95; $('c1').textContent = 1; $('c3').textContent = 3;
+    lose100(run, true); flagDocs(run, true);
+  }
+
+  async function play() {
+    reset(); const r = run;
+    try {
+      await sleep(200, r); show('hd'); await sleep(250, r); show('hdr');
+      await sleep(400, r); show('n1'); await sleep(250, r); show('t1');
+      await sleep(600, r);
+      await draw('s12', 1000, r); show('n2', 't2', 'a2'); count('c24', 0, 24, 1100, r);
+      await sleep(1100, r);
+      await draw('s23', 1000, r); show('n3', 't3', 'a3'); count('c10', 0, 10, 900, r); count('c20', 0, 20, 1100, r);
+      await sleep(1000, r);
+      await draw('s34', 1000, r); show('n4', 't4', 'a4'); count('c95', 0, 95, 1200, r);
+      await sleep(1300, r);
+
+      /* biforcazione: tanti lead entrano in entrambe le strade */
+      for (let i = 0; i < 16; i++) particle([{ type: 'hide', dur: i * 110 + 1 }, { type: 'move', path: P.brA, dur: 1000, cls: 'p-crit' }, { type: 'die', dur: 700 }], 4, 'p-ok');
+      for (let i = 0; i < 6; i++) particle([{ type: 'hide', dur: i * 200 + 1 }, { type: 'move', path: P.brB, dur: 1000, cls: 'p-warn' }, { type: 'hide', dur: 10 }], 4, 'p-ok');
+      await Promise.all([draw('brA', 1100, r, false), draw('brB', 1100, r, false)]);
+
+      show('c5a'); await sleep(400, r);
+      count('c1', 100, 1, 1600, r); lose100(r, false);
+      await sleep(1700, r); $('c5a').classList.add('pulse');
+      await sleep(500, r);
+
+      show('c5b'); await sleep(400, r);
+      count('c3', 0, 3, 1300, r); flagDocs(r, false);
+      await sleep(1600, r); $('c5b').classList.add('pulse');
+      await sleep(500, r);
+
+      /* uscita: dal CAF quasi nessuno, dallo studio arrivano dati da rifare */
+      particle([{ type: 'move', path: P.outA, dur: 1200, cls: 'p-crit', ease: true }], 3.5, 'p-crit', .8);
+      for (let i = 0; i < 3; i++) particle([{ type: 'hide', dur: i * 250 + 1 }, { type: 'move', path: P.outB, dur: 1200, cls: 'p-warn' }], 4, 'p-warn');
+      await Promise.all([draw('outA', 1200, r, false), draw('outB', 1200, r, false)]);
+      show('pA', 'pB', 'n6', 't6');
+      await sleep(900, r);
+
+      show('zone'); await sleep(500, r); show('banner');
+      await sleep(800, r);
+      spawnAmbient(); ambient = setInterval(spawnAmbient, 700);
+    } catch (e) { if (e !== 'stale') throw e; }
+  }
+
+  $('replay').addEventListener('click', () => reduce ? finalState() : play());
+  reduce ? finalState() : play();
+})();
+</script>
