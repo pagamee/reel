@@ -907,7 +907,6 @@ function buildScenes(){
       html+=`<div class="cap" id="cap-${bt.id}">${c.html}</div>`;
       sg.caps.push({bt, ...c});
     }
-    if(sg.visual==='hook') html+=`<div class="tag" id="tag-parte">${SERIES_PART}</div>`;
     div.innerHTML=html;
     stage.appendChild(div);
     sg.dom=div;
@@ -1045,7 +1044,6 @@ window.renderCover=function(){
   d.id='cover'; d.className='scene'; d.style.display='block';
   d.innerHTML=
     `<svg class="art" viewBox="0 0 ${W} ${H}"><g transform="translate(540 800) scale(0.74) translate(-500 -690)">${art}</g></svg>`+
-    `<div class="tag" style="top:300px;opacity:1;font-size:40px">${COVER.tag}</div>`+
     `<div class="cap" id="cover-title" style="display:block;top:380px;font-size:88px;line-height:1.25">${title}</div>`;
   document.getElementById('stage').appendChild(d);
   // il titolo deve restare in 3 righe e finire prima del disegno
