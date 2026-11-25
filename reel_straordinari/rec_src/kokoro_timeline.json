@@ -1,0 +1,193 @@
+{
+  "total": 59.58,
+  "engine": "kokoro-im_nicola-1.00",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.38,
+      "dur": 3.38,
+      "s0": 0.12,
+      "s1": 3.08
+    },
+    {
+      "id": "b02",
+      "visual": "contract",
+      "say": "Andrea ha un contratto da quaranta ore a settimana.",
+      "text": "ANDREA HA UN CONTRATTO DA [g]40 ORE[/g] A SETTIMANA",
+      "start": 3.38,
+      "end": 6.24,
+      "dur": 2.86,
+      "s0": 3.48,
+      "s1": 5.96
+    },
+    {
+      "id": "b03",
+      "visual": "late",
+      "say": "Ma ogni giorno lavora dieci ore. Fanno cinquanta a settimana.",
+      "text": "MA OGNI GIORNO LAVORA 10 ORE. FANNO [r]50 A SETTIMANA[/r]",
+      "start": 6.24,
+      "end": 9.55,
+      "dur": 3.31,
+      "s0": 6.34,
+      "s1": 9.39
+    },
+    {
+      "id": "b04",
+      "visual": "payslip",
+      "say": "In busta paga, però, gli straordinari non ci sono mai.",
+      "text": "IN BUSTA PAGA GLI STRAORDINARI [r]NON CI SONO MAI[/r]",
+      "start": 9.55,
+      "end": 12.64,
+      "dur": 3.09,
+      "s0": 9.65,
+      "s1": 12.48
+    },
+    {
+      "id": "b05",
+      "visual": "boss",
+      "say": "«Qui siamo una famiglia: si resta finché serve.»",
+      "text": "«QUI SIAMO UNA FAMIGLIA: [r]SI RESTA FINCHÉ SERVE[/r]»",
+      "start": 12.64,
+      "end": 15.16,
+      "dur": 2.52,
+      "s0": 12.74,
+      "s1": 14.99
+    },
+    {
+      "id": "b06",
+      "visual": "boss",
+      "say": "«E poi gli straordinari non te li ho mai chiesti.»",
+      "text": "«E POI GLI STRAORDINARI [r]NON TE LI HO MAI CHIESTI[/r]»",
+      "start": 15.16,
+      "end": 17.74,
+      "dur": 2.58,
+      "s0": 15.26,
+      "s1": 17.55
+    },
+    {
+      "id": "b07",
+      "visual": "wrong",
+      "say": "Peccato che non funzioni così.",
+      "text": "PECCATO CHE [g]NON FUNZIONI COSÌ[/g]",
+      "start": 17.74,
+      "end": 19.61,
+      "dur": 1.87,
+      "s0": 17.84,
+      "s1": 19.31
+    },
+    {
+      "id": "b08",
+      "visual": "law",
+      "say": "Per legge l'orario normale è di quaranta ore a settimana, o meno se lo prevede il tuo contratto collettivo.",
+      "text": "ORARIO NORMALE: [g]40 ORE[/g] A SETTIMANA, O MENO SE LO PREVEDE IL CCNL",
+      "start": 19.61,
+      "end": 24.91,
+      "dur": 5.3,
+      "s0": 19.71,
+      "s1": 24.61
+    },
+    {
+      "id": "b09",
+      "visual": "law",
+      "say": "Le ore in più sono straordinario, e vanno pagate con la maggiorazione del contratto collettivo.",
+      "text": "LE ORE IN PIÙ SONO STRAORDINARIO: [g]PAGATE CON LA MAGGIORAZIONE[/g]",
+      "start": 24.91,
+      "end": 29.91,
+      "dur": 5.0,
+      "s0": 25.01,
+      "s1": 29.61
+    },
+    {
+      "id": "b10",
+      "visual": "knows",
+      "say": "E se il capo sa che resti, e lo accetta, non può dire che non te l'ha chiesto.",
+      "text": "SE IL CAPO SA CHE RESTI E LO ACCETTA, [r]NON PUÒ DIRE CHE NON L'HA CHIESTO[/r]",
+      "start": 29.91,
+      "end": 33.9,
+      "dur": 3.99,
+      "s0": 30.01,
+      "s1": 33.75
+    },
+    {
+      "id": "b11",
+      "visual": "calc",
+      "say": "Dieci ore in più a settimana, per un anno: sono più di quattrocento ore.",
+      "text": "10 ORE IN PIÙ A SETTIMANA, PER UN ANNO: [g]OLTRE 400 ORE[/g]",
+      "start": 33.9,
+      "end": 37.79,
+      "dur": 3.89,
+      "s0": 34.0,
+      "s1": 37.49
+    },
+    {
+      "id": "b12",
+      "visual": "proofs",
+      "say": "Il punto è provarle: badge, mail, chat, accessi al computer, colleghi.",
+      "text": "SERVONO PROVE: [g]BADGE[/g], [g]MAIL[/g], [g]CHAT[/g], [g]COLLEGHI[/g]",
+      "start": 37.79,
+      "end": 41.74,
+      "dur": 3.95,
+      "s0": 37.89,
+      "s1": 41.44
+    },
+    {
+      "id": "b13",
+      "visual": "time",
+      "say": "E per recuperarle hai tempo: in genere cinque anni, che di solito partono dalla fine del rapporto.",
+      "text": "PER RECUPERARLE, IN GENERE, [g]5 ANNI[/g] DALLA FINE DEL RAPPORTO",
+      "start": 41.74,
+      "end": 47.09,
+      "dur": 5.35,
+      "s0": 41.84,
+      "s1": 46.8
+    },
+    {
+      "id": "b14",
+      "visual": "ask",
+      "say": "Così Andrea mette in fila le prove, e chiede le differenze.",
+      "text": "ANDREA METTE IN FILA LE PROVE E [g]CHIEDE LE DIFFERENZE[/g]",
+      "start": 47.09,
+      "end": 50.15,
+      "dur": 3.06,
+      "s0": 47.19,
+      "s1": 49.995
+    },
+    {
+      "id": "b15",
+      "visual": "cede",
+      "say": "Il capo ci ripensa. «Va bene, sistemiamo.»",
+      "text": "IL CAPO CI RIPENSA. «VA BENE, [g]SISTEMIAMO[/g]»",
+      "start": 50.15,
+      "end": 53.36,
+      "dur": 3.21,
+      "s0": 50.25,
+      "s1": 53.06
+    },
+    {
+      "id": "b16",
+      "visual": "cta",
+      "say": "Lavori più ore di quelle che ti pagano?",
+      "text": "LAVORI [r]PIÙ ORE[/r] DI QUELLE CHE TI PAGANO?",
+      "start": 53.36,
+      "end": 55.39,
+      "dur": 2.03,
+      "s0": 53.46,
+      "s1": 55.13
+    },
+    {
+      "id": "b17",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 55.39,
+      "end": 59.58,
+      "dur": 4.19,
+      "s0": 55.49,
+      "s1": 58.82
+    }
+  ]
+}
