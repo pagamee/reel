@@ -1,6 +1,6 @@
 {
-  "total": 44.91,
-  "engine": "kokoro-im_nicola-1.00",
+  "total": 50.2,
+  "engine": "take",
   "beats": [
     {
       "id": "b01",
@@ -8,142 +8,142 @@
       "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
       "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
       "start": 0.0,
-      "end": 3.33,
-      "dur": 3.33,
-      "s0": 0.12,
-      "s1": 3.03
+      "end": 3.31,
+      "dur": 3.31,
+      "s0": 0.14,
+      "s1": 3.131
     },
     {
       "id": "b02",
       "visual": "leave",
       "say": "Andrea lascia il lavoro. Ha ancora venti giorni di ferie mai fatte.",
       "text": "ANDREA LASCIA IL LAVORO. HA ANCORA [g]20 GIORNI DI FERIE[/g] MAI FATTE",
-      "start": 3.33,
-      "end": 7.1,
-      "dur": 3.77,
-      "s0": 3.43,
-      "s1": 6.96
+      "start": 3.31,
+      "end": 7.28,
+      "dur": 3.97,
+      "s0": 3.41,
+      "s1": 7.047
     },
     {
       "id": "b03",
       "visual": "boss",
       "say": "«Le ferie non le hai fatte? Peggio per te: le hai perse.»",
       "text": "«NON LE HAI FATTE? PEGGIO PER TE: [r]LE HAI PERSE[/r]»",
-      "start": 7.1,
-      "end": 10.09,
-      "dur": 2.99,
-      "s0": 7.2,
-      "s1": 9.88
+      "start": 7.28,
+      "end": 10.77,
+      "dur": 3.49,
+      "s0": 7.38,
+      "s1": 10.581
     },
     {
       "id": "b04",
       "visual": "wrong",
       "say": "Peccato che non funzioni così.",
       "text": "PECCATO CHE [g]NON FUNZIONI COSÌ[/g]",
-      "start": 10.09,
-      "end": 11.93,
-      "dur": 1.84,
-      "s0": 10.19,
-      "s1": 11.67
+      "start": 10.77,
+      "end": 12.56,
+      "dur": 1.79,
+      "s0": 10.87,
+      "s1": 12.422
     },
     {
       "id": "b05",
       "visual": "law",
       "say": "A fine rapporto, le ferie maturate e non godute vanno pagate.",
       "text": "A FINE RAPPORTO, LE FERIE NON GODUTE [g]VANNO PAGATE[/g]",
-      "start": 11.93,
-      "end": 15.3,
-      "dur": 3.37,
-      "s0": 12.03,
-      "s1": 15.19
+      "start": 12.56,
+      "end": 16.44,
+      "dur": 3.88,
+      "s0": 12.66,
+      "s1": 16.316
     },
     {
       "id": "b06",
       "visual": "law",
       "say": "Si chiama indennità sostitutiva, e la trovi nell'ultima busta paga.",
       "text": "SI CHIAMA [g]INDENNITÀ SOSTITUTIVA[/g]: NELL'ULTIMA BUSTA PAGA",
-      "start": 15.3,
-      "end": 19.07,
-      "dur": 3.77,
-      "s0": 15.4,
-      "s1": 18.8
+      "start": 16.44,
+      "end": 20.815,
+      "dur": 4.375,
+      "s0": 16.54,
+      "s1": 20.711
     },
     {
       "id": "b07",
       "visual": "eu",
       "say": "E per la Corte di giustizia europea, le ferie non si perdono in automatico.",
       "text": "PER LA CORTE UE, LE FERIE [g]NON SI PERDONO IN AUTOMATICO[/g]",
-      "start": 19.07,
-      "end": 23.15,
-      "dur": 4.08,
-      "s0": 19.17,
-      "s1": 22.94
+      "start": 20.815,
+      "end": 25.365,
+      "dur": 4.55,
+      "s0": 20.91,
+      "s1": 25.251
     },
     {
       "id": "b08",
       "visual": "eu",
       "say": "Si perdono solo se il datore ti ha messo davvero in condizione di farle, e ti ha avvisato.",
       "text": "SOLO SE IL DATORE TI HA [g]MESSO IN CONDIZIONE DI FARLE[/g] E TI HA AVVISATO",
-      "start": 23.15,
-      "end": 27.67,
-      "dur": 4.52,
-      "s0": 23.25,
-      "s1": 27.45
+      "start": 25.365,
+      "end": 30.9,
+      "dur": 5.535,
+      "s0": 25.46,
+      "s1": 30.707
     },
     {
       "id": "b09",
       "visual": "calc",
       "say": "Venti giorni di ferie possono valere quasi un mese di stipendio.",
       "text": "20 GIORNI DI FERIE: [g]QUASI UN MESE DI STIPENDIO[/g]",
-      "start": 27.67,
-      "end": 31.16,
-      "dur": 3.49,
-      "s0": 27.77,
-      "s1": 30.95
+      "start": 30.9,
+      "end": 34.96,
+      "dur": 4.06,
+      "s0": 31.0,
+      "s1": 34.834
     },
     {
       "id": "b10",
       "visual": "slip",
       "say": "Il consiglio: controlla il saldo ferie sulla busta paga. È scritto lì.",
       "text": "CONTROLLA IL [g]SALDO FERIE[/g] SULLA BUSTA PAGA: È SCRITTO LÌ",
-      "start": 31.16,
-      "end": 35.31,
-      "dur": 4.15,
-      "s0": 31.26,
-      "s1": 35.02
+      "start": 34.96,
+      "end": 39.44,
+      "dur": 4.48,
+      "s0": 35.06,
+      "s1": 39.33
     },
     {
       "id": "b11",
       "visual": "cede",
       "say": "Il capo ci ripensa. «Va bene, te le pago.»",
       "text": "IL CAPO CI RIPENSA. «VA BENE, [g]TE LE PAGO[/g]»",
-      "start": 35.31,
-      "end": 38.01,
-      "dur": 2.7,
-      "s0": 35.41,
-      "s1": 37.78
+      "start": 39.44,
+      "end": 42.81,
+      "dur": 3.37,
+      "s0": 39.54,
+      "s1": 42.65
     },
     {
       "id": "b12",
       "visual": "cta",
       "say": "Hai lasciato il lavoro con ferie non pagate?",
       "text": "HAI LASCIATO IL LAVORO CON [r]FERIE NON PAGATE[/r]?",
-      "start": 38.01,
-      "end": 40.35,
-      "dur": 2.34,
-      "s0": 38.11,
-      "s1": 40.105
+      "start": 42.81,
+      "end": 45.36,
+      "dur": 2.55,
+      "s0": 42.91,
+      "s1": 45.242
     },
     {
       "id": "b13",
       "visual": "cta",
       "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
       "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
-      "start": 40.35,
-      "end": 44.91,
-      "dur": 4.56,
-      "s0": 40.45,
-      "s1": 44.15
+      "start": 45.36,
+      "end": 50.2,
+      "dur": 4.84,
+      "s0": 45.46,
+      "s1": 49.44
     }
   ]
 }
