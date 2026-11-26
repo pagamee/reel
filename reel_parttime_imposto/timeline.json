@@ -1,6 +1,6 @@
 {
-  "total": 42.11,
-  "engine": "kokoro-im_nicola-1.00",
+  "total": 48.07,
+  "engine": "take",
   "beats": [
     {
       "id": "b01",
@@ -8,142 +8,142 @@
       "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
       "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
       "start": 0.0,
-      "end": 3.29,
-      "dur": 3.29,
-      "s0": 0.12,
-      "s1": 2.99
+      "end": 3.32,
+      "dur": 3.32,
+      "s0": 0.14,
+      "s1": 3.198
     },
     {
       "id": "b02",
       "visual": "full",
       "say": "Andrea lavora a tempo pieno da tre anni.",
       "text": "ANDREA LAVORA [g]A TEMPO PIENO[/g] DA 3 ANNI",
-      "start": 3.29,
-      "end": 5.77,
-      "dur": 2.48,
-      "s0": 3.39,
-      "s1": 5.48
+      "start": 3.32,
+      "end": 5.655,
+      "dur": 2.335,
+      "s0": 3.42,
+      "s1": 5.563
     },
     {
       "id": "b03",
       "visual": "boss",
       "say": "Un giorno il capo gli dice: «Da lunedì passi a part-time. Venti ore.»",
       "text": "«DA LUNEDÌ PASSI A [r]PART-TIME[/r]. 20 ORE»",
-      "start": 5.77,
-      "end": 9.28,
-      "dur": 3.51,
-      "s0": 5.87,
-      "s1": 9.0
+      "start": 5.655,
+      "end": 10.22,
+      "dur": 4.565,
+      "s0": 5.74,
+      "s1": 9.933
     },
     {
       "id": "b04",
       "visual": "boss",
       "say": "«E se non firmi, sei fuori.»",
       "text": "«E SE NON FIRMI, [r]SEI FUORI[/r]»",
-      "start": 9.28,
-      "end": 11.02,
-      "dur": 1.74,
-      "s0": 9.38,
-      "s1": 10.77
+      "start": 10.22,
+      "end": 12.28,
+      "dur": 2.06,
+      "s0": 10.32,
+      "s1": 12.0
     },
     {
       "id": "b05",
       "visual": "wrong",
       "say": "Peccato che non funzioni così.",
       "text": "PECCATO CHE [g]NON FUNZIONI COSÌ[/g]",
-      "start": 11.02,
-      "end": 12.79,
-      "dur": 1.77,
-      "s0": 11.12,
-      "s1": 12.585
+      "start": 12.28,
+      "end": 14.01,
+      "dur": 1.73,
+      "s0": 12.38,
+      "s1": 13.911
     },
     {
       "id": "b06",
       "visual": "law",
       "say": "Per legge, il passaggio da tempo pieno a part-time richiede il tuo accordo, per iscritto.",
       "text": "DA TEMPO PIENO A PART-TIME SERVE [g]IL TUO ACCORDO, PER ISCRITTO[/g]",
-      "start": 12.79,
-      "end": 17.28,
-      "dur": 4.49,
-      "s0": 12.89,
-      "s1": 17.08
+      "start": 14.01,
+      "end": 19.57,
+      "dur": 5.56,
+      "s0": 14.09,
+      "s1": 19.436
     },
     {
       "id": "b07",
       "visual": "law",
       "say": "E il tuo rifiuto non è un motivo valido per licenziarti.",
       "text": "E IL TUO RIFIUTO [g]NON È UN MOTIVO VALIDO[/g] PER LICENZIARTI",
-      "start": 17.28,
-      "end": 20.58,
-      "dur": 3.3,
-      "s0": 17.38,
-      "s1": 20.3
+      "start": 19.57,
+      "end": 22.72,
+      "dur": 3.15,
+      "s0": 19.67,
+      "s1": 22.615
     },
     {
       "id": "b08",
       "visual": "half",
       "say": "Meno ore vuol dire meno stipendio, meno contributi, e un TFR più basso.",
       "text": "MENO ORE: [r]MENO STIPENDIO[/r], [r]MENO CONTRIBUTI[/r], [r]TFR PIÙ BASSO[/r]",
-      "start": 20.58,
-      "end": 24.61,
-      "dur": 4.03,
-      "s0": 20.68,
-      "s1": 24.44
+      "start": 22.72,
+      "end": 28.17,
+      "dur": 5.45,
+      "s0": 22.81,
+      "s1": 27.999
     },
     {
       "id": "b09",
       "visual": "sign",
       "say": "Quindi, se firmi, deve essere una tua scelta. Non la paura.",
       "text": "SE FIRMI, DEVE ESSERE [g]UNA TUA SCELTA[/g]. NON LA PAURA",
-      "start": 24.61,
-      "end": 27.835,
-      "dur": 3.225,
-      "s0": 24.71,
-      "s1": 27.815
+      "start": 28.17,
+      "end": 32.57,
+      "dur": 4.4,
+      "s0": 28.27,
+      "s1": 32.351
     },
     {
       "id": "b10",
       "visual": "ask",
       "say": "Andrea non firma, e chiede la proposta per iscritto, con le motivazioni.",
       "text": "ANDREA NON FIRMA E CHIEDE LA PROPOSTA [g]PER ISCRITTO[/g]",
-      "start": 27.835,
-      "end": 31.84,
-      "dur": 4.005,
-      "s0": 27.85,
-      "s1": 31.515
+      "start": 32.57,
+      "end": 36.96,
+      "dur": 4.39,
+      "s0": 32.67,
+      "s1": 36.753
     },
     {
       "id": "b11",
       "visual": "cede",
       "say": "Il capo ci ripensa. «Va bene, resti a tempo pieno.»",
       "text": "IL CAPO CI RIPENSA. «VA BENE, [g]RESTI A TEMPO PIENO[/g]»",
-      "start": 31.84,
-      "end": 35.24,
-      "dur": 3.4,
-      "s0": 31.94,
-      "s1": 34.94
+      "start": 36.96,
+      "end": 40.56,
+      "dur": 3.6,
+      "s0": 37.06,
+      "s1": 40.368
     },
     {
       "id": "b12",
       "visual": "cta",
       "say": "Ti vogliono passare a part-time contro la tua volontà?",
       "text": "TI VOGLIONO PASSARE A PART-TIME [r]CONTRO LA TUA VOLONTÀ[/r]?",
-      "start": 35.24,
-      "end": 37.9,
-      "dur": 2.66,
-      "s0": 35.34,
-      "s1": 37.635
+      "start": 40.56,
+      "end": 43.35,
+      "dur": 2.79,
+      "s0": 40.66,
+      "s1": 43.198
     },
     {
       "id": "b13",
       "visual": "cta",
       "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
       "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
-      "start": 37.9,
-      "end": 42.11,
-      "dur": 4.21,
-      "s0": 38.0,
-      "s1": 41.35
+      "start": 43.35,
+      "end": 48.07,
+      "dur": 4.72,
+      "s0": 43.45,
+      "s1": 47.31
     }
   ]
 }
