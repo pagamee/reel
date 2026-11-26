@@ -1,138 +1,138 @@
 {
- "total": 42.59,
- "engine": "kokoro-im_nicola-1.00",
- "beats": [
-  {
-   "id": "b01",
-   "visual": "hook",
-   "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
-   "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
-   "start": 0.0,
-   "end": 3.29,
-   "dur": 3.29,
-   "s0": 0.12,
-   "s1": 3.01
-  },
-  {
-   "id": "b02",
-   "visual": "fired",
-   "say": "Andrea viene licenziato per un errore sul lavoro.",
-   "text": "ANDREA VIENE [r]LICENZIATO[/r] PER UN ERRORE SUL LAVORO",
-   "start": 3.29,
-   "end": 6.24,
-   "dur": 2.95,
-   "s0": 3.39,
-   "s1": 5.96
-  },
-  {
-   "id": "b03",
-   "visual": "boss",
-   "say": "«Licenziato per colpa tua: la disoccupazione te la scordi.»",
-   "text": "«LICENZIATO PER COLPA TUA: [r]LA DISOCCUPAZIONE TE LA SCORDI[/r]»",
-   "start": 6.24,
-   "end": 9.59,
-   "dur": 3.35,
-   "s0": 6.34,
-   "s1": 9.32
-  },
-  {
-   "id": "b04",
-   "visual": "wrong",
-   "say": "Peccato che non funzioni così.",
-   "text": "PECCATO CHE [g]NON FUNZIONI COSÌ[/g]",
-   "start": 9.59,
-   "end": 11.41,
-   "dur": 1.82,
-   "s0": 9.69,
-   "s1": 11.16
-  },
-  {
-   "id": "b05",
-   "visual": "law",
-   "say": "La NASpI spetta a chi perde il lavoro senza volerlo. E un licenziamento, anche disciplinare, è involontario.",
-   "text": "LA NASPI SPETTA A CHI PERDE IL LAVORO [g]SENZA VOLERLO[/g], ANCHE SE LICENZIATO",
-   "start": 11.41,
-   "end": 18.1,
-   "dur": 6.69,
-   "s0": 11.51,
-   "s1": 17.96
-  },
-  {
-   "id": "b06",
-   "visual": "law",
-   "say": "Quindi spetta anche se ti licenziano per giusta causa.",
-   "text": "QUINDI SPETTA [g]ANCHE CON LA GIUSTA CAUSA[/g]",
-   "start": 18.1,
-   "end": 21.2,
-   "dur": 3.1,
-   "s0": 18.2,
-   "s1": 20.94
-  },
-  {
-   "id": "b07",
-   "visual": "req",
-   "say": "Servono almeno tredici settimane di contributi negli ultimi quattro anni.",
-   "text": "SERVONO [g]13 SETTIMANE DI CONTRIBUTI[/g] NEGLI ULTIMI 4 ANNI",
-   "start": 21.2,
-   "end": 25.13,
-   "dur": 3.93,
-   "s0": 21.3,
-   "s1": 24.83
-  },
-  {
-   "id": "b08",
-   "visual": "deadline",
-   "say": "E la domanda va fatta all'INPS entro sessantotto giorni.",
-   "text": "LA DOMANDA ALL'INPS VA FATTA [r]ENTRO 68 GIORNI[/r]",
-   "start": 25.13,
-   "end": 28.14,
-   "dur": 3.01,
-   "s0": 25.23,
-   "s1": 27.86
-  },
-  {
-   "id": "b09",
-   "visual": "challenge",
-   "say": "Se poi il licenziamento è ingiusto, puoi anche impugnarlo: entro sessanta giorni.",
-   "text": "SE IL LICENZIAMENTO È INGIUSTO, SI IMPUGNA [r]ENTRO 60 GIORNI[/r]",
-   "start": 28.14,
-   "end": 32.67,
-   "dur": 4.53,
-   "s0": 28.24,
-   "s1": 32.47
-  },
-  {
-   "id": "b10",
-   "visual": "apply",
-   "say": "Così Andrea fa domanda, e la NASpI arriva.",
-   "text": "ANDREA FA DOMANDA, E [g]LA NASPI ARRIVA[/g]",
-   "start": 32.67,
-   "end": 35.66,
-   "dur": 2.99,
-   "s0": 32.77,
-   "s1": 35.48
-  },
-  {
-   "id": "b11",
-   "visual": "cta",
-   "say": "Ti hanno detto che non hai diritto alla NASpI?",
-   "text": "TI HANNO DETTO CHE [r]NON HAI DIRITTO ALLA NASPI[/r]?",
-   "start": 35.66,
-   "end": 38.27,
-   "dur": 2.61,
-   "s0": 35.76,
-   "s1": 37.975
-  },
-  {
-   "id": "b12",
-   "visual": "cta",
-   "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
-   "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
-   "start": 38.27,
-   "end": 42.59,
-   "dur": 4.32,
-   "s0": 38.37,
-   "s1": 41.83
-  }
- ]
+  "total": 43.8,
+  "engine": "take",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.27,
+      "dur": 3.27,
+      "s0": 0.14,
+      "s1": 3.135
+    },
+    {
+      "id": "b02",
+      "visual": "fired",
+      "say": "Andrea viene licenziato per un errore sul lavoro.",
+      "text": "ANDREA VIENE [r]LICENZIATO[/r] PER UN ERRORE SUL LAVORO",
+      "start": 3.27,
+      "end": 6.24,
+      "dur": 2.97,
+      "s0": 3.37,
+      "s1": 5.992
+    },
+    {
+      "id": "b03",
+      "visual": "boss",
+      "say": "«Licenziato per colpa tua: la disoccupazione te la scordi.»",
+      "text": "«LICENZIATO PER COLPA TUA: [r]LA DISOCCUPAZIONE TE LA SCORDI[/r]»",
+      "start": 6.24,
+      "end": 9.96,
+      "dur": 3.72,
+      "s0": 6.34,
+      "s1": 9.82
+    },
+    {
+      "id": "b04",
+      "visual": "wrong",
+      "say": "Peccato che non funzioni così.",
+      "text": "PECCATO CHE [g]NON FUNZIONI COSÌ[/g]",
+      "start": 9.96,
+      "end": 11.84,
+      "dur": 1.88,
+      "s0": 10.06,
+      "s1": 11.671
+    },
+    {
+      "id": "b05",
+      "visual": "law",
+      "say": "La NASpI spetta a chi perde il lavoro senza volerlo. E un licenziamento, anche disciplinare, è involontario.",
+      "text": "LA NASPI SPETTA A CHI PERDE IL LAVORO [g]SENZA VOLERLO[/g], ANCHE SE LICENZIATO",
+      "start": 11.84,
+      "end": 18.465,
+      "dur": 6.625,
+      "s0": 11.94,
+      "s1": 18.356
+    },
+    {
+      "id": "b06",
+      "visual": "law",
+      "say": "Quindi spetta anche se ti licenziano per giusta causa.",
+      "text": "QUINDI SPETTA [g]ANCHE CON LA GIUSTA CAUSA[/g]",
+      "start": 18.465,
+      "end": 21.61,
+      "dur": 3.145,
+      "s0": 18.56,
+      "s1": 21.519
+    },
+    {
+      "id": "b07",
+      "visual": "req",
+      "say": "Servono almeno tredici settimane di contributi negli ultimi quattro anni.",
+      "text": "SERVONO [g]13 SETTIMANE DI CONTRIBUTI[/g] NEGLI ULTIMI 4 ANNI",
+      "start": 21.61,
+      "end": 25.7,
+      "dur": 4.09,
+      "s0": 21.69,
+      "s1": 25.56
+    },
+    {
+      "id": "b08",
+      "visual": "deadline",
+      "say": "E la domanda va fatta all'INPS entro sessantotto giorni.",
+      "text": "LA DOMANDA ALL'INPS VA FATTA [r]ENTRO 68 GIORNI[/r]",
+      "start": 25.7,
+      "end": 29.23,
+      "dur": 3.53,
+      "s0": 25.8,
+      "s1": 29.141
+    },
+    {
+      "id": "b09",
+      "visual": "challenge",
+      "say": "Se poi il licenziamento è ingiusto, puoi anche impugnarlo: entro sessanta giorni.",
+      "text": "SE IL LICENZIAMENTO È INGIUSTO, SI IMPUGNA [r]ENTRO 60 GIORNI[/r]",
+      "start": 29.23,
+      "end": 34.17,
+      "dur": 4.94,
+      "s0": 29.31,
+      "s1": 33.999
+    },
+    {
+      "id": "b10",
+      "visual": "apply",
+      "say": "Così Andrea fa domanda, e la NASpI arriva.",
+      "text": "ANDREA FA DOMANDA, E [g]LA NASPI ARRIVA[/g]",
+      "start": 34.17,
+      "end": 37.05,
+      "dur": 2.88,
+      "s0": 34.27,
+      "s1": 36.828
+    },
+    {
+      "id": "b11",
+      "visual": "cta",
+      "say": "Ti hanno detto che non hai diritto alla NASpI?",
+      "text": "TI HANNO DETTO CHE [r]NON HAI DIRITTO ALLA NASPI[/r]?",
+      "start": 37.05,
+      "end": 39.265,
+      "dur": 2.215,
+      "s0": 37.15,
+      "s1": 39.16
+    },
+    {
+      "id": "b12",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 39.265,
+      "end": 43.8,
+      "dur": 4.535,
+      "s0": 39.36,
+      "s1": 43.04
+    }
+  ]
 }
