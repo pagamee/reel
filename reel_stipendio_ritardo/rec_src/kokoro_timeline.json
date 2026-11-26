@@ -1,0 +1,149 @@
+{
+  "total": 47.86,
+  "engine": "kokoro-im_nicola-1.00",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.19,
+      "dur": 3.19,
+      "s0": 0.12,
+      "s1": 2.98
+    },
+    {
+      "id": "b02",
+      "visual": "calendar",
+      "say": "Lo stipendio di Andrea dovrebbe arrivare il dieci del mese.",
+      "text": "LO STIPENDIO DOVREBBE ARRIVARE [g]IL 10 DEL MESE[/g]",
+      "start": 3.19,
+      "end": 6.41,
+      "dur": 3.22,
+      "s0": 3.29,
+      "s1": 6.11
+    },
+    {
+      "id": "b03",
+      "visual": "calendar",
+      "say": "Arriva il venti. Poi il trenta. Poi il mese dopo.",
+      "text": "ARRIVA IL 20. POI IL 30. [r]POI IL MESE DOPO[/r]",
+      "start": 6.41,
+      "end": 9.81,
+      "dur": 3.4,
+      "s0": 6.51,
+      "s1": 9.56
+    },
+    {
+      "id": "b04",
+      "visual": "boss",
+      "say": "«Abbi pazienza: i clienti mi pagano in ritardo.»",
+      "text": "«ABBI PAZIENZA: [r]I CLIENTI MI PAGANO IN RITARDO[/r]»",
+      "start": 9.81,
+      "end": 12.67,
+      "dur": 2.86,
+      "s0": 9.91,
+      "s1": 12.37
+    },
+    {
+      "id": "b05",
+      "visual": "wrong",
+      "say": "Peccato che non sia un problema tuo.",
+      "text": "PECCATO CHE [g]NON SIA UN PROBLEMA TUO[/g]",
+      "start": 12.67,
+      "end": 14.77,
+      "dur": 2.1,
+      "s0": 12.77,
+      "s1": 14.47
+    },
+    {
+      "id": "b06",
+      "visual": "law",
+      "say": "La data di pagamento la fissa il contratto: collettivo o individuale.",
+      "text": "LA DATA DI PAGAMENTO [g]LA FISSA IL CONTRATTO[/g]",
+      "start": 14.77,
+      "end": 18.94,
+      "dur": 4.17,
+      "s0": 14.87,
+      "s1": 18.64
+    },
+    {
+      "id": "b07",
+      "visual": "law",
+      "say": "E i ritardi dei clienti sono un rischio dell'azienda, non tuo.",
+      "text": "I RITARDI DEI CLIENTI SONO [r]UN RISCHIO DELL'AZIENDA[/r], NON TUO",
+      "start": 18.94,
+      "end": 22.36,
+      "dur": 3.42,
+      "s0": 19.04,
+      "s1": 22.06
+    },
+    {
+      "id": "b08",
+      "visual": "interest",
+      "say": "Sugli stipendi pagati in ritardo maturano interessi e rivalutazione.",
+      "text": "SUGLI STIPENDI IN RITARDO MATURANO [g]INTERESSI E RIVALUTAZIONE[/g]",
+      "start": 22.36,
+      "end": 26.18,
+      "dur": 3.82,
+      "s0": 22.46,
+      "s1": 25.9
+    },
+    {
+      "id": "b09",
+      "visual": "exit",
+      "say": "E se i ritardi sono gravi e ripetuti, possono giustificare le dimissioni per giusta causa. Con la NASpI.",
+      "text": "RITARDI GRAVI E RIPETUTI: POSSIBILI [g]DIMISSIONI PER GIUSTA CAUSA[/g], CON NASPI",
+      "start": 26.18,
+      "end": 32.45,
+      "dur": 6.27,
+      "s0": 26.28,
+      "s1": 32.23
+    },
+    {
+      "id": "b10",
+      "visual": "mora",
+      "say": "Prima, però, Andrea manda una messa in mora. E con le buste paga può chiedere un decreto ingiuntivo.",
+      "text": "PRIMA, [r]MESSA IN MORA[/r]. CON LE BUSTE PAGA, [r]DECRETO INGIUNTIVO[/r]",
+      "start": 32.45,
+      "end": 37.67,
+      "dur": 5.22,
+      "s0": 32.55,
+      "s1": 37.36
+    },
+    {
+      "id": "b11",
+      "visual": "cede",
+      "say": "Il capo ci ripensa. «Va bene, da questo mese puntuale.»",
+      "text": "IL CAPO CI RIPENSA. «VA BENE, DA QUESTO MESE [g]PUNTUALE[/g]»",
+      "start": 37.67,
+      "end": 40.99,
+      "dur": 3.32,
+      "s0": 37.77,
+      "s1": 40.77
+    },
+    {
+      "id": "b12",
+      "visual": "cta",
+      "say": "Lo stipendio ti arriva sempre in ritardo?",
+      "text": "LO STIPENDIO TI ARRIVA [r]SEMPRE IN RITARDO[/r]?",
+      "start": 40.99,
+      "end": 43.31,
+      "dur": 2.32,
+      "s0": 41.09,
+      "s1": 43.065
+    },
+    {
+      "id": "b13",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 43.31,
+      "end": 47.86,
+      "dur": 4.55,
+      "s0": 43.41,
+      "s1": 47.1
+    }
+  ]
+}

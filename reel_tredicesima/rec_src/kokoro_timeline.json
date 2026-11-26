@@ -1,0 +1,160 @@
+{
+  "total": 44.14,
+  "engine": "kokoro-im_nicola-1.00",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.31,
+      "dur": 3.31,
+      "s0": 0.12,
+      "s1": 3.06
+    },
+    {
+      "id": "b02",
+      "visual": "december",
+      "say": "È dicembre, e Andrea aspetta la tredicesima.",
+      "text": "È DICEMBRE, E ANDREA ASPETTA LA [g]TREDICESIMA[/g]",
+      "start": 3.31,
+      "end": 6.18,
+      "dur": 2.87,
+      "s0": 3.41,
+      "s1": 5.88
+    },
+    {
+      "id": "b03",
+      "visual": "boss",
+      "say": "«Quest'anno niente tredicesima: è andata male.»",
+      "text": "«QUEST'ANNO [r]NIENTE TREDICESIMA[/r]: È ANDATA MALE»",
+      "start": 6.18,
+      "end": 8.87,
+      "dur": 2.69,
+      "s0": 6.28,
+      "s1": 8.67
+    },
+    {
+      "id": "b04",
+      "visual": "boss",
+      "say": "«E poi è un regalo di Natale, mica un obbligo.»",
+      "text": "«È UN [r]REGALO DI NATALE[/r], MICA UN OBBLIGO»",
+      "start": 8.87,
+      "end": 11.43,
+      "dur": 2.56,
+      "s0": 8.97,
+      "s1": 11.16
+    },
+    {
+      "id": "b05",
+      "visual": "wrong",
+      "say": "Peccato che non funzioni così.",
+      "text": "PECCATO CHE [g]NON FUNZIONI COSÌ[/g]",
+      "start": 11.43,
+      "end": 13.28,
+      "dur": 1.85,
+      "s0": 11.53,
+      "s1": 13.05
+    },
+    {
+      "id": "b06",
+      "visual": "gift",
+      "say": "La tredicesima è prevista dai contratti collettivi: è retribuzione, non un regalo.",
+      "text": "È PREVISTA DAI CCNL: [g]È RETRIBUZIONE[/g], [r]NON UN REGALO[/r]",
+      "start": 13.28,
+      "end": 17.87,
+      "dur": 4.59,
+      "s0": 13.38,
+      "s1": 17.57
+    },
+    {
+      "id": "b07",
+      "visual": "gift",
+      "say": "E non dipende da come è andato l'anno dell'azienda.",
+      "text": "E [g]NON DIPENDE DA COME È ANDATO L'ANNO[/g] DELL'AZIENDA",
+      "start": 17.87,
+      "end": 20.57,
+      "dur": 2.7,
+      "s0": 17.97,
+      "s1": 20.33
+    },
+    {
+      "id": "b08",
+      "visual": "months",
+      "say": "Matura mese per mese: un dodicesimo per ogni mese lavorato.",
+      "text": "MATURA MESE PER MESE: [g]1/12 PER OGNI MESE[/g] LAVORATO",
+      "start": 20.57,
+      "end": 23.9,
+      "dur": 3.33,
+      "s0": 20.67,
+      "s1": 23.705
+    },
+    {
+      "id": "b09",
+      "visual": "months",
+      "say": "Di solito si paga a dicembre, insieme allo stipendio.",
+      "text": "DI SOLITO SI PAGA [g]A DICEMBRE[/g], CON LO STIPENDIO",
+      "start": 23.9,
+      "end": 27.03,
+      "dur": 3.13,
+      "s0": 24.0,
+      "s1": 26.73
+    },
+    {
+      "id": "b10",
+      "visual": "leave",
+      "say": "E se cambi lavoro a metà anno, ti spetta la parte maturata.",
+      "text": "SE CAMBI LAVORO A METÀ ANNO, TI SPETTA [g]LA PARTE MATURATA[/g]",
+      "start": 27.03,
+      "end": 30.205,
+      "dur": 3.175,
+      "s0": 27.13,
+      "s1": 30.185
+    },
+    {
+      "id": "b11",
+      "visual": "mora",
+      "say": "Se non arriva? Messa in mora, e poi decreto ingiuntivo. Con gli interessi.",
+      "text": "SE NON ARRIVA? [r]MESSA IN MORA[/r] E [r]DECRETO INGIUNTIVO[/r]. CON GLI INTERESSI",
+      "start": 30.205,
+      "end": 34.67,
+      "dur": 4.465,
+      "s0": 30.215,
+      "s1": 34.38
+    },
+    {
+      "id": "b12",
+      "visual": "cede",
+      "say": "Il capo ci ripensa. «Va bene, te la pago con lo stipendio.»",
+      "text": "IL CAPO CI RIPENSA. «VA BENE, [g]TE LA PAGO[/g] CON LO STIPENDIO»",
+      "start": 34.67,
+      "end": 38.18,
+      "dur": 3.51,
+      "s0": 34.77,
+      "s1": 37.97
+    },
+    {
+      "id": "b13",
+      "visual": "cta",
+      "say": "Ti hanno saltato la tredicesima?",
+      "text": "TI HANNO [r]SALTATO LA TREDICESIMA[/r]?",
+      "start": 38.18,
+      "end": 40.1,
+      "dur": 1.92,
+      "s0": 38.28,
+      "s1": 39.865
+    },
+    {
+      "id": "b14",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 40.1,
+      "end": 44.14,
+      "dur": 4.04,
+      "s0": 40.2,
+      "s1": 43.38
+    }
+  ]
+}
