@@ -1,0 +1,138 @@
+{
+  "total": 47.52,
+  "engine": "take",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.18,
+      "dur": 3.18,
+      "s0": 0.14,
+      "s1": 3.071
+    },
+    {
+      "id": "b02",
+      "visual": "july",
+      "say": "È luglio. La collega di Andrea, in un altro negozio, prende la quattordicesima.",
+      "text": "È LUGLIO. UNA COLLEGA, IN UN ALTRO NEGOZIO, PRENDE LA [g]QUATTORDICESIMA[/g]",
+      "start": 3.18,
+      "end": 7.855,
+      "dur": 4.675,
+      "s0": 3.27,
+      "s1": 7.755
+    },
+    {
+      "id": "b03",
+      "visual": "boss",
+      "say": "Andrea chiede la sua. «La quattordicesima? Da noi non esiste.»",
+      "text": "ANDREA CHIEDE LA SUA. «[r]DA NOI NON ESISTE[/r]»",
+      "start": 7.855,
+      "end": 11.92,
+      "dur": 4.065,
+      "s0": 7.94,
+      "s1": 11.727
+    },
+    {
+      "id": "b04",
+      "visual": "wrong",
+      "say": "Peccato che non lo decida il capo.",
+      "text": "PECCATO CHE [g]NON LO DECIDA IL CAPO[/g]",
+      "start": 11.92,
+      "end": 13.805,
+      "dur": 1.885,
+      "s0": 12.02,
+      "s1": 13.704
+    },
+    {
+      "id": "b05",
+      "visual": "law",
+      "say": "La quattordicesima non c'è per tutti: la prevedono alcuni contratti collettivi.",
+      "text": "LA QUATTORDICESIMA LA PREVEDONO [g]ALCUNI CCNL[/g]",
+      "start": 13.805,
+      "end": 18.43,
+      "dur": 4.625,
+      "s0": 13.89,
+      "s1": 18.332
+    },
+    {
+      "id": "b06",
+      "visual": "law",
+      "say": "Per esempio commercio, turismo e pubblici esercizi.",
+      "text": "PER ESEMPIO [g]COMMERCIO[/g], [g]TURISMO[/g], [g]PUBBLICI ESERCIZI[/g]",
+      "start": 18.43,
+      "end": 22.12,
+      "dur": 3.69,
+      "s0": 18.51,
+      "s1": 21.94
+    },
+    {
+      "id": "b07",
+      "visual": "due",
+      "say": "Se il tuo contratto la prevede, ti spetta. Di solito a luglio.",
+      "text": "SE IL TUO CCNL LA PREVEDE, [g]TI SPETTA[/g]. DI SOLITO A LUGLIO",
+      "start": 22.12,
+      "end": 25.97,
+      "dur": 3.85,
+      "s0": 22.22,
+      "s1": 25.82
+    },
+    {
+      "id": "b08",
+      "visual": "months",
+      "say": "E matura mese per mese: se te ne vai prima, ti spetta la parte maturata.",
+      "text": "MATURA MESE PER MESE: SE TE NE VAI PRIMA, [g]TI SPETTA LA PARTE MATURATA[/g]",
+      "start": 25.97,
+      "end": 30.92,
+      "dur": 4.95,
+      "s0": 26.07,
+      "s1": 30.616
+    },
+    {
+      "id": "b09",
+      "visual": "check",
+      "say": "Il consiglio: guarda in busta paga quale contratto collettivo ti applicano.",
+      "text": "GUARDA IN BUSTA PAGA [g]QUALE CCNL TI APPLICANO[/g]",
+      "start": 30.92,
+      "end": 35.59,
+      "dur": 4.67,
+      "s0": 31.02,
+      "s1": 35.459
+    },
+    {
+      "id": "b10",
+      "visual": "cede",
+      "say": "Il capo ci ripensa. «Va bene, te la pago con gli arretrati.»",
+      "text": "IL CAPO CI RIPENSA. «VA BENE, [g]CON GLI ARRETRATI[/g]»",
+      "start": 35.59,
+      "end": 39.85,
+      "dur": 4.26,
+      "s0": 35.69,
+      "s1": 39.492
+    },
+    {
+      "id": "b11",
+      "visual": "cta",
+      "say": "Non ti hanno mai pagato la quattordicesima?",
+      "text": "NON TI HANNO MAI PAGATO [r]LA QUATTORDICESIMA[/r]?",
+      "start": 39.85,
+      "end": 42.38,
+      "dur": 2.53,
+      "s0": 39.95,
+      "s1": 42.239
+    },
+    {
+      "id": "b12",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 42.38,
+      "end": 47.52,
+      "dur": 5.14,
+      "s0": 42.48,
+      "s1": 46.76
+    }
+  ]
+}
