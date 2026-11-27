@@ -42,8 +42,8 @@ BEATS = [
  {
   "id": "b07",
   "visual": "steps",
-  "say": "Prima, però, i crediti vanno fatti valere nella procedura di fallimento.",
-  "text": "PRIMA, I CREDITI VANNO FATTI VALERE [g]NELLA PROCEDURA[/g]"
+  "say": "Prima, però, i crediti vanno fatti valere nella procedura: oggi si chiama liquidazione giudiziale.",
+  "text": "PRIMA, I CREDITI VANNO NELLA [g]LIQUIDAZIONE GIUDIZIALE[/g]"
  },
  {
   "id": "b08",

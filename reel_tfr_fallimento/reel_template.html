@@ -887,7 +887,7 @@ ART.fund=b=>
   A(pill(470,1330,560,"TFR",GREEN),{from:b[0]+":TFR",inn:"stamp"})+
   A(pill(470,1460,560,"ULTIME 3 MENSILITÀ",GREEN),{from:b[1]+":MENSILITÀ",inn:"stamp"});
 ART.steps=b=>
-  A(G(paper(0,0,300,400,txt(127,80,"TRIBUNALE",34,"#52525b")+fitTxt(127,170,"STATO",230,60,INK)+fitTxt(127,240,"PASSIVO",230,60,INK)+lines(30,290,200,2,40)),"translate(110,680) rotate(-5 150 200)"),{from:b[0]+":PROCEDURA",inn:"pop"})+
+  A(G(paper(0,0,300,400,txt(127,80,"TRIBUNALE",34,"#52525b")+fitTxt(127,170,"STATO",230,60,INK)+fitTxt(127,240,"PASSIVO",230,60,INK)+lines(30,290,200,2,40)),"translate(110,680) rotate(-5 150 200)"),{from:b[0]+":LIQUIDAZIONE",inn:"pop"})+
   A(pth("M 440 900 L 600 900 M 570 870 L 600 900 L 570 930","none",10,GREEN),{from:b[1],inn:"fade"})+
   A(G(bankBuilding(0,0,260,"")+txt(0,120,"INPS",50,INDIGO),"translate(800,980)"),{from:b[1]+":INPS",inn:"pop"})+
   guy({x:540,y:1800,s:0.5,look:0,face:'smirk',brows:'sly',l:[-30,200],r:[30,200]});

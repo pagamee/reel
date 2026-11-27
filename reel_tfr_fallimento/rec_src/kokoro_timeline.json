@@ -1,127 +1,127 @@
 {
-  "total": 39.88,
-  "engine": "kokoro-im_nicola-1.00",
-  "beats": [
-    {
-      "id": "b01",
-      "visual": "hook",
-      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
-      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
-      "start": 0.0,
-      "end": 3.23,
-      "dur": 3.23,
-      "s0": 0.12,
-      "s1": 3.06
-    },
-    {
-      "id": "b02",
-      "visual": "closed",
-      "say": "L'azienda di Andrea fallisce. Lui resta senza lavoro, senza TFR e con tre stipendi arretrati.",
-      "text": "L'AZIENDA FALLISCE: [r]NIENTE TFR[/r] E [r]3 STIPENDI ARRETRATI[/r]",
-      "start": 3.23,
-      "end": 8.83,
-      "dur": 5.6,
-      "s0": 3.33,
-      "s1": 8.63
-    },
-    {
-      "id": "b03",
-      "visual": "boss",
-      "say": "«Mi dispiace. Non ci sono più soldi per nessuno.»",
-      "text": "«MI DISPIACE. [r]NON CI SONO PIÙ SOLDI[/r] PER NESSUNO»",
-      "start": 8.83,
-      "end": 11.63,
-      "dur": 2.8,
-      "s0": 8.93,
-      "s1": 11.51
-    },
-    {
-      "id": "b04",
-      "visual": "wrong",
-      "say": "Peccato che esista il Fondo di garanzia dell'INPS.",
-      "text": "PECCATO CHE ESISTA IL [g]FONDO DI GARANZIA INPS[/g]",
-      "start": 11.63,
-      "end": 14.31,
-      "dur": 2.68,
-      "s0": 11.73,
-      "s1": 14.13
-    },
-    {
-      "id": "b05",
-      "visual": "fund",
-      "say": "Se il datore è insolvente, il TFR lo paga il Fondo di garanzia.",
-      "text": "SE IL DATORE È INSOLVENTE, [g]IL TFR LO PAGA IL FONDO[/g]",
-      "start": 14.31,
-      "end": 18.11,
-      "dur": 3.8,
-      "s0": 14.41,
-      "s1": 17.81
-    },
-    {
-      "id": "b06",
-      "visual": "fund",
-      "say": "E copre anche le ultime tre mensilità, entro certi limiti.",
-      "text": "E COPRE ANCHE [g]LE ULTIME 3 MENSILITÀ[/g], ENTRO CERTI LIMITI",
-      "start": 18.11,
-      "end": 21.32,
-      "dur": 3.21,
-      "s0": 18.21,
-      "s1": 21.15
-    },
-    {
-      "id": "b07",
-      "visual": "steps",
-      "say": "Prima, però, i crediti vanno fatti valere nella procedura di fallimento.",
-      "text": "PRIMA, I CREDITI VANNO FATTI VALERE [g]NELLA PROCEDURA[/g]",
-      "start": 21.32,
-      "end": 25.09,
-      "dur": 3.77,
-      "s0": 21.42,
-      "s1": 24.895
-    },
-    {
-      "id": "b08",
-      "visual": "steps",
-      "say": "Poi si fa domanda all'INPS. Ci sono passaggi e tempi precisi da rispettare.",
-      "text": "POI [g]DOMANDA ALL'INPS[/g]: CON PASSAGGI E TEMPI PRECISI",
-      "start": 25.09,
-      "end": 29.47,
-      "dur": 4.38,
-      "s0": 25.19,
-      "s1": 29.295
-    },
-    {
-      "id": "b09",
-      "visual": "paid",
-      "say": "Così Andrea mette in fila i documenti, e recupera TFR e stipendi.",
-      "text": "ANDREA METTE IN FILA I DOCUMENTI E [g]RECUPERA TFR E STIPENDI[/g]",
-      "start": 29.47,
-      "end": 33.33,
-      "dur": 3.86,
-      "s0": 29.57,
-      "s1": 33.17
-    },
-    {
-      "id": "b10",
-      "visual": "cta",
-      "say": "La tua azienda è fallita e ti deve dei soldi?",
-      "text": "LA TUA AZIENDA È FALLITA E [r]TI DEVE DEI SOLDI[/r]?",
-      "start": 33.33,
-      "end": 35.79,
-      "dur": 2.46,
-      "s0": 33.43,
-      "s1": 35.53
-    },
-    {
-      "id": "b11",
-      "visual": "cta",
-      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
-      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
-      "start": 35.79,
-      "end": 39.88,
-      "dur": 4.09,
-      "s0": 35.89,
-      "s1": 39.12
-    }
-  ]
+ "total": 39.88,
+ "engine": "kokoro-im_nicola-1.00",
+ "beats": [
+  {
+   "id": "b01",
+   "visual": "hook",
+   "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+   "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+   "start": 0.0,
+   "end": 3.23,
+   "dur": 3.23,
+   "s0": 0.12,
+   "s1": 3.06
+  },
+  {
+   "id": "b02",
+   "visual": "closed",
+   "say": "L'azienda di Andrea fallisce. Lui resta senza lavoro, senza TFR e con tre stipendi arretrati.",
+   "text": "L'AZIENDA FALLISCE: [r]NIENTE TFR[/r] E [r]3 STIPENDI ARRETRATI[/r]",
+   "start": 3.23,
+   "end": 8.83,
+   "dur": 5.6,
+   "s0": 3.33,
+   "s1": 8.63
+  },
+  {
+   "id": "b03",
+   "visual": "boss",
+   "say": "«Mi dispiace. Non ci sono più soldi per nessuno.»",
+   "text": "«MI DISPIACE. [r]NON CI SONO PIÙ SOLDI[/r] PER NESSUNO»",
+   "start": 8.83,
+   "end": 11.63,
+   "dur": 2.8,
+   "s0": 8.93,
+   "s1": 11.51
+  },
+  {
+   "id": "b04",
+   "visual": "wrong",
+   "say": "Peccato che esista il Fondo di garanzia dell'INPS.",
+   "text": "PECCATO CHE ESISTA IL [g]FONDO DI GARANZIA INPS[/g]",
+   "start": 11.63,
+   "end": 14.31,
+   "dur": 2.68,
+   "s0": 11.73,
+   "s1": 14.13
+  },
+  {
+   "id": "b05",
+   "visual": "fund",
+   "say": "Se il datore è insolvente, il TFR lo paga il Fondo di garanzia.",
+   "text": "SE IL DATORE È INSOLVENTE, [g]IL TFR LO PAGA IL FONDO[/g]",
+   "start": 14.31,
+   "end": 18.11,
+   "dur": 3.8,
+   "s0": 14.41,
+   "s1": 17.81
+  },
+  {
+   "id": "b06",
+   "visual": "fund",
+   "say": "E copre anche le ultime tre mensilità, entro certi limiti.",
+   "text": "E COPRE ANCHE [g]LE ULTIME 3 MENSILITÀ[/g], ENTRO CERTI LIMITI",
+   "start": 18.11,
+   "end": 21.32,
+   "dur": 3.21,
+   "s0": 18.21,
+   "s1": 21.15
+  },
+  {
+   "id": "b07",
+   "visual": "steps",
+   "say": "Prima, però, i crediti vanno fatti valere nella procedura: oggi si chiama liquidazione giudiziale.",
+   "text": "PRIMA, I CREDITI VANNO NELLA [g]LIQUIDAZIONE GIUDIZIALE[/g]",
+   "start": 21.32,
+   "end": 25.09,
+   "dur": 3.77,
+   "s0": 21.42,
+   "s1": 24.895
+  },
+  {
+   "id": "b08",
+   "visual": "steps",
+   "say": "Poi si fa domanda all'INPS. Ci sono passaggi e tempi precisi da rispettare.",
+   "text": "POI [g]DOMANDA ALL'INPS[/g]: CON PASSAGGI E TEMPI PRECISI",
+   "start": 25.09,
+   "end": 29.47,
+   "dur": 4.38,
+   "s0": 25.19,
+   "s1": 29.295
+  },
+  {
+   "id": "b09",
+   "visual": "paid",
+   "say": "Così Andrea mette in fila i documenti, e recupera TFR e stipendi.",
+   "text": "ANDREA METTE IN FILA I DOCUMENTI E [g]RECUPERA TFR E STIPENDI[/g]",
+   "start": 29.47,
+   "end": 33.33,
+   "dur": 3.86,
+   "s0": 29.57,
+   "s1": 33.17
+  },
+  {
+   "id": "b10",
+   "visual": "cta",
+   "say": "La tua azienda è fallita e ti deve dei soldi?",
+   "text": "LA TUA AZIENDA È FALLITA E [r]TI DEVE DEI SOLDI[/r]?",
+   "start": 33.33,
+   "end": 35.79,
+   "dur": 2.46,
+   "s0": 33.43,
+   "s1": 35.53
+  },
+  {
+   "id": "b11",
+   "visual": "cta",
+   "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+   "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+   "start": 35.79,
+   "end": 39.88,
+   "dur": 4.09,
+   "s0": 35.89,
+   "s1": 39.12
+  }
+ ]
 }
