@@ -1,0 +1,149 @@
+{
+  "total": 46.16,
+  "engine": "kokoro-im_nicola-1.00",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.32,
+      "dur": 3.32,
+      "s0": 0.12,
+      "s1": 3.02
+    },
+    {
+      "id": "b02",
+      "visual": "sick",
+      "say": "Andrea si ammala, e resta a casa dieci giorni, con il certificato del medico.",
+      "text": "ANDREA SI AMMALA: [r]10 GIORNI A CASA[/r], CON IL CERTIFICATO",
+      "start": 3.32,
+      "end": 7.67,
+      "dur": 4.35,
+      "s0": 3.42,
+      "s1": 7.37
+    },
+    {
+      "id": "b03",
+      "visual": "payslip",
+      "say": "In busta paga, quei giorni sono quasi tutti spariti.",
+      "text": "IN BUSTA PAGA, QUEI GIORNI SONO [r]QUASI TUTTI SPARITI[/r]",
+      "start": 7.67,
+      "end": 10.73,
+      "dur": 3.06,
+      "s0": 7.77,
+      "s1": 10.43
+    },
+    {
+      "id": "b04",
+      "visual": "boss",
+      "say": "«Se non lavori, non ti pago. Semplice.»",
+      "text": "«SE NON LAVORI, [r]NON TI PAGO[/r]. SEMPLICE»",
+      "start": 10.73,
+      "end": 13.16,
+      "dur": 2.43,
+      "s0": 10.83,
+      "s1": 12.9
+    },
+    {
+      "id": "b05",
+      "visual": "wrong",
+      "say": "Peccato che non funzioni così.",
+      "text": "PECCATO CHE [g]NON FUNZIONI COSÌ[/g]",
+      "start": 13.16,
+      "end": 14.98,
+      "dur": 1.82,
+      "s0": 13.26,
+      "s1": 14.78
+    },
+    {
+      "id": "b06",
+      "visual": "law",
+      "say": "In malattia, per la maggior parte dei dipendenti, spetta un'indennità dell'INPS.",
+      "text": "IN MALATTIA, DI SOLITO, SPETTA [g]UN'INDENNITÀ INPS[/g]",
+      "start": 14.98,
+      "end": 19.16,
+      "dur": 4.18,
+      "s0": 15.08,
+      "s1": 18.99
+    },
+    {
+      "id": "b07",
+      "visual": "law",
+      "say": "E spesso il contratto collettivo obbliga il datore a integrarla, anche fino all'intera paga.",
+      "text": "E SPESSO IL CCNL OBBLIGA IL DATORE A [g]INTEGRARLA[/g], ANCHE FINO AL 100%",
+      "start": 19.16,
+      "end": 23.96,
+      "dur": 4.8,
+      "s0": 19.26,
+      "s1": 23.69
+    },
+    {
+      "id": "b08",
+      "visual": "first",
+      "say": "Anche i primi tre giorni, in molti contratti, sono a carico del datore.",
+      "text": "ANCHE I [g]PRIMI 3 GIORNI[/g], IN MOLTI CCNL, SONO A CARICO DEL DATORE",
+      "start": 23.96,
+      "end": 27.71,
+      "dur": 3.75,
+      "s0": 24.06,
+      "s1": 27.41
+    },
+    {
+      "id": "b09",
+      "visual": "advance",
+      "say": "Di solito è proprio il datore ad anticipare tutto in busta paga.",
+      "text": "DI SOLITO È IL DATORE AD [g]ANTICIPARE TUTTO IN BUSTA[/g]",
+      "start": 27.71,
+      "end": 31.2,
+      "dur": 3.49,
+      "s0": 27.81,
+      "s1": 30.92
+    },
+    {
+      "id": "b10",
+      "visual": "check",
+      "say": "Se i conti non tornano, le differenze si recuperano. Controlla il tuo contratto collettivo.",
+      "text": "SE I CONTI NON TORNANO, [g]LE DIFFERENZE SI RECUPERANO[/g]",
+      "start": 31.2,
+      "end": 36.47,
+      "dur": 5.27,
+      "s0": 31.3,
+      "s1": 36.155
+    },
+    {
+      "id": "b11",
+      "visual": "cede",
+      "say": "Il capo ci ripensa. «Va bene, sistemo la busta.»",
+      "text": "IL CAPO CI RIPENSA. «VA BENE, [g]SISTEMO LA BUSTA[/g]»",
+      "start": 36.47,
+      "end": 39.65,
+      "dur": 3.18,
+      "s0": 36.57,
+      "s1": 39.35
+    },
+    {
+      "id": "b12",
+      "visual": "cta",
+      "say": "Ti hanno tolto soldi per la malattia?",
+      "text": "TI HANNO TOLTO SOLDI [r]PER LA MALATTIA[/r]?",
+      "start": 39.65,
+      "end": 41.73,
+      "dur": 2.08,
+      "s0": 39.75,
+      "s1": 41.485
+    },
+    {
+      "id": "b13",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 41.73,
+      "end": 46.16,
+      "dur": 4.43,
+      "s0": 41.83,
+      "s1": 45.4
+    }
+  ]
+}
