@@ -1,0 +1,149 @@
+{
+  "total": 54.0,
+  "engine": "take",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.36,
+      "dur": 3.36,
+      "s0": 0.14,
+      "s1": 3.217
+    },
+    {
+      "id": "b02",
+      "visual": "old",
+      "say": "Andrea ha lasciato il lavoro tre anni fa. Gli devono ancora straordinari e TFR.",
+      "text": "ANDREA HA LASCIATO IL LAVORO [g]3 ANNI FA[/g]. GLI DEVONO STRAORDINARI E TFR",
+      "start": 3.36,
+      "end": 8.26,
+      "dur": 4.9,
+      "s0": 3.46,
+      "s1": 8.146
+    },
+    {
+      "id": "b03",
+      "visual": "boss",
+      "say": "Il vecchio capo gli scrive: «Ormai è passato troppo tempo. È tutto prescritto.»",
+      "text": "«ORMAI È PASSATO TROPPO TEMPO. [r]È TUTTO PRESCRITTO[/r]»",
+      "start": 8.26,
+      "end": 13.16,
+      "dur": 4.9,
+      "s0": 8.36,
+      "s1": 12.989
+    },
+    {
+      "id": "b04",
+      "visual": "wrong",
+      "say": "Peccato che non funzioni così.",
+      "text": "PECCATO CHE [g]NON FUNZIONI COSÌ[/g]",
+      "start": 13.16,
+      "end": 14.99,
+      "dur": 1.83,
+      "s0": 13.26,
+      "s1": 14.798
+    },
+    {
+      "id": "b05",
+      "visual": "law",
+      "say": "Per stipendi, straordinari, differenze e TFR, il termine è in genere di cinque anni.",
+      "text": "STIPENDI, STRAORDINARI, DIFFERENZE E TFR: IN GENERE [g]5 ANNI[/g]",
+      "start": 14.99,
+      "end": 21.17,
+      "dur": 6.18,
+      "s0": 15.09,
+      "s1": 21.08
+    },
+    {
+      "id": "b06",
+      "visual": "law",
+      "say": "E secondo la Cassazione, di regola i cinque anni partono dalla fine del rapporto.",
+      "text": "SECONDO LA CASSAZIONE, DI REGOLA PARTONO [g]DALLA FINE DEL RAPPORTO[/g]",
+      "start": 21.17,
+      "end": 25.88,
+      "dur": 4.71,
+      "s0": 21.25,
+      "s1": 25.75
+    },
+    {
+      "id": "b07",
+      "visual": "timeline",
+      "say": "Quindi Andrea, a tre anni dalla fine, è ancora in tempo.",
+      "text": "QUINDI, A 3 ANNI DALLA FINE, [g]È ANCORA IN TEMPO[/g]",
+      "start": 25.88,
+      "end": 29.23,
+      "dur": 3.35,
+      "s0": 25.98,
+      "s1": 29.122
+    },
+    {
+      "id": "b08",
+      "visual": "letter",
+      "say": "E c'è un modo per fermare il tempo: una lettera di messa in mora.",
+      "text": "E PER FERMARE IL TEMPO BASTA [g]UNA LETTERA DI MESSA IN MORA[/g]",
+      "start": 29.23,
+      "end": 33.34,
+      "dur": 4.11,
+      "s0": 29.32,
+      "s1": 33.182
+    },
+    {
+      "id": "b09",
+      "visual": "letter",
+      "say": "Interrompe la prescrizione, e il conto riparte da zero.",
+      "text": "INTERROMPE LA PRESCRIZIONE: [g]IL CONTO RIPARTE DA ZERO[/g]",
+      "start": 33.34,
+      "end": 37.14,
+      "dur": 3.8,
+      "s0": 33.44,
+      "s1": 36.959
+    },
+    {
+      "id": "b10",
+      "visual": "warn",
+      "say": "Attenzione però: per impugnare un licenziamento i tempi sono molto più brevi, sessanta giorni.",
+      "text": "ATTENZIONE: PER IMPUGNARE UN LICENZIAMENTO [r]SOLO 60 GIORNI[/r]",
+      "start": 37.14,
+      "end": 43.02,
+      "dur": 5.88,
+      "s0": 37.24,
+      "s1": 42.802
+    },
+    {
+      "id": "b11",
+      "visual": "cede",
+      "say": "Il vecchio capo ci ripensa. «Va bene, parliamone.»",
+      "text": "IL VECCHIO CAPO CI RIPENSA. «VA BENE, [g]PARLIAMONE[/g]»",
+      "start": 43.02,
+      "end": 46.82,
+      "dur": 3.8,
+      "s0": 43.12,
+      "s1": 46.707
+    },
+    {
+      "id": "b12",
+      "visual": "cta",
+      "say": "Pensi che sia troppo tardi per i tuoi soldi?",
+      "text": "PENSI CHE SIA [r]TROPPO TARDI[/r] PER I TUOI SOLDI?",
+      "start": 46.82,
+      "end": 49.23,
+      "dur": 2.41,
+      "s0": 46.92,
+      "s1": 49.127
+    },
+    {
+      "id": "b13",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 49.23,
+      "end": 54.0,
+      "dur": 4.77,
+      "s0": 49.32,
+      "s1": 53.24
+    }
+  ]
+}
