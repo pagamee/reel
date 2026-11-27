@@ -1,0 +1,138 @@
+{
+  "total": 45.82,
+  "engine": "take",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.415,
+      "dur": 3.415,
+      "s0": 0.14,
+      "s1": 3.315
+    },
+    {
+      "id": "b02",
+      "visual": "slip",
+      "say": "Ogni mese Andrea riceve la busta paga. Tutto in regola, sulla carta.",
+      "text": "OGNI MESE ANDREA RICEVE LA BUSTA PAGA. [g]TUTTO IN REGOLA[/g], SULLA CARTA",
+      "start": 3.415,
+      "end": 7.61,
+      "dur": 4.195,
+      "s0": 3.5,
+      "s1": 7.466
+    },
+    {
+      "id": "b03",
+      "visual": "bank",
+      "say": "Ma sul conto, da due mesi, non arriva niente.",
+      "text": "MA SUL CONTO, DA 2 MESI, [r]NON ARRIVA NIENTE[/r]",
+      "start": 7.61,
+      "end": 10.86,
+      "dur": 3.25,
+      "s0": 7.71,
+      "s1": 10.514
+    },
+    {
+      "id": "b04",
+      "visual": "boss",
+      "say": "«La busta paga te l'ho data, l'hai pure firmata. Quindi sei pagato.»",
+      "text": "«LA BUSTA L'HAI FIRMATA. [r]QUINDI SEI PAGATO[/r]»",
+      "start": 10.86,
+      "end": 15.28,
+      "dur": 4.42,
+      "s0": 10.96,
+      "s1": 14.922
+    },
+    {
+      "id": "b05",
+      "visual": "wrong",
+      "say": "Peccato che non funzioni così.",
+      "text": "PECCATO CHE [g]NON FUNZIONI COSÌ[/g]",
+      "start": 15.28,
+      "end": 17.13,
+      "dur": 1.85,
+      "s0": 15.38,
+      "s1": 16.979
+    },
+    {
+      "id": "b06",
+      "visual": "law",
+      "say": "Firmare la busta paga per ricevuta, di regola, non vuol dire che ti hanno pagato.",
+      "text": "FIRMARE LA BUSTA PER RICEVUTA, DI REGOLA, [g]NON VUOL DIRE ESSERE PAGATO[/g]",
+      "start": 17.13,
+      "end": 21.815,
+      "dur": 4.685,
+      "s0": 17.23,
+      "s1": 21.723
+    },
+    {
+      "id": "b07",
+      "visual": "law",
+      "say": "Il pagamento lo deve dimostrare il datore. Per esempio con un bonifico.",
+      "text": "IL PAGAMENTO [g]LO DEVE DIMOSTRARE IL DATORE[/g]: PER ESEMPIO CON UN BONIFICO",
+      "start": 21.815,
+      "end": 26.23,
+      "dur": 4.415,
+      "s0": 21.9,
+      "s1": 26.1
+    },
+    {
+      "id": "b08",
+      "visual": "proof",
+      "say": "Anzi: quella busta paga è una prova del tuo credito.",
+      "text": "ANZI: QUELLA BUSTA PAGA È [g]UNA PROVA DEL TUO CREDITO[/g]",
+      "start": 26.23,
+      "end": 29.79,
+      "dur": 3.56,
+      "s0": 26.33,
+      "s1": 29.623
+    },
+    {
+      "id": "b09",
+      "visual": "decree",
+      "say": "Con le buste paga si può chiedere al giudice un decreto ingiuntivo, in tempi brevi.",
+      "text": "CON LE BUSTE PAGA, [g]DECRETO INGIUNTIVO[/g] IN TEMPI BREVI",
+      "start": 29.79,
+      "end": 35.03,
+      "dur": 5.24,
+      "s0": 29.89,
+      "s1": 34.799
+    },
+    {
+      "id": "b10",
+      "visual": "cede",
+      "say": "Il capo ci ripensa. «Va bene, faccio il bonifico.»",
+      "text": "IL CAPO CI RIPENSA. «VA BENE, [g]FACCIO IL BONIFICO[/g]»",
+      "start": 35.03,
+      "end": 38.79,
+      "dur": 3.76,
+      "s0": 35.13,
+      "s1": 38.543
+    },
+    {
+      "id": "b11",
+      "visual": "cta",
+      "say": "Hai la busta paga, ma non i soldi?",
+      "text": "HAI LA BUSTA PAGA, [r]MA NON I SOLDI[/r]?",
+      "start": 38.79,
+      "end": 41.045,
+      "dur": 2.255,
+      "s0": 38.89,
+      "s1": 40.955
+    },
+    {
+      "id": "b12",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 41.045,
+      "end": 45.82,
+      "dur": 4.775,
+      "s0": 41.13,
+      "s1": 45.06
+    }
+  ]
+}

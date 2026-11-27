@@ -1,0 +1,138 @@
+{
+  "total": 46.13,
+  "engine": "take",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.38,
+      "dur": 3.38,
+      "s0": 0.14,
+      "s1": 3.247
+    },
+    {
+      "id": "b02",
+      "visual": "contract",
+      "say": "Andrea è assunto come apprendista. Paga più bassa, perché deve imparare il mestiere.",
+      "text": "ASSUNTO COME [r]APPRENDISTA[/r]: PAGA PIÙ BASSA, PERCHÉ DEVE IMPARARE",
+      "start": 3.38,
+      "end": 8.21,
+      "dur": 4.83,
+      "s0": 3.48,
+      "s1": 8.001
+    },
+    {
+      "id": "b03",
+      "visual": "alone",
+      "say": "Ma nessuno gli insegna niente. Dal primo giorno lavora come gli altri.",
+      "text": "MA [r]NESSUNO GLI INSEGNA NIENTE[/r]: LAVORA COME GLI ALTRI",
+      "start": 8.21,
+      "end": 12.51,
+      "dur": 4.3,
+      "s0": 8.31,
+      "s1": 12.187
+    },
+    {
+      "id": "b04",
+      "visual": "boss",
+      "say": "«L'apprendistato è così: impari facendo.»",
+      "text": "«L'APPRENDISTATO È COSÌ: [r]IMPARI FACENDO[/r]»",
+      "start": 12.51,
+      "end": 15.27,
+      "dur": 2.76,
+      "s0": 12.61,
+      "s1": 15.142
+    },
+    {
+      "id": "b05",
+      "visual": "wrong",
+      "say": "Peccato che non funzioni così.",
+      "text": "PECCATO CHE [g]NON FUNZIONI COSÌ[/g]",
+      "start": 15.27,
+      "end": 17.08,
+      "dur": 1.81,
+      "s0": 15.37,
+      "s1": 16.959
+    },
+    {
+      "id": "b06",
+      "visual": "law",
+      "say": "L'apprendistato è un contratto di formazione: deve esserci un piano formativo, e un tutor.",
+      "text": "È UN CONTRATTO DI FORMAZIONE: SERVONO [g]PIANO FORMATIVO[/g] E [g]TUTOR[/g]",
+      "start": 17.08,
+      "end": 22.65,
+      "dur": 5.57,
+      "s0": 17.18,
+      "s1": 22.49
+    },
+    {
+      "id": "b07",
+      "visual": "law",
+      "say": "È proprio per la formazione che la paga può essere più bassa.",
+      "text": "È [g]PER LA FORMAZIONE[/g] CHE LA PAGA PUÒ ESSERE PIÙ BASSA",
+      "start": 22.65,
+      "end": 26.035,
+      "dur": 3.385,
+      "s0": 22.75,
+      "s1": 25.935
+    },
+    {
+      "id": "b08",
+      "visual": "convert",
+      "say": "Se la formazione manca del tutto, il contratto può essere trattato come un normale tempo indeterminato.",
+      "text": "SE LA FORMAZIONE MANCA DEL TUTTO, PUÒ DIVENTARE [g]UN NORMALE TEMPO INDETERMINATO[/g]",
+      "start": 26.035,
+      "end": 32.38,
+      "dur": 6.345,
+      "s0": 26.12,
+      "s1": 32.213
+    },
+    {
+      "id": "b09",
+      "visual": "diff",
+      "say": "E le differenze di paga si possono recuperare.",
+      "text": "E [g]LE DIFFERENZE DI PAGA[/g] SI POSSONO RECUPERARE",
+      "start": 32.38,
+      "end": 35.26,
+      "dur": 2.88,
+      "s0": 32.48,
+      "s1": 35.1
+    },
+    {
+      "id": "b10",
+      "visual": "cede",
+      "say": "Il capo ci ripensa. «Va bene, sistemiamo il contratto.»",
+      "text": "IL CAPO CI RIPENSA. «VA BENE, [g]SISTEMIAMO IL CONTRATTO[/g]»",
+      "start": 35.26,
+      "end": 39.21,
+      "dur": 3.95,
+      "s0": 35.36,
+      "s1": 39.093
+    },
+    {
+      "id": "b11",
+      "visual": "cta",
+      "say": "Sei apprendista, ma nessuno ti forma?",
+      "text": "SEI APPRENDISTA, MA [r]NESSUNO TI FORMA[/r]?",
+      "start": 39.21,
+      "end": 41.6,
+      "dur": 2.39,
+      "s0": 39.31,
+      "s1": 41.486
+    },
+    {
+      "id": "b12",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 41.6,
+      "end": 46.13,
+      "dur": 4.53,
+      "s0": 41.7,
+      "s1": 45.37
+    }
+  ]
+}
