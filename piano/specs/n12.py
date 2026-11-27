@@ -6,7 +6,7 @@ BEATS=[H,
  {"id":"b04","visual":"wrong","say":"Peccato che esista il Fondo di garanzia dell'INPS.","text":"PECCATO CHE ESISTA IL [g]FONDO DI GARANZIA INPS[/g]"},
  {"id":"b05","visual":"fund","say":"Se il datore è insolvente, il TFR lo paga il Fondo di garanzia.","text":"SE IL DATORE È INSOLVENTE, [g]IL TFR LO PAGA IL FONDO[/g]"},
  {"id":"b06","visual":"fund","say":"E copre anche le ultime tre mensilità, entro certi limiti.","text":"E COPRE ANCHE [g]LE ULTIME 3 MENSILITÀ[/g], ENTRO CERTI LIMITI"},
- {"id":"b07","visual":"steps","say":"Prima, però, i crediti vanno fatti valere nella procedura di fallimento.","text":"PRIMA, I CREDITI VANNO FATTI VALERE [g]NELLA PROCEDURA[/g]"},
+ {"id":"b07","visual":"steps","say":"Prima, però, i crediti vanno fatti valere nella procedura: oggi si chiama liquidazione giudiziale.","text":"PRIMA, I CREDITI VANNO NELLA [g]LIQUIDAZIONE GIUDIZIALE[/g]"},
  {"id":"b08","visual":"steps","say":"Poi si fa domanda all'INPS. Ci sono passaggi e tempi precisi da rispettare.","text":"POI [g]DOMANDA ALL'INPS[/g]: CON PASSAGGI E TEMPI PRECISI"},
  {"id":"b09","visual":"paid","say":"Così Andrea mette in fila i documenti, e recupera TFR e stipendi.","text":"ANDREA METTE IN FILA I DOCUMENTI E [g]RECUPERA TFR E STIPENDI[/g]"},
 ]+CTA("b10","b11","La tua azienda è fallita e ti deve dei soldi?","LA TUA AZIENDA È FALLITA E [r]TI DEVE DEI SOLDI[/r]?")
@@ -26,7 +26,7 @@ ART.fund=b=>
   A(pill(470,1330,560,"TFR",GREEN),{from:b[0]+":TFR",inn:"stamp"})+
   A(pill(470,1460,560,"ULTIME 3 MENSILITÀ",GREEN),{from:b[1]+":MENSILITÀ",inn:"stamp"});
 ART.steps=b=>
-  A(G(paper(0,0,300,400,txt(127,80,"TRIBUNALE",34,"#52525b")+fitTxt(127,170,"STATO",230,60,INK)+fitTxt(127,240,"PASSIVO",230,60,INK)+lines(30,290,200,2,40)),"translate(110,680) rotate(-5 150 200)"),{from:b[0]+":PROCEDURA",inn:"pop"})+
+  A(G(paper(0,0,300,400,txt(127,80,"TRIBUNALE",34,"#52525b")+fitTxt(127,170,"STATO",230,60,INK)+fitTxt(127,240,"PASSIVO",230,60,INK)+lines(30,290,200,2,40)),"translate(110,680) rotate(-5 150 200)"),{from:b[0]+":LIQUIDAZIONE",inn:"pop"})+
   A(pth("M 440 900 L 600 900 M 570 870 L 600 900 L 570 930","none",10,GREEN),{from:b[1],inn:"fade"})+
   A(G(bankBuilding(0,0,260,"")+txt(0,120,"INPS",50,INDIGO),"translate(800,980)"),{from:b[1]+":INPS",inn:"pop"})+
   guy({x:540,y:1800,s:0.5,look:0,face:'smirk',brows:'sly',l:[-30,200],r:[30,200]});
