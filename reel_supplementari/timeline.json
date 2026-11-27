@@ -1,0 +1,138 @@
+{
+  "total": 49.65,
+  "engine": "take",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.22,
+      "dur": 3.22,
+      "s0": 0.14,
+      "s1": 3.038
+    },
+    {
+      "id": "b02",
+      "visual": "contract",
+      "say": "Andrea ha un part-time da venti ore a settimana.",
+      "text": "ANDREA HA UN [g]PART-TIME DA 20 ORE[/g] A SETTIMANA",
+      "start": 3.22,
+      "end": 5.94,
+      "dur": 2.72,
+      "s0": 3.32,
+      "s1": 5.796
+    },
+    {
+      "id": "b03",
+      "visual": "more",
+      "say": "Ma ogni settimana il capo gli chiede di restare. E le ore diventano trenta.",
+      "text": "MA OGNI SETTIMANA RESTA DI PIÙ: [r]LE ORE DIVENTANO 30[/r]",
+      "start": 5.94,
+      "end": 10.14,
+      "dur": 4.2,
+      "s0": 6.04,
+      "s1": 9.861
+    },
+    {
+      "id": "b04",
+      "visual": "boss",
+      "say": "«Le ore in più te le pago normali. O meglio: quando posso.»",
+      "text": "«LE ORE IN PIÙ TE LE PAGO NORMALI. [r]QUANDO POSSO[/r]»",
+      "start": 10.14,
+      "end": 13.72,
+      "dur": 3.58,
+      "s0": 10.24,
+      "s1": 13.402
+    },
+    {
+      "id": "b05",
+      "visual": "wrong",
+      "say": "Peccato che non funzioni così.",
+      "text": "PECCATO CHE [g]NON FUNZIONI COSÌ[/g]",
+      "start": 13.72,
+      "end": 15.37,
+      "dur": 1.65,
+      "s0": 13.82,
+      "s1": 15.286
+    },
+    {
+      "id": "b06",
+      "visual": "law",
+      "say": "Nel part-time, le ore oltre l'orario si chiamano supplementari. E vanno pagate tutte.",
+      "text": "NEL PART-TIME, LE ORE IN PIÙ SONO [g]SUPPLEMENTARI[/g]: VANNO PAGATE TUTTE",
+      "start": 15.37,
+      "end": 20.9,
+      "dur": 5.53,
+      "s0": 15.44,
+      "s1": 20.726
+    },
+    {
+      "id": "b07",
+      "visual": "law",
+      "say": "Se il contratto collettivo non dice nulla, la legge prevede una maggiorazione del quindici per cento.",
+      "text": "SE IL CCNL NON DICE NULLA, PER LEGGE [g]+15% DI MAGGIORAZIONE[/g]",
+      "start": 20.9,
+      "end": 26.46,
+      "dur": 5.56,
+      "s0": 21.0,
+      "s1": 26.346
+    },
+    {
+      "id": "b08",
+      "visual": "limit",
+      "say": "E fissa anche un limite: non più del venticinque per cento delle ore settimanali.",
+      "text": "E UN LIMITE: [r]MAX 25%[/r] DELLE ORE SETTIMANALI",
+      "start": 26.46,
+      "end": 31.28,
+      "dur": 4.82,
+      "s0": 26.56,
+      "s1": 31.148
+    },
+    {
+      "id": "b09",
+      "visual": "fake",
+      "say": "Se le ore in più diventano la regola, quel part-time può nascondere un tempo pieno. Con le differenze da recuperare.",
+      "text": "SE DIVENTANO LA REGOLA, PUÒ NASCONDERE [g]UN TEMPO PIENO[/g]: DIFFERENZE DA RECUPERARE",
+      "start": 31.28,
+      "end": 37.82,
+      "dur": 6.54,
+      "s0": 31.38,
+      "s1": 37.585
+    },
+    {
+      "id": "b10",
+      "visual": "cede",
+      "say": "Il capo ci ripensa. «Va bene, te le pago con la maggiorazione.»",
+      "text": "IL CAPO CI RIPENSA. «VA BENE, [g]CON LA MAGGIORAZIONE[/g]»",
+      "start": 37.82,
+      "end": 42.25,
+      "dur": 4.43,
+      "s0": 37.92,
+      "s1": 42.066
+    },
+    {
+      "id": "b11",
+      "visual": "cta",
+      "say": "Sei part-time ma lavori molte più ore?",
+      "text": "SEI PART-TIME MA [r]LAVORI MOLTE PIÙ ORE[/r]?",
+      "start": 42.25,
+      "end": 44.9,
+      "dur": 2.65,
+      "s0": 42.35,
+      "s1": 44.773
+    },
+    {
+      "id": "b12",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 44.9,
+      "end": 49.65,
+      "dur": 4.75,
+      "s0": 45.0,
+      "s1": 48.89
+    }
+  ]
+}
