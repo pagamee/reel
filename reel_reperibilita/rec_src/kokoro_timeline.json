@@ -1,0 +1,127 @@
+{
+  "total": 42.56,
+  "engine": "kokoro-im_nicola-1.00",
+  "beats": [
+    {
+      "id": "b01",
+      "visual": "hook",
+      "say": "Cose sul lavoro che il tuo capo spera che tu non scopra mai.",
+      "text": "COSE SUL LAVORO CHE IL TUO CAPO SPERA CHE TU [r]NON SCOPRA MAI[/r]",
+      "start": 0.0,
+      "end": 3.32,
+      "dur": 3.32,
+      "s0": 0.12,
+      "s1": 3.04
+    },
+    {
+      "id": "b02",
+      "visual": "boss",
+      "say": "Venerdì sera il capo dice ad Andrea: «Nel weekend tieni il telefono acceso. Se succede qualcosa, intervieni.»",
+      "text": "«NEL WEEKEND [r]TIENI IL TELEFONO ACCESO[/r]. SE SUCCEDE QUALCOSA, INTERVIENI»",
+      "start": 3.32,
+      "end": 9.34,
+      "dur": 6.02,
+      "s0": 3.42,
+      "s1": 9.05
+    },
+    {
+      "id": "b03",
+      "visual": "weekend",
+      "say": "Andrea passa il weekend attaccato al telefono. In busta paga, niente.",
+      "text": "ANDREA PASSA IL WEEKEND [r]ATTACCATO AL TELEFONO[/r]. IN BUSTA, NIENTE",
+      "start": 9.34,
+      "end": 12.85,
+      "dur": 3.51,
+      "s0": 9.44,
+      "s1": 12.66
+    },
+    {
+      "id": "b04",
+      "visual": "wrong",
+      "say": "Peccato che non funzioni così.",
+      "text": "PECCATO CHE [g]NON FUNZIONI COSÌ[/g]",
+      "start": 12.85,
+      "end": 14.55,
+      "dur": 1.7,
+      "s0": 12.95,
+      "s1": 14.39
+    },
+    {
+      "id": "b05",
+      "visual": "law",
+      "say": "Quella si chiama reperibilità. E molti contratti collettivi prevedono un'indennità apposta.",
+      "text": "SI CHIAMA [g]REPERIBILITÀ[/g]: MOLTI CCNL PREVEDONO [g]UN'INDENNITÀ[/g]",
+      "start": 14.55,
+      "end": 19.81,
+      "dur": 5.26,
+      "s0": 14.65,
+      "s1": 19.51
+    },
+    {
+      "id": "b06",
+      "visual": "call",
+      "say": "E se ti chiamano e intervieni, quello è lavoro vero: va pagato, con le maggiorazioni.",
+      "text": "SE TI CHIAMANO E INTERVIENI, È [g]LAVORO VERO[/g]: PAGATO, CON LE MAGGIORAZIONI",
+      "start": 19.81,
+      "end": 24.36,
+      "dur": 4.55,
+      "s0": 19.91,
+      "s1": 24.06
+    },
+    {
+      "id": "b07",
+      "visual": "strict",
+      "say": "E se i vincoli sono molto stretti, i giudici europei l'hanno considerata orario di lavoro.",
+      "text": "VINCOLI MOLTO STRETTI? PER I GIUDICI UE PUÒ ESSERE [g]ORARIO DI LAVORO[/g]",
+      "start": 24.36,
+      "end": 29.07,
+      "dur": 4.71,
+      "s0": 24.46,
+      "s1": 28.83
+    },
+    {
+      "id": "b08",
+      "visual": "proofs",
+      "say": "Il consiglio: conserva i messaggi, le chiamate e gli orari degli interventi.",
+      "text": "CONSERVA [g]MESSAGGI[/g], [g]CHIAMATE[/g] E [g]ORARI DEGLI INTERVENTI[/g]",
+      "start": 29.07,
+      "end": 33.45,
+      "dur": 4.38,
+      "s0": 29.17,
+      "s1": 33.13
+    },
+    {
+      "id": "b09",
+      "visual": "cede",
+      "say": "Il capo ci ripensa. «Va bene, te la pago.»",
+      "text": "IL CAPO CI RIPENSA. «VA BENE, [g]TE LA PAGO[/g]»",
+      "start": 33.45,
+      "end": 36.28,
+      "dur": 2.83,
+      "s0": 33.55,
+      "s1": 36.08
+    },
+    {
+      "id": "b10",
+      "visual": "cta",
+      "say": "Ti chiedono di essere reperibile gratis?",
+      "text": "TI CHIEDONO DI ESSERE [r]REPERIBILE GRATIS[/r]?",
+      "start": 36.28,
+      "end": 38.5,
+      "dur": 2.22,
+      "s0": 36.38,
+      "s1": 38.265
+    },
+    {
+      "id": "b11",
+      "visual": "cta",
+      "say": "Scrivici: verifichiamo il tuo caso, e non anticipi un euro.",
+      "text": "[i]SCRIVICI[/i]: VERIFICHIAMO IL TUO CASO E [g]NON ANTICIPI UN EURO[/g]",
+      "start": 38.5,
+      "end": 42.56,
+      "dur": 4.06,
+      "s0": 38.6,
+      "s1": 41.8
+    }
+  ]
+}
